@@ -1,0 +1,16 @@
+{
+  "name": "SmartCal — Your time, unified",
+  "short_name": "SmartCal",
+  "description": "Personal calendar across two timezones: Singapore (or South-East Asia) and Italy always readable side by side.",
+  "lang": "en",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fbfcfe",
+  "theme_color": "#6728fc",
+  "icons": [
+    { "src": "/icona-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icona-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icona-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

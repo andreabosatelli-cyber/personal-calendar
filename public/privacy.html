@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SmartCal — Privacy Policy</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --sfondo: #faf9fc;
+    --card: #ffffff;
+    --testo: #1c1a2e;
+    --testo-2: #565274;
+    --linea: #e7e4f0;
+    --primario: #5a1dfa;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --sfondo: #131120;
+      --card: #1b1830;
+      --testo: #f2f0fa;
+      --testo-2: #a8a3c4;
+      --linea: #2c2842;
+      --primario: #b79dff;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 48px 20px 80px;
+    background: var(--sfondo);
+    color: var(--testo);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 30px; margin: 0 0 6px; letter-spacing: -0.02em; }
+  h2 { font-size: 19px; margin: 34px 0 10px; letter-spacing: -0.01em; }
+  p, li { color: var(--testo-2); }
+  li { margin-bottom: 6px; }
+  .data { font-size: 14px; color: var(--testo-2); margin-bottom: 30px; }
+  .riquadro {
+    background: var(--card);
+    border: 1px solid var(--linea);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin: 24px 0;
+  }
+  .riquadro p:last-child { margin-bottom: 0; }
+  strong { color: var(--testo); }
+  a { color: var(--primario); }
+  footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--linea); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Privacy Policy</h1>
+  <p class="data">SmartCal · last updated 19 September 2026</p>
+
+  <p>SmartCal is a personal dual-timezone calendar. This page explains what it stores, where
+    it stores it, and what it does — and does not do — with your Google account.</p>
+
+  <h2>What SmartCal stores</h2>
+  <ul>
+    <li>Your email address, used to sign you in and nothing else.</li>
+    <li>The events you create: title, notes, place, video link, start and end instant, timezone.</li>
+    <li>Your settings: where you are, your second timezone, office hours, what you called your
+      four categories, reminder lead time.</li>
+    <li>If you connect a calendar feed, the events imported from it.</li>
+    <li>If you turn on reminders, a push subscription for each browser you enabled.</li>
+  </ul>
+  <p>Everything is stored in a Postgres database hosted by Supabase, protected by row-level
+    security: each account can only read and write its own rows.</p>
+
+  <h2>Your Google data</h2>
+  <div class="riquadro">
+    <p><strong>SmartCal cannot read your Google Calendar.</strong> When you connect Google, it asks
+      for a single permission — <code>calendar.app.created</code> — which lets an app create its own
+      secondary calendars and manage events inside them. It grants no access to your main calendar,
+      or to any calendar that existed before.</p>
+    <p>SmartCal creates one calendar in your Google account, named <strong>SmartCal</strong>, and
+      writes copies of your SmartCal events into it. Nothing is ever read back: the sync goes one
+      way only.</p>
+  </div>
+  <p>SmartCal's use of information received from Google APIs adheres to the
+    <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google
+    API Services User Data Policy</a>, including the Limited Use requirements. Google user data is
+    used only to provide the calendar mirroring you asked for. It is never sold, never used for
+    advertising, never used to train AI or machine-learning models, and never shared with anyone
+    else.</p>
+
+  <h2>What is never done</h2>
+  <ul>
+    <li>Your data is not sold or rented, to anyone, ever.</li>
+    <li>There is no advertising and no advertising tracking.</li>
+    <li>There are no analytics scripts and no third-party trackers.</li>
+    <li>Event titles are never shown on the public booking link — visitors see busy blocks only.</li>
+  </ul>
+
+  <h2>Sharing, when you ask for it</h2>
+  <p>Two features share data, and only because you choose to: a public booking link, which exposes
+    busy time slots without titles or details; and shared calendars, where you give a named person
+    access at a level you pick. You can revoke either at any time from Settings.</p>
+
+  <h2>Disconnecting and deleting</h2>
+  <ul>
+    <li><strong>Disconnect Google</strong> in Settings: SmartCal forgets your Google credentials
+      immediately. The SmartCal calendar and the events already copied stay in your Google account,
+      yours to keep or delete.</li>
+    <li>You can also revoke access from
+      <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">your Google
+      account permissions</a>.</li>
+    <li>To delete your SmartCal account and everything in it, write to the address below. Deleting
+      the account deletes its events, settings, sharing links and push subscriptions.</li>
+  </ul>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy, or about your data:
+    <a href="mailto:andrea.bosatelli@gmail.com">andrea.bosatelli@gmail.com</a></p>
+
+  <footer>
+    <a href="/">Back to SmartCal</a> · <a href="/terms.html">Terms of Service</a>
+  </footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,504 @@
+@import 'tailwindcss';
+
+/* ───────────────────────────────────────────────────────────────────────
+   SmartCal — design system.
+   Fonte di verità: lo screenshot di riferimento (Downloads/smartcal.png).
+   I valori qui sotto sono campionati dai pixel della reference, non scelti
+   a occhio: sfondo quasi bianco, sidebar lavanda, viola primario, card
+   bianche con hairline e ombra quasi impercettibile, testo navy scuro.
+   Il tema scuro resta (era già nell'app) come controparte degli stessi ruoli.
+   ─────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Superfici */
+  --pagina: #fbfcfe; /* sfondo dell'area contenuto */
+  --sidebar: #f4f3fe; /* colonna di sinistra, lavanda chiarissima */
+  --card: #ffffff;
+  --controllo: #f1f2f9; /* search bar, track del segmented, campi */
+  --hover: #f6f5ff;
+  --attivo: #e9e2fd; /* voce di menu selezionata */
+  --tenue: #f3f1fe; /* bottoni secondari viola tenue */
+
+  /* Testo */
+  --testo: #16162e; /* dark navy */
+  --testo-2: #6a7191;
+  --testo-3: #9aa1b9;
+
+  /* Linee */
+  --linea: #eef0f7; /* hairline delle card e della griglia */
+  --linea-2: #e4e8f2; /* separatore un po' più marcato */
+
+  /* Primario */
+  --primario: #6728fc;
+  --primario-2: #5a1dfa; /* premuto / gradiente basso */
+  --primario-3: #8f4cfd; /* gradiente alto (badge "oggi") */
+  --su-primario: #ffffff;
+
+  /* Ombre: quasi impercettibili, come nella reference */
+  --ombra-card: 0 1px 2px rgb(23 22 46 / 0.04), 0 8px 24px -16px rgb(23 22 46 / 0.16);
+  --ombra-pill: 0 1px 2px rgb(23 22 46 / 0.07);
+  --ombra-viola: 0 6px 18px -6px rgb(103 40 252 / 0.45);
+
+  /* Categorie: work blu · study viola · personal ambra · travel rosa.
+     dot = pallino/accento pieno, bg = blocco evento, fg = testo sul blocco. */
+  --cat-lavoro: #3488fd;
+  --cat-lavoro-bg: #e4f0fd;
+  --cat-lavoro-fg: #1a5cb0;
+  --cat-universita: #9551fc;
+  --cat-universita-bg: #eae5fd;
+  --cat-universita-fg: #5c2bbd;
+  --cat-personale: #feb315;
+  --cat-personale-bg: #fdf3e0;
+  --cat-personale-fg: #8f6206;
+  --cat-viaggi: #fe6d7a;
+  --cat-viaggi-bg: #fcedf3;
+  --cat-viaggi-fg: #bd3a54;
+  /* Calendari condivisi: un colore per persona, fuori dalla scala delle
+     categorie, perche' di un evento altrui conta prima di chi e'. */
+  --cond-1: #14b8a6;
+  --cond-1-bg: #ddf5f1;
+  --cond-1-fg: #0b7266;
+  --cond-2: #f97316;
+  --cond-2-bg: #fdecdf;
+  --cond-2-fg: #a1490c;
+  --cond-3: #ec4899;
+  --cond-3-bg: #fce4ef;
+  --cond-3-fg: #9d1f5c;
+  --cond-4: #64748b;
+  --cond-4-bg: #e8ebef;
+  --cond-4-fg: #3f4a59;
+
+  /* Stati */
+  --adesso: #fe6d7a; /* linea dell'ora corrente */
+  --banda-ufficio: rgb(254 179 21 / 0.05);
+  --colonna-attiva: rgb(103 40 252 / 0.045); /* giorno selezionato in settimana */
+  --errore: #d13b52; /* testo e bordi di errore nei form */
+  --scheletro: #f0f1f8;
+
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --pagina: #131322;
+  --sidebar: #191830;
+  --card: #1c1c31;
+  --controllo: #24243d;
+  --hover: #262542;
+  --attivo: #302a55;
+  --tenue: #272146;
+
+  --testo: #f2f2f8;
+  --testo-2: #a2a6c0;
+  --testo-3: #7c819c;
+
+  --linea: #282841;
+  --linea-2: #33334f;
+
+  --primario: #8f5cfd;
+  --primario-2: #7e44fc;
+  --primario-3: #a97dfe;
+  --su-primario: #ffffff;
+
+  --ombra-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 10px 30px -18px rgb(0 0 0 / 0.7);
+  --ombra-pill: 0 1px 2px rgb(0 0 0 / 0.35);
+  --ombra-viola: 0 6px 18px -6px rgb(143 92 253 / 0.5);
+
+  --cat-lavoro: #5b9dfd;
+  --cat-lavoro-bg: #1e2c46;
+  --cat-lavoro-fg: #a8ccfe;
+  --cat-universita: #ab74fd;
+  --cat-universita-bg: #2b2350;
+  --cat-universita-fg: #d0b4fe;
+  --cat-personale: #fec54b;
+  --cat-personale-bg: #3a2f18;
+  --cat-personale-fg: #fbdc9e;
+  --cat-viaggi: #fe8a94;
+  --cat-viaggi-bg: #3d2333;
+  --cat-viaggi-fg: #fec0c6;
+  --cond-1: #2dd4bf;
+  --cond-1-bg: #16332f;
+  --cond-1-fg: #99efe3;
+  --cond-2: #fb923c;
+  --cond-2-bg: #3a2718;
+  --cond-2-fg: #fdc89b;
+  --cond-3: #f472b6;
+  --cond-3-bg: #3a1e2d;
+  --cond-3-fg: #fab8d6;
+  --cond-4: #94a3b8;
+  --cond-4-bg: #262c35;
+  --cond-4-fg: #ccd4de;
+
+  --adesso: #fe8a94;
+  --banda-ufficio: rgb(254 197 75 / 0.045);
+  --colonna-attiva: rgb(143 92 253 / 0.07);
+  /* Sul fondo scuro il rosso del tema chiaro scende a ~3:1: qui serve la
+     versione schiarita, come per --adesso. */
+  --errore: #fc8fa1;
+  --scheletro: #23233a;
+
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--pagina);
+  color: var(--testo);
+  font-family:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+h1,
+h2 {
+  letter-spacing: -0.026em;
+}
+h3 {
+  letter-spacing: -0.018em;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+@layer components {
+  /* ── Primitive riusabili ────────────────────────────────────────────── */
+
+  /* Card bianca: hairline + ombra appena percettibile. */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--linea);
+    border-radius: 18px;
+    box-shadow: var(--ombra-card);
+  }
+
+  /* Segmented control della reference: track chiaro, pill attiva viola piena. */
+  .seg {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border-radius: 12px;
+    background: var(--card);
+    border: 1px solid var(--linea);
+  }
+  .seg-item {
+    border-radius: 9px;
+    white-space: nowrap; /* un segmented control non va mai a capo */
+    padding: 0.45rem 1.05rem;
+    font-size: 13.5px;
+    font-weight: 550;
+    color: var(--testo-2);
+    transition:
+      color 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .seg-item:hover:not(.attivo) {
+    color: var(--testo);
+    background: var(--hover);
+  }
+  .seg-item.attivo {
+    background: var(--primario);
+    color: var(--su-primario);
+    box-shadow: var(--ombra-pill);
+  }
+
+  /* Voce di navigazione della sidebar. */
+  .nav-voce {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    border-radius: 12px;
+    font-size: 14.5px;
+    font-weight: 550;
+    color: var(--testo-2);
+    text-align: left;
+    transition:
+      background 0.16s ease,
+      color 0.16s ease;
+  }
+  .nav-voce:hover {
+    background: var(--hover);
+    color: var(--testo);
+  }
+  .nav-voce.attiva {
+    background: var(--attivo);
+    color: var(--primario);
+    font-weight: 620;
+  }
+  :root[data-theme='dark'] .nav-voce.attiva {
+    color: #c7a6fe;
+  }
+
+  /* Bottone pieno viola (New event, azioni primarie). */
+  .btn-primario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border-radius: 14px;
+    background: var(--primario);
+    color: var(--su-primario);
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: var(--ombra-viola);
+    transition:
+      background 0.16s ease,
+      transform 0.12s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn-primario:hover {
+    background: var(--primario-2);
+  }
+  .btn-primario:disabled {
+    opacity: 0.55;
+    box-shadow: none;
+  }
+
+  /* Bottone secondario viola tenue (Export month as PDF). */
+  .btn-tenue {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border-radius: 14px;
+    background: var(--tenue);
+    color: var(--primario);
+    font-weight: 600;
+    font-size: 14.5px;
+    transition: background 0.16s ease;
+  }
+  .btn-tenue:hover {
+    background: var(--attivo);
+  }
+
+  /* Bottone neutro (chip, nav ‹ ›, Today). */
+  .btn-neutro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: var(--card);
+    border: 1px solid var(--linea);
+    color: var(--testo-2);
+    font-size: 13.5px;
+    font-weight: 550;
+    transition:
+      background 0.16s ease,
+      color 0.16s ease;
+  }
+  .btn-neutro:hover {
+    background: var(--hover);
+    color: var(--testo);
+  }
+
+  /* Campo di input / select nello stile della reference. */
+  .campo {
+    width: 100%;
+    border-radius: 11px;
+    background: var(--controllo);
+    border: 1px solid transparent;
+    padding: 0.6rem 0.8rem;
+    font-size: 14.5px;
+    color: var(--testo);
+    outline: none;
+    transition:
+      border-color 0.16s ease,
+      background 0.16s ease;
+  }
+  .campo::placeholder {
+    color: var(--testo-3);
+  }
+  .campo:focus {
+    background: var(--card);
+    border-color: var(--primario);
+  }
+
+  /* Checkbox quadrata piena della sezione "My calendars". */
+  .spunta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    border: 1.6px solid var(--linea-2);
+    background: var(--card);
+    color: #fff;
+    flex-shrink: 0;
+    transition:
+      background 0.16s ease,
+      border-color 0.16s ease;
+  }
+  .spunta.on {
+    border-color: transparent;
+  }
+
+  /* Etichetta di sezione ("My calendars"). */
+  .etichetta-sezione {
+    font-size: 12.5px;
+    font-weight: 620;
+    color: var(--testo-2);
+    letter-spacing: 0.01em;
+  }
+
+  /* Pressione tattile. */
+  .premibile {
+    transition: transform 0.12s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .premibile:active {
+    transform: scale(0.97);
+  }
+
+  /* Scrollbar sottile, non invadente come nella reference. */
+  .scroll-fine {
+    scrollbar-width: thin;
+    scrollbar-color: var(--linea-2) transparent;
+  }
+  .scroll-fine::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scroll-fine::-webkit-scrollbar-thumb {
+    background: var(--linea-2);
+    border-radius: 99px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  .scroll-fine::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* Animazioni: brevi, ease-out, niente bounce. */
+@keyframes app-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes sheet-su {
+  from {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+}
+@keyframes drawer-sx {
+  from {
+    transform: translateX(-100%);
+  }
+}
+@keyframes sheet-scala {
+  from {
+    transform: scale(0.97);
+    opacity: 0;
+  }
+}
+@keyframes pulsa {
+  50% {
+    opacity: 0.45;
+  }
+}
+.anim-fade {
+  animation: app-fade 0.2s ease-out;
+}
+.anim-sheet-su {
+  animation: sheet-su 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.anim-drawer-sx {
+  animation: drawer-sx 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.anim-sheet-scala {
+  animation: sheet-scala 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.anim-pulsa {
+  animation: pulsa 1.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade,
+  .anim-sheet-su,
+  .anim-drawer-sx,
+  .anim-sheet-scala,
+  .anim-pulsa {
+    animation: none;
+  }
+}
+
+/* Stampa / Salva PDF: mostra solo il documento .stampabile. */
+@page {
+  margin: 1.4cm;
+}
+@media print {
+  body {
+    background: #fff;
+  }
+  body * {
+    visibility: hidden;
+  }
+  .stampabile,
+  .stampabile * {
+    visibility: visible;
+  }
+  .pdf-modal,
+  .pdf-panel,
+  .pdf-scroll {
+    position: static !important;
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+  .stampabile {
+    position: static !important;
+    max-width: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  .no-stampa {
+    display: none !important;
+  }
+  .blocco-giorno {
+    break-inside: avoid;
+  }
+}
+
+/* Maniglie di ridimensionamento di un evento: invisibili finche' non servono.
+   Sul blocco si vede gia' abbastanza roba, e una barretta permanente su ogni
+   impegno trasformerebbe la griglia in un cantiere. Col dito non c'e' hover e
+   restano invisibili, ma l'area si preme lo stesso. */
+.maniglia {
+  opacity: 0;
+  transition: opacity 0.12s ease;
+  touch-action: none;
+}
+.maniglia::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22px;
+  height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+}
+button:hover > .maniglia {
+  opacity: 0.45;
+}
+.maniglia:hover {
+  opacity: 0.8 !important;
+}
+
