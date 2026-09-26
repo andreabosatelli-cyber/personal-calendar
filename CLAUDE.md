@@ -24,6 +24,7 @@ link pubblico di prenotazione, calendari condivisi, Analytics, Trips, Export PDF
 - Routing a hash (`#/calendar`, …) in `src/lib/rotte.ts`
 
 ## Regole specifiche
+- Stile proprio del progetto: non applicare la libreria di stili salvo mia richiesta.
 - **UI in inglese** (pagina pubblica compresa), locale `en-US`: eccezione alla regola globale sull'italiano.
 - Design = fedeltà alla reference, non reinterpretazione. Colori campionati dai pixel, non a occhio.
 - Classi CSS custom SEMPRE dentro `@layer components`: fuori dal layer battono le utility Tailwind (`lg:hidden` smette di funzionare).
