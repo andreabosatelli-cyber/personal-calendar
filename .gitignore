@@ -47,3 +47,6 @@ build/
 *.p12
 .dev.vars
 .claude/settings.local.json
+
+# graphify (rigenerabile con `graphify update .`)
+/graphify-out
