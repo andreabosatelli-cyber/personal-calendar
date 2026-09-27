@@ -79,7 +79,8 @@ battono le utility Tailwind:
 - `.campo`, `.spunta` (tonda), `.numero-kpi`, `.scroll-fine`, `.premibile`
 
 Il focus è visibile con un outline di 2px `--primario`. Il marchio in-app è `Marchio.tsx` (cerchio nero
-con calendario). Le icone PWA in `public/` sono ancora quelle viola.
+con calendario); le icone PWA in `public/` sono lo stesso marchio: cerchio su trasparente
+(favicon, 192, 512), cerchio su fondo `#fdfdfc` per iOS, nero pieno con glifo nella zona sicura per la maskable.
 
 Calendario:
 - oggi in cerchio nero

@@ -20,13 +20,14 @@ link pubblico di prenotazione, calendari condivisi, Analytics, Trips, Export PDF
   `analitica.ts`, `statistiche.ts`, `viaggi.ts`, `ricorrenza.ts`, `stato.tsx` (contesto), `types.ts` (tipi DB a mano)
 - `src/components/` per sezione: `shell/`, `pannello/`, `analitica/`, `viaggi/`, `scheduling/`, `impostazioni/`
 - `supabase/migrations/` numerate `0001`→`0014`; `supabase/functions/`: `sync-calendari`, `promemoria`, `google-oauth`, `google-sync`
-- `DESIGN.md` = fonte di verità del design (reference `smartcal.png`), `PRODUCT.md` = contesto per impeccable
+- `DESIGN.md` = design del progetto (stile trends applicato a SmartCal), `PRODUCT.md` = contesto per impeccable
 - Routing a hash (`#/calendar`, …) in `src/lib/rotte.ts`
 
 ## Regole specifiche
-- Stile proprio del progetto: non applicare la libreria di stili salvo mia richiesta.
+- Stile: **trends** dalla libreria `~/.claude/design/` (`styles/trends.md`, reference `references/performance-trends.png`).
+  Token OKLCH in `src/index.css` con i nomi storici delle variabili; niente shadcn vero, primitive CSS proprie.
 - **UI in inglese** (pagina pubblica compresa), locale `en-US`: eccezione alla regola globale sull'italiano.
-- Design = fedeltà alla reference, non reinterpretazione. Colori campionati dai pixel, non a occhio.
+- Design = fedeltà a trends, non reinterpretazione. Su mobile (380px): una colonna, target >= 44px, barra di navigazione in basso.
 - Classi CSS custom SEMPRE dentro `@layer components`: fuori dal layer battono le utility Tailwind (`lg:hidden` smette di funzionare).
 - Ogni query su `eventi` ancorata a `utente_id`: da 0009 la RLS lascia passare anche gli eventi condivisi da altri.
 - Query per intervallo = sovrapposizione (`.lte('inizio_utc', a).gte('fine_utc', da)`), non per inizio.
