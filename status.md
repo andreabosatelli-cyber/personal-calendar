@@ -10,7 +10,7 @@
 - Git: un solo commit di import dal PC (2026-09-21) + `.gitignore` graphify. Nessuna storia precedente.
 
 ## Ultima cosa fatta
-- 2026-09-27: redesign grafico in stile **trends** sul branch `redesign-trends` (NON mergiato, NON deployato):
+- 2026-09-27: redesign grafico in stile **trends**, mergiato in `main` e LIVE in produzione:
   token OKLCH, Geist, pillole nere, card senza bordi, barra di navigazione in basso su mobile.
   Verificato: build ok, lint invariato, contrasto AA dei token, 34 azioni Playwright ok prima e dopo.
   Poi: icone PWA rifatte (Marchio in cerchio nero), CLAUDE.md aggiornato allo stile trends.
@@ -19,7 +19,6 @@
 - 2026-09-19: scope Google ridotto a `calendar.app.created`, migration 0014, pagine `privacy.html` e `terms.html`.
 
 ## Prossima azione
-0. Andrea: rivedere il redesign (screenshot in /tmp/smartcal-confronto) e decidere merge + deploy.
 1. Andrea: Settings → Connect Google Calendar (il click di consenso lo può fare solo lui).
 2. Test end-to-end: creare un evento → `google-sync` → `eventi.google_id` valorizzato → evento visibile su Google.
    La sincronizzazione non è mai girata per davvero.
