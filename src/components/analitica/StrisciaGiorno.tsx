@@ -96,7 +96,7 @@ export function PiuCarica({ barra, etichetta }: { barra: Barra | null; etichetta
   if (!barra) return null
   return (
     <p className="text-[13px]" style={{ color: 'var(--testo-2)' }}>
-      {etichetta} <strong className="font-semibold" style={{ color: 'var(--testo)' }}>{barra.etichettaLunga}</strong> ·{' '}
+      {etichetta} <strong className="font-medium" style={{ color: 'var(--testo)' }}>{barra.etichettaLunga}</strong> ·{' '}
       <span className="tabular-nums">{fmtOre(barra.totale)}h</span>
     </p>
   )

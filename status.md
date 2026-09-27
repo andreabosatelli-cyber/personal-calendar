@@ -1,4 +1,4 @@
-# Status — SmartCal (aggiornato 2026-09-26)
+# Status — SmartCal (aggiornato 2026-09-27)
 
 ## Stato attuale
 - Live su https://personal-calendar-puce.vercel.app. Redesign SmartCal completo: Calendar, Scheduling,
@@ -10,10 +10,15 @@
 - Git: un solo commit di import dal PC (2026-09-21) + `.gitignore` graphify. Nessuna storia precedente.
 
 ## Ultima cosa fatta
+- 2026-09-27: redesign grafico in stile **trends** sul branch `redesign-trends` (NON mergiato, NON deployato):
+  token OKLCH, Geist, pillole nere, card senza bordi, barra di navigazione in basso su mobile.
+  Verificato: build ok, lint invariato, contrasto AA dei token, 34 azioni Playwright ok prima e dopo.
 - 2026-09-26: CLAUDE.md, status.md e memory.md del progetto; verifica migrazioni e chiavi.
 - 2026-09-19: scope Google ridotto a `calendar.app.created`, migration 0014, pagine `privacy.html` e `terms.html`.
 
 ## Prossima azione
+0. Andrea: rivedere il redesign (screenshot in /tmp/smartcal-confronto) e decidere merge + deploy.
+   Aperti: icone PWA ancora viola; CLAUDE.md dice ancora "stile proprio, reference smartcal.png".
 1. Andrea: Settings → Connect Google Calendar (il click di consenso lo può fare solo lui).
 2. Test end-to-end: creare un evento → `google-sync` → `eventi.google_id` valorizzato → evento visibile su Google.
    La sincronizzazione non è mai girata per davvero.

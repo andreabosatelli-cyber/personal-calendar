@@ -7,6 +7,7 @@ import { NOME_PERMESSO } from '../../lib/condivisi'
 import { DateTime } from 'luxon'
 import type { Origine } from '../../lib/types'
 import type { Sezione } from '../../lib/rotte'
+import { Marchio } from '../Marchio'
 import { SEZIONI } from '../../lib/rotte'
 import {
   IconaAggiorna,
@@ -68,9 +69,9 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
     <div className="flex h-full flex-col overflow-y-auto scroll-fine" style={{ background: 'var(--sidebar)' }}>
       {/* Marchio */}
       <div className="flex shrink-0 items-center gap-3 px-[24px] pt-[22px] lg:pt-[34px]">
-        <img src="/icona-192.png" alt="" className="h-[50px] w-[50px] rounded-[15px]" />
+        <Marchio />
         <div className="min-w-0 flex-1 leading-tight">
-          <h1 className="text-[24px] font-bold leading-[1.15]" style={{ color: 'var(--testo)' }}>
+          <h1 className="text-[24px] font-medium leading-[1.15] tracking-[-0.03em]" style={{ color: 'var(--testo)' }}>
             SmartCal
           </h1>
           <p className="mt-[3px] text-[12.5px] leading-none" style={{ color: 'var(--testo-2)' }}>
@@ -80,7 +81,7 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
         {(onNascondi || onChiudi) && (
           <button
             onClick={() => (onNascondi ?? onChiudi)!()}
-            className="btn-neutro premibile h-9 w-9 shrink-0"
+            className="btn-neutro premibile h-11 w-11 shrink-0"
             aria-label={onNascondi ? 'Hide sidebar' : 'Close menu'}
             title={onNascondi ? 'Hide sidebar' : undefined}
           >
@@ -91,7 +92,7 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
 
       {/* Azione primaria */}
       <div className="shrink-0 px-[25px] pt-[24px] lg:pt-[39px]">
-        <button onClick={onNuovoEvento} className="btn-primario premibile h-[46px] w-full">
+        <button onClick={onNuovoEvento} className="btn-primario premibile h-[50px] w-full">
           <IconaPiu size={19} />
           New event
         </button>
@@ -112,14 +113,11 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
         ))}
       </nav>
 
-      <div className="mx-[18px] mb-[20px] mt-[22px] h-px shrink-0 lg:mb-[26px] lg:mt-[32px]" style={{ background: 'var(--linea-2)' }} />
+      <div className="mb-[20px] mt-[22px] h-px shrink-0 lg:mb-[26px] lg:mt-[32px]" />
 
       {/* Calendari collegati */}
       <div className="shrink-0 px-[18px]">
-        <p className="mb-3 flex items-center gap-2 pl-1">
-          <span className="h-3.5 w-[2.5px] rounded-full" style={{ background: 'var(--primario)' }} />
-          <span className="etichetta-sezione">My calendars</span>
-        </p>
+        <p className="etichetta-sezione mb-2 pl-1">My calendars</p>
         {/* Righe alte 48px: sotto i 44 il dito manca la riga e spegne il
             calendario sbagliato. */}
         <div className="flex flex-col gap-0.5">
@@ -133,7 +131,7 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
               <button
                 key={o}
                 onClick={() => toggleCalendario(o)}
-                className="premibile flex min-h-[48px] items-center gap-3 rounded-[11px] px-1 text-left transition-colors hover:bg-[var(--hover)]"
+                className="premibile flex min-h-[48px] items-center gap-3 rounded-full px-2 text-left transition-colors hover:bg-[var(--hover)]"
                 aria-pressed={on}
               >
                 <span
@@ -143,8 +141,8 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
                   {on && <IconaSpunta size={13} />}
                 </span>
                 <span
-                  className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-[8px]"
-                  style={{ background: 'var(--card)', border: '1px solid var(--linea)' }}
+                  className="flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-full"
+                  style={{ background: 'var(--card)' }}
                 >
                   {provider === 'outlook' ? (
                     <LogoOutlook size={16} />
@@ -171,10 +169,7 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
           la funzione esiste finché non la usa qualcuno. */}
       {condivisi.length > 0 && (
         <div className="mt-[22px] shrink-0 px-[18px]">
-          <p className="mb-3 flex items-center gap-2 pl-1">
-            <span className="h-3.5 w-[2.5px] rounded-full" style={{ background: 'var(--cond-1)' }} />
-            <span className="etichetta-sezione">Shared with me</span>
-          </p>
+          <p className="etichetta-sezione mb-2 pl-1">Shared with me</p>
           <div className="flex flex-col gap-0.5">
             {condivisi.map((c, i) => {
               const on = condivisiAttivi.includes(c.proprietario_id)
@@ -190,7 +185,7 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
                 <button
                   key={c.id}
                   onClick={() => toggleCondiviso(c.proprietario_id)}
-                  className="premibile flex min-h-[48px] items-center gap-3 rounded-[11px] px-1 text-left transition-colors hover:bg-[var(--hover)]"
+                  className="premibile flex min-h-[48px] items-center gap-3 rounded-full px-2 text-left transition-colors hover:bg-[var(--hover)]"
                   aria-pressed={on}
                   title={`${c.email} — ${NOME_PERMESSO[c.permesso]}`}
                 >
@@ -198,7 +193,7 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
                     {on && <IconaSpunta size={13} />}
                   </span>
                   <span
-                    className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-[8px] text-[11px] font-bold"
+                    className="flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-full text-[11px] font-medium"
                     style={{ background: col.sfondo, color: col.testo }}
                   >
                     {sigla}
@@ -223,20 +218,19 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
 
       {/* Account + località */}
       <div className="mt-auto shrink-0 px-[18px] pb-5 pt-3" style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 1.25rem)' }}>
-        <div className="mb-2 h-px" style={{ background: 'var(--linea-2)' }} />
         <div className="relative">
           <button
             onClick={() => setMenuAperto((v) => !v)}
-            className="premibile flex w-full items-center gap-3 rounded-[12px] px-1 py-2 text-left transition-colors hover:bg-[var(--hover)]"
+            className="premibile flex min-h-[52px] w-full items-center gap-3 rounded-full px-1.5 py-1.5 text-left transition-colors hover:bg-[var(--hover)]"
           >
             <span
-              className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full text-[13px] font-bold"
-              style={{ background: '#ddcafe', color: '#5a1dfa' }}
+              className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full text-[13px] font-medium"
+              style={{ background: 'var(--avatar-bg)', color: 'var(--avatar-fg)' }}
             >
               {iniziali}
             </span>
             <span className="min-w-0 flex-1 leading-tight">
-              <span className="block truncate text-[14px] font-semibold">{nome}</span>
+              <span className="block truncate text-[14px] font-medium">{nome}</span>
               <span className="block truncate text-[12px]" style={{ color: 'var(--testo-2)' }}>
                 {opz.etichetta} ({siglaFuso(fuso)})
               </span>
@@ -248,8 +242,8 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
             <>
               <div className="fixed inset-0 z-40" onClick={() => setMenuAperto(false)} />
               <div
-                className="anim-fade absolute bottom-[calc(100%+6px)] left-0 right-0 z-50 overflow-hidden rounded-[14px] p-1.5"
-                style={{ background: 'var(--card)', border: '1px solid var(--linea)', boxShadow: 'var(--ombra-card)' }}
+                className="anim-fade absolute bottom-[calc(100%+6px)] left-0 right-0 z-50 overflow-hidden rounded-[20px] p-1.5"
+                style={{ background: 'var(--pagina)', boxShadow: 'var(--ombra-galleggia)' }}
               >
                 {/* Niente feed collegato, niente da sincronizzare: il
                     pulsante chiamerebbe una funzione che non fa nulla. */}
@@ -258,7 +252,7 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
                     <button
                       onClick={sincronizza}
                       disabled={inSync}
-                      className="flex w-full items-center gap-2.5 rounded-[9px] px-2.5 py-2 text-left text-[14px] font-medium transition-colors hover:bg-[var(--hover)] disabled:opacity-60"
+                      className="flex w-full items-center gap-2.5 rounded-full px-3 min-h-[44px] text-left text-[14px] font-medium transition-colors hover:bg-[var(--hover)] disabled:opacity-60"
                     >
                       <IconaAggiorna size={17} className={inSync ? 'anim-pulsa' : undefined} />
                       <span className="flex-1">{inSync ? 'Syncing…' : 'Sync calendars'}</span>
@@ -274,7 +268,7 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
                 )}
                 <button
                   onClick={toggleTema}
-                  className="flex w-full items-center gap-2.5 rounded-[9px] px-2.5 py-2 text-left text-[14px] font-medium transition-colors hover:bg-[var(--hover)]"
+                  className="flex w-full items-center gap-2.5 rounded-full px-3 min-h-[44px] text-left text-[14px] font-medium transition-colors hover:bg-[var(--hover)]"
                 >
                   {tema === 'dark' ? <IconaSole size={17} /> : <IconaLuna size={17} />}
                   {tema === 'dark' ? 'Light theme' : 'Dark theme'}
@@ -284,7 +278,7 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
                     svuotaCache()
                     supabase.auth.signOut()
                   }}
-                  className="flex w-full items-center gap-2.5 rounded-[9px] px-2.5 py-2 text-left text-[14px] font-medium transition-colors hover:bg-[var(--hover)]"
+                  className="flex w-full items-center gap-2.5 rounded-full px-3 min-h-[44px] text-left text-[14px] font-medium transition-colors hover:bg-[var(--hover)]"
                 >
                   <IconaEsci size={17} />
                   Sign out

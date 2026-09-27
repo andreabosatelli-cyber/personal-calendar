@@ -101,16 +101,13 @@ export function PaginaCondivisa({ token }: { token: string }) {
     <div className="flex h-screen w-full flex-col overflow-hidden" style={{ background: 'var(--pagina)' }}>
       <header
         className="flex flex-col gap-2.5 px-4 py-3 lg:flex-row lg:items-center lg:gap-3 lg:px-6"
-        style={{ borderBottom: '1px solid var(--linea)', background: 'var(--card)' }}
+        style={{ background: 'var(--pagina)' }}
       >
         <div className="min-w-0 lg:flex-1">
-          <p
-            className="text-[12px] font-semibold uppercase tracking-[0.06em]"
-            style={{ color: 'var(--primario)' }}
-          >
+          <p className="text-[13.5px]" style={{ color: 'var(--testo-2)' }}>
             {owner.nome}&apos;s availability
           </p>
-          <h1 className="text-[22px] font-bold capitalize leading-tight">{titoloVista(colonne, giorno, fuso)}</h1>
+          <h1 className="text-[24px] font-medium capitalize leading-tight tracking-[-0.03em] lg:text-[28px]">{titoloVista(colonne, giorno, fuso)}</h1>
           {!stessoFuso && (
             <p className="text-[12px]" style={{ color: 'var(--testo-2)' }}>
               Your time ({offsetBreve(tzLocale)}) · {owner.nome}{owner.etichetta ? ` in ${owner.etichetta}` : ''} (
@@ -137,19 +134,19 @@ export function PaginaCondivisa({ token }: { token: string }) {
           )}
           <button
             onClick={() => setGiorno(spostaVista(colonne, giorno, -1, fuso))}
-            className="btn-neutro premibile h-10 w-10 shrink-0"
+            className="btn-neutro premibile h-11 w-11 shrink-0"
             aria-label="Previous"
           >
             <IconaChevron size={18} verso="sx" />
           </button>
           <button
             onClick={() => setGiorno(spostaVista(colonne, giorno, 1, fuso))}
-            className="btn-neutro premibile h-10 w-10 shrink-0"
+            className="btn-neutro premibile h-11 w-11 shrink-0"
             aria-label="Next"
           >
             <IconaChevron size={18} verso="dx" />
           </button>
-          <button onClick={() => setGiorno(oggiISO(fuso))} className="btn-neutro premibile h-10 shrink-0 px-3.5">
+          <button onClick={() => setGiorno(oggiISO(fuso))} className="btn-neutro premibile h-11 shrink-0 px-3.5">
             Today
           </button>
         </div>
@@ -252,12 +249,12 @@ function ModaleRichiesta({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center lg:items-center" onClick={onChiudi}>
-      <div className="anim-fade absolute inset-0" style={{ background: 'rgb(20 18 40 / 0.42)' }} />
+      <div className="anim-fade absolute inset-0" style={{ background: 'var(--velo)' }} />
       <div
-        className="anim-sheet-su relative max-h-[92vh] w-full max-w-md overflow-y-auto scroll-fine rounded-t-[20px] px-5 pb-8 pt-3 lg:rounded-[18px] lg:pb-6"
+        className="anim-sheet-su relative max-h-[92vh] w-full max-w-md overflow-y-auto scroll-fine rounded-t-[28px] px-5 pb-8 pt-3 lg:rounded-[28px] lg:px-7 lg:pb-7 lg:pt-6"
         style={{
-          background: 'var(--card)',
-          boxShadow: 'var(--ombra-card)',
+          background: 'var(--pagina)',
+          boxShadow: 'var(--ombra-galleggia)',
           paddingBottom: 'calc(2rem + env(safe-area-inset-bottom))',
         }}
         onClick={(e) => e.stopPropagation()}
@@ -265,17 +262,17 @@ function ModaleRichiesta({
         <div className="mx-auto mb-4 h-1 w-9 rounded-full lg:hidden" style={{ background: 'var(--linea-2)' }} />
         {fatto ? (
           <div className="py-6 text-center">
-            <h2 className="mb-2 text-[20px] font-bold">Request sent</h2>
+            <h2 className="mb-2 text-[20px] font-medium">Request sent</h2>
             <p className="mb-6 text-[15px]" style={{ color: 'var(--testo-2)' }}>
               It is waiting for {owner.nome} to approve it. Nothing is booked until then.
             </p>
-            <button onClick={onChiudi} className="btn-primario premibile h-[46px] w-full">
+            <button onClick={onChiudi} className="btn-primario premibile h-[52px] w-full">
               Close
             </button>
           </div>
         ) : (
           <>
-            <h2 className="mb-4 text-[22px] font-bold">Request a slot</h2>
+            <h2 className="mb-4 text-[22px] font-medium">Request a slot</h2>
             <input
               autoFocus
               placeholder="Your name"
@@ -356,10 +353,10 @@ function ModaleRichiesta({
             {/* Ogni slot detto due volte: e' il punto dell'app. */}
             {valido && !stessoFuso && (
               <div
-                className="mb-3 rounded-[12px] px-3.5 py-3"
-                style={{ background: 'var(--tenue)', color: 'var(--primario)' }}
+                className="mb-3 rounded-[18px] px-4 py-3"
+                style={{ background: 'var(--controllo)', color: 'var(--testo)' }}
               >
-                <p className="text-[14px] font-semibold tabular-nums">
+                <p className="text-[14px] font-medium tabular-nums">
                   {perOwner} for {owner.nome}
                   {owner.etichetta ? ` in ${owner.etichetta}` : ''}
                 </p>
@@ -384,7 +381,7 @@ function ModaleRichiesta({
               </p>
             )}
 
-            <button onClick={invia} disabled={inCorso} className="btn-primario premibile h-[46px] w-full">
+            <button onClick={invia} disabled={inCorso} className="btn-primario premibile h-[52px] w-full">
               {inCorso ? 'Sending…' : 'Send request'}
             </button>
             <button onClick={onChiudi} className="mt-1 h-[44px] w-full text-[15px]" style={{ color: 'var(--testo-2)' }}>

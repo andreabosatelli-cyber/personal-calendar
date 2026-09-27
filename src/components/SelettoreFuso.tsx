@@ -48,14 +48,14 @@ export function SelettoreFuso({ valore, onCambia, vuoto, massimo = 8 }: Props) {
       {vuoto && !cerca.trim() && (
         <button
           onClick={vuoto.onScegli}
-          className="premibile flex items-center gap-3 rounded-[12px] px-3 py-2.5 text-left transition-colors hover:bg-[var(--hover)]"
+          className="premibile flex items-center gap-3 rounded-[22px] px-3 py-2.5 text-left transition-colors hover:bg-[var(--hover)]"
           style={valore === null ? { background: 'var(--tenue)' } : undefined}
           aria-pressed={valore === null}
         >
           <span className="text-[17px]">—</span>
           <span className="min-w-0 flex-1">
             <span
-              className="block truncate text-[14.5px] font-semibold"
+              className="block truncate text-[14.5px] font-medium"
               style={valore === null ? { color: 'var(--primario)' } : undefined}
             >
               {vuoto.etichetta}
@@ -81,14 +81,14 @@ export function SelettoreFuso({ valore, onCambia, vuoto, massimo = 8 }: Props) {
           <button
             key={id}
             onClick={() => onCambia(id)}
-            className="premibile flex items-center gap-3 rounded-[12px] px-3 py-2.5 text-left transition-colors hover:bg-[var(--hover)]"
+            className="premibile flex items-center gap-3 rounded-[22px] px-3 py-2.5 text-left transition-colors hover:bg-[var(--hover)]"
             style={attivo ? { background: 'var(--tenue)' } : undefined}
             aria-pressed={attivo}
           >
             <span className="text-[17px]">{o.bandiera}</span>
             <span className="min-w-0 flex-1">
               <span
-                className="block truncate text-[14.5px] font-semibold"
+                className="block truncate text-[14.5px] font-medium"
                 style={attivo ? { color: 'var(--primario)' } : undefined}
               >
                 {o.etichetta}

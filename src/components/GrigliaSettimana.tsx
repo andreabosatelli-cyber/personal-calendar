@@ -255,7 +255,7 @@ export function GrigliaSettimana({
         <div className="sticky top-0 z-30" style={{ background: 'var(--card)' }}>
           <div className="flex" style={{ borderBottom: '1px solid var(--linea)' }}>
             <CellaRail larghezza={rail} className="flex-col items-end justify-end pb-2 pr-2.5 text-right leading-none">
-              <span className="text-[10px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+              <span className="text-[10px] font-medium" style={{ color: 'var(--testo-2)' }}>
                 {offsetBreve(fuso)}
               </span>
               {mostraRif && (
@@ -281,25 +281,21 @@ export function GrigliaSettimana({
                         ...stileColonna,
                         borderLeft: '1px solid var(--linea)',
                         scrollSnapAlign: scorre ? 'start' : undefined,
-                        background: isAttivo && !isOggi ? 'var(--attivo)' : undefined,
+                        background: isAttivo && !isOggi ? 'var(--colonna-attiva)' : undefined,
                       }}
                       aria-current={isAttivo ? 'date' : undefined}
                     >
-                      <span className="text-[13px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+                      <span className="text-[13px] font-medium" style={{ color: 'var(--testo-2)' }}>
                         {d.toFormat('ccc')}
                       </span>
                       <span
-                        className="flex h-[27px] min-w-[27px] items-center justify-center rounded-full px-1 text-[14px] font-semibold tabular-nums"
+                        className="flex h-[32px] min-w-[32px] items-center justify-center rounded-full px-1 text-[15px] font-medium tabular-nums"
                         style={
                           isOggi
-                            ? {
-                                background: 'linear-gradient(180deg, var(--primario-3), var(--primario))',
-                                color: 'var(--su-primario)',
-                                boxShadow: 'var(--ombra-viola)',
-                              }
+                            ? { background: 'var(--primario)', color: 'var(--su-primario)' }
                             : isAttivo
-                              ? { color: 'var(--primario)', boxShadow: 'inset 0 0 0 1.5px var(--primario)' }
-                              : { color: 'var(--testo)' }
+                              ? { background: 'var(--attivo)', color: 'var(--testo)', boxShadow: 'var(--ombra-pill)' }
+                              : { background: 'var(--pagina)', color: 'var(--testo)' }
                         }
                       >
                         {d.day}
@@ -471,7 +467,7 @@ function BarraFascia({
   return (
     <button
       onClick={() => onApri(f.ev)}
-      className="premibile absolute flex items-center gap-1.5 px-2 text-left text-[11.5px] font-semibold"
+      className="premibile absolute flex items-center gap-1.5 px-2 text-left text-[11.5px] font-medium"
       style={{
         left: `calc(${(f.da * 100) / totale}% + 3px)`,
         width: `calc(${((f.a - f.da + 1) * 100) / totale}% - 6px)`,
@@ -486,7 +482,7 @@ function BarraFascia({
       {!neutro && eSoggiorno(f.ev) && <IconaAereo size={11} strokeWidth={2.2} className="shrink-0" />}
       <span className="truncate">{neutro ? 'Busy' : f.ev.titolo}</span>
       {espansa && orari && !neutro && (
-        <span className="ml-auto shrink-0 pl-2 text-[11px] font-medium tabular-nums opacity-75">
+        <span className="ml-auto shrink-0 pl-2 text-[11px] font-medium tabular-nums">
           {orari.principale.replace('–', ' – ')}
         </span>
       )}
@@ -605,7 +601,7 @@ function ColonnaGiorno({
                         : { top: top + 1 + dySnap, height: Math.max(18, height - 2 - dySnap) }),
                     zIndex: 40,
                     opacity: 0.92,
-                    boxShadow: '0 10px 24px -6px rgb(20 18 40 / 0.45)',
+                    boxShadow: 'var(--ombra-galleggia)',
                     touchAction: 'none',
                   }
                 : null),
@@ -616,7 +612,7 @@ function ColonnaGiorno({
               {!neutro && (
                 <span className="h-[7px] w-[7px] shrink-0 rounded-full" style={{ background: c.punto }} />
               )}
-              <span className="truncate text-[12px] font-semibold leading-[15px]">
+              <span className="truncate text-[12px] font-medium leading-[15px]">
                 {neutro ? 'Busy' : ev.titolo}
               </span>
             </span>
@@ -635,7 +631,7 @@ function ColonnaGiorno({
               </>
             )}
             {height > 36 && (
-              <span className="mt-[1px] block truncate text-[11px] leading-[14px] tabular-nums opacity-80" style={{ paddingLeft: neutro ? 0 : 13 }}>
+              <span className="mt-[1px] block truncate text-[11px] leading-[14px] tabular-nums" style={{ paddingLeft: neutro ? 0 : 13 }}>
                 {/* Durante lo spostamento conta dove si sta andando, non da
                     dove si viene: l'orario mostrato e' quello di arrivo. */}
                 {inMovimento && trascina!.minuti !== 0

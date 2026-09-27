@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { BarraLaterale } from './BarraLaterale'
 import { Intestazione } from './Intestazione'
+import { BarraNav } from './BarraNav'
 import type { Sezione } from '../../lib/rotte'
 
 interface Props {
@@ -14,9 +15,10 @@ interface Props {
 // richiuderla a ogni apertura.
 const CHIAVE_BARRA = 'pc_barra'
 
-// Guscio a tre zone della reference: sidebar lavanda fissa a sinistra, header
+// Guscio a tre zone: sidebar fissa a sinistra, header
 // minimale in alto, contenuto sotto. Su schermi stretti la sidebar diventa un
-// drawer richiamato dall'hamburger nell'header; su desktop la si puo' nascondere
+// drawer richiamato dall'hamburger nell'header o da "More" nella barra in
+// basso; su desktop la si puo' nascondere
 // e richiamare con lo stesso pulsante.
 export function Guscio({ sezione, vai, onNuovoEvento, children }: Props) {
   const [drawer, setDrawer] = useState(false)
@@ -58,10 +60,7 @@ export function Guscio({ sezione, vai, onNuovoEvento, children }: Props) {
     <div className="flex h-full w-full overflow-hidden" style={{ background: 'var(--pagina)' }}>
       {/* Sidebar fissa (desktop) */}
       {!nascosta && (
-        <aside
-          className="hidden w-[268px] shrink-0 lg:block"
-          style={{ borderRight: '1px solid var(--linea)' }}
-        >
+        <aside className="hidden w-[268px] shrink-0 lg:block">
           <BarraLaterale
             sezione={sezione}
             vai={vai}
@@ -82,6 +81,9 @@ export function Guscio({ sezione, vai, onNuovoEvento, children }: Props) {
       <div className="flex min-w-0 flex-1 flex-col">
         <Intestazione onApriMenu={apriBarra} mostraMenu={nascosta} onNuovoEvento={onNuovoEvento} />
         <div className="min-h-0 flex-1">{children}</div>
+        {/* Barra in basso su telefono: e' un elemento del flusso, non un
+            overlay, quindi il contenuto finisce sempre sopra di lei. */}
+        <BarraNav sezione={sezione} vai={vai} onAltro={() => setDrawer(true)} />
       </div>
     </div>
   )
@@ -149,13 +151,13 @@ function Drawer({ onChiudi, children }: { onChiudi: () => void; children: React.
       <div
         ref={backdrop}
         className="anim-fade absolute inset-0"
-        style={{ background: 'rgb(20 18 40 / 0.42)' }}
+        style={{ background: 'var(--velo)' }}
         onClick={onChiudi}
       />
       <div
         ref={pannello}
         className="anim-drawer-sx absolute bottom-0 left-0 top-0 w-[290px] max-w-[85vw] overflow-hidden"
-        style={{ boxShadow: '0 0 60px rgb(20 18 40 / 0.25)' }}
+        style={{ boxShadow: 'var(--ombra-galleggia)' }}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}

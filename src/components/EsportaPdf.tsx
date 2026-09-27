@@ -99,8 +99,8 @@ export function EsportaPdf({ fuso, dataInizio, dataFine, onChiudi }: Props) {
   const rangeStr = `${DateTime.fromISO(da, { zone: fuso }).setLocale(LOCALE).toFormat('d LLL yyyy')} – ${DateTime.fromISO(a, { zone: fuso }).setLocale(LOCALE).toFormat('d LLL yyyy')}`
 
   return (
-    <div className="pdf-modal anim-fade fixed inset-0 z-[60] flex flex-col" style={{ background: 'rgb(20 18 40 / 0.45)' }}>
-      <div className="pdf-panel anim-sheet-scala relative mx-auto my-3 flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-[18px]" style={{ background: 'var(--card)', boxShadow: 'var(--ombra-card)' }}>
+    <div className="pdf-modal anim-fade fixed inset-0 z-[60] flex flex-col" style={{ background: 'var(--velo)' }}>
+      <div className="pdf-panel anim-sheet-scala relative mx-auto my-3 flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-[22px]" style={{ background: 'var(--card)', boxShadow: 'var(--ombra-card)' }}>
         {/* Controlli (non stampati) */}
         <div className="no-stampa flex flex-wrap items-end gap-3 px-4 py-3" style={{ borderBottom: '1px solid var(--linea)' }}>
           <div>
@@ -111,14 +111,14 @@ export function EsportaPdf({ fuso, dataInizio, dataFine, onChiudi }: Props) {
             <label className="mb-1 block text-[12px]" style={{ color: 'var(--testo-2)' }}>To</label>
             <input type="date" value={a} onChange={(e) => setA(e.target.value)} className="campo text-[15px]" />
           </div>
-          <button onClick={genera} disabled={caric} className="btn-tenue premibile h-10 px-3.5 disabled:opacity-50">
+          <button onClick={genera} disabled={caric} className="btn-tenue premibile h-11 px-3.5 disabled:opacity-50">
             {caric ? 'Loading…' : 'Refresh'}
           </button>
           <div className="flex-1" />
-          <button onClick={() => window.print()} disabled={!eventi} className="btn-primario premibile h-10 px-4 disabled:opacity-50">
+          <button onClick={() => window.print()} disabled={!eventi} className="btn-primario premibile h-11 px-4 disabled:opacity-50">
             Save as PDF
           </button>
-          <button onClick={onChiudi} className="btn-neutro premibile h-10 px-3.5">
+          <button onClick={onChiudi} className="btn-neutro premibile h-11 px-3.5">
             Close
           </button>
         </div>
@@ -127,7 +127,7 @@ export function EsportaPdf({ fuso, dataInizio, dataFine, onChiudi }: Props) {
         <div className="pdf-scroll overflow-y-auto p-5" style={{ background: '#f3f4f6' }}>
           <div className="stampabile mx-auto bg-white p-8 text-[13px] leading-normal" style={{ color: '#111827', maxWidth: 720, boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }}>
             <div className="mb-1 flex items-baseline justify-between">
-              <h1 className="text-[22px] font-bold">Calendar summary</h1>
+              <h1 className="text-[22px] font-medium">Calendar summary</h1>
               <span className="text-[12px]" style={{ color: '#6b7280' }}>{opz.bandiera} {opz.etichetta}</span>
             </div>
             <p className="text-[12px]" style={{ color: '#6b7280' }}>{rangeStr} · generated {oggiStr}</p>
@@ -149,7 +149,7 @@ export function EsportaPdf({ fuso, dataInizio, dataFine, onChiudi }: Props) {
 
             {perGiorno.map(([g, evs]) => (
               <div key={g} className="blocco-giorno mt-4">
-                <h2 className="mb-1.5 border-b pb-1 text-[13px] font-bold capitalize" style={{ borderColor: '#e5e7eb' }}>
+                <h2 className="mb-1.5 border-b pb-1 text-[13px] font-medium capitalize" style={{ borderColor: '#e5e7eb' }}>
                   {DateTime.fromISO(g, { zone: fuso }).setLocale(LOCALE).toFormat('cccc d LLLL yyyy')}
                 </h2>
                 {evs.map((ev) => (

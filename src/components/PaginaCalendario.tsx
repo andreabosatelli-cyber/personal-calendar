@@ -145,18 +145,18 @@ export function PaginaCalendario({ onApriEvento, vai }: Props) {
     <div className="flex h-full min-h-0 flex-col gap-[21px] overflow-hidden px-3 pb-3 pt-[5px] lg:pb-[22px] lg:pl-5 lg:pr-4 xl:flex-row">
       {/* Calendario */}
       <section className="card @container flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-        <div className="flex shrink-0 flex-wrap items-center gap-2 px-3 py-2.5 @[720px]:gap-3 @[720px]:px-[18px] @[720px]:py-[15px]">
+        <div className="flex shrink-0 flex-wrap items-center gap-2 px-3 py-3 @[720px]:gap-3 @[720px]:px-5 @[720px]:py-5">
           <div className="flex shrink-0 items-center gap-1.5 @[720px]:gap-2">
             <button
               onClick={() => setGiorno(spostaVista(vista, giorno, -1, fuso))}
-              className="btn-neutro premibile h-9 w-9 @[720px]:h-10 @[720px]:w-10"
+              className="btn-neutro premibile h-11 w-11"
               aria-label="Previous"
             >
               <IconaChevron size={18} verso="sx" />
             </button>
             <button
               onClick={() => setGiorno(spostaVista(vista, giorno, 1, fuso))}
-              className="btn-neutro premibile h-9 w-9 @[720px]:h-10 @[720px]:w-10"
+              className="btn-neutro premibile h-11 w-11"
               aria-label="Next"
             >
               <IconaChevron size={18} verso="dx" />
@@ -166,7 +166,7 @@ export function PaginaCalendario({ onApriEvento, vai }: Props) {
           {/* Il titolo lungo non entra in 390px: "Saturday 19 September 2026"
               finiva in "Saturday 19 September…". Su schermo stretto si accorcia
               invece di troncarsi. */}
-          <h2 className="min-w-0 flex-1 truncate pl-0.5 text-[19px] font-bold @[720px]:pl-1 @[720px]:text-[26px]">
+          <h2 className="min-w-0 flex-1 truncate pl-1 text-[22px] font-medium tracking-[-0.03em] @[720px]:pl-2 @[720px]:text-[26px] @[900px]:text-[28px]">
             <span className="@[720px]:hidden">{titoloVistaBreve(vista, giorno, fuso)}</span>
             <span className="hidden @[720px]:inline">{titoloVista(vista, giorno, fuso)}</span>
           </h2>
@@ -186,7 +186,7 @@ export function PaginaCalendario({ onApriEvento, vai }: Props) {
             <button
               onClick={() => setGiorno(oggi)}
               disabled={suOggi}
-              className="btn-neutro premibile h-[42px] shrink-0 px-4 disabled:opacity-45 @[720px]:px-[18px]"
+              className="btn-neutro premibile h-11 shrink-0 px-4 disabled:opacity-45 @[720px]:px-5"
             >
               Today
             </button>
@@ -195,7 +195,7 @@ export function PaginaCalendario({ onApriEvento, vai }: Props) {
             {largo && pannelloChiuso && (
               <button
                 onClick={() => cambiaPannello(false)}
-                className="btn-neutro premibile h-[42px] w-[42px] shrink-0"
+                className="btn-neutro premibile h-11 w-11 shrink-0"
                 aria-label="Show side panel"
                 title="Show side panel"
               >
@@ -267,7 +267,7 @@ export function PaginaCalendario({ onApriEvento, vai }: Props) {
             onPeriodo={setPeriodo}
             onApri={() => vai('trips')}
           />
-          <button onClick={() => vai('export')} className="btn-tenue premibile h-[50px] w-full shrink-0">
+          <button onClick={() => vai('export')} className="btn-primario premibile h-[52px] w-full shrink-0">
             <IconaScarica size={19} />
             Export month as PDF
           </button>

@@ -21,15 +21,15 @@ export function PannelloRichieste({ onChiudi }: { onChiudi: () => void }) {
     <>
       <div className="fixed inset-0 z-40" onClick={onChiudi} />
       <div
-        className="anim-fade absolute right-0 top-[calc(100%+8px)] z-50 w-[330px] overflow-hidden rounded-[16px]"
-        style={{ background: 'var(--card)', border: '1px solid var(--linea)', boxShadow: 'var(--ombra-card)' }}
+        className="anim-fade absolute right-0 top-[calc(100%+8px)] z-50 w-[340px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[24px]"
+        style={{ background: 'var(--pagina)', boxShadow: 'var(--ombra-galleggia)' }}
       >
-        <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: '1px solid var(--linea)' }}>
-          <h3 className="text-[15px] font-semibold">Requests</h3>
+        <div className="flex items-center justify-between px-5 pb-2 pt-4">
+          <h3 className="text-[20px] font-medium tracking-[-0.02em]">Requests</h3>
           {richieste.length > 0 && (
             <span
-              className="rounded-full px-2 py-0.5 text-[11.5px] font-bold"
-              style={{ background: 'var(--tenue)', color: 'var(--primario)' }}
+              className="rounded-full px-2 py-0.5 text-[11.5px] font-medium"
+              style={{ background: 'var(--primario)', color: 'var(--su-primario)' }}
             >
               {richieste.length}
             </span>
@@ -46,14 +46,14 @@ export function PannelloRichieste({ onChiudi }: { onChiudi: () => void }) {
             </p>
           </div>
         ) : (
-          <div className="max-h-[380px] overflow-y-auto scroll-fine p-2">
+          <div className="max-h-[400px] overflow-y-auto scroll-fine p-3 pt-1">
             {richieste.map((r) => {
               const i = DateTime.fromISO(r.inizio_utc, { zone: 'utc' }).setZone(fuso).setLocale(LOCALE)
               const f = DateTime.fromISO(r.fine_utc, { zone: 'utc' }).setZone(fuso)
               const rif = DateTime.fromISO(r.inizio_utc, { zone: 'utc' }).setZone(fusoRif() ?? '')
               return (
-                <div key={r.id} className="rounded-[12px] p-2.5 transition-colors hover:bg-[var(--hover)]">
-                  <p className="truncate text-[14px] font-semibold leading-tight">{r.titolo}</p>
+                <div key={r.id} className="mb-2 rounded-[20px] p-4 last:mb-0" style={{ background: 'var(--card)' }}>
+                  <p className="truncate text-[15.5px] font-medium leading-tight">{r.titolo}</p>
                   <p className="mt-0.5 text-[12.5px]" style={{ color: 'var(--testo-2)' }}>
                     {r.richiedente}
                   </p>
@@ -64,14 +64,14 @@ export function PannelloRichieste({ onChiudi }: { onChiudi: () => void }) {
                   <div className="mt-2 flex gap-2">
                     <button
                       onClick={() => decidi(r.id, true)}
-                      className="btn-primario premibile h-8 flex-1 text-[13px]"
+                      className="btn-primario premibile h-11 flex-1 text-[14px]"
                       style={{ boxShadow: 'none' }}
                     >
                       Accept
                     </button>
                     <button
                       onClick={() => decidi(r.id, false)}
-                      className="btn-neutro premibile h-8 flex-1 text-[13px]"
+                      className="btn-neutro premibile h-11 flex-1 text-[14px]"
                       style={{ color: 'var(--errore)' }}
                     >
                       Decline

@@ -86,12 +86,12 @@ export function PaginaImpostazioni() {
                 {siglaFuso(fuso)} · {etichettaUtc(fuso)}
               </span>
             </TestataCard>
-            <p className="px-[18px] pb-1 text-[13px]" style={{ color: 'var(--testo-2)' }}>
+            <p className="px-5 lg:px-6 pb-1 text-[13px]" style={{ color: 'var(--testo-2)' }}>
               This is the clock the calendar is drawn on. Change it when you travel.
             </p>
             <SelettoreFuso valore={fuso} onCambia={cambiaFuso} />
             {!asseUnico(fuso) && (
-              <p className="px-[18px] pb-4 text-[12.5px] tabular-nums" style={{ color: 'var(--testo-3)' }}>
+              <p className="px-5 lg:px-6 pb-4 text-[12.5px] tabular-nums" style={{ color: 'var(--testo-3)' }}>
                 Right now in {etichettaRif()}:{' '}
                 {adesso.setZone(fusoRif()!).setLocale(LOCALE).toFormat('ccc d LLL, HH:mm')}
               </p>
@@ -108,7 +108,7 @@ export function PaginaImpostazioni() {
                 </span>
               )}
             </TestataCard>
-            <p className="px-[18px] pb-1 text-[13px]" style={{ color: 'var(--testo-2)' }}>
+            <p className="px-5 lg:px-6 pb-1 text-[13px]" style={{ color: 'var(--testo-2)' }}>
               Kept next to your own hours, everywhere in the app. Leave it off for a single-clock calendar.
             </p>
             <SelettoreFuso
@@ -121,8 +121,8 @@ export function PaginaImpostazioni() {
               }}
               massimo={6}
             />
-            <div className="px-[18px] pb-[18px]">
-              <p className="text-[12.5px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+            <div className="px-5 lg:px-6 pb-5 lg:pb-6">
+              <p className="text-[12.5px] font-medium" style={{ color: 'var(--testo-2)' }}>
                 Office hours
               </p>
               <p className="mb-2 mt-0.5 text-[12px]" style={{ color: 'var(--testo-3)' }}>
@@ -156,17 +156,17 @@ export function PaginaImpostazioni() {
                 <button
                   onClick={sincronizza}
                   disabled={inSync}
-                  className="btn-neutro premibile flex h-[32px] shrink-0 items-center gap-1.5 px-2.5 text-[12.5px] disabled:opacity-60"
+                  className="btn-neutro premibile flex h-11 shrink-0 items-center gap-1.5 px-2.5 text-[12.5px] disabled:opacity-60"
                 >
                   <IconaAggiorna size={15} className={inSync ? 'anim-pulsa' : undefined} />
                   {inSync ? 'Syncing…' : 'Sync now'}
                 </button>
               )}
             </TestataCard>
-            <p className="px-[18px] pb-1 text-[13px]" style={{ color: 'var(--testo-2)' }}>
+            <p className="px-5 lg:px-6 pb-1 text-[13px]" style={{ color: 'var(--testo-2)' }}>
               Four calendars, and they are yours to name: Work and Study, or Gym and Side project.
             </p>
-            <div className="flex flex-col px-[18px] pt-1 pb-[18px]">
+            <div className="flex flex-col px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
               {ORIGINI.map((o) => (
                 <RigaCategoria
                   key={o}
@@ -199,7 +199,7 @@ export function PaginaImpostazioni() {
           {/* Aspetto */}
           <section className="card overflow-hidden">
             <TestataCard titolo="Appearance" />
-            <div className="px-[18px] pt-1 pb-[18px]">
+            <div className="px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
               <div className="seg w-full">
                 <button
                   onClick={() => tema === 'dark' && toggleTema()}
@@ -225,13 +225,13 @@ export function PaginaImpostazioni() {
           {/* Condivisione */}
           <section className="card overflow-hidden">
             <TestataCard titolo="Sharing & privacy" />
-            <div className="px-[18px] pt-1 pb-[18px]">
+            <div className="px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
               {link ? (
                 <>
                   <p className="mb-2.5 truncate text-[13px] tabular-nums" style={{ color: 'var(--testo-2)' }}>
                     {link}
                   </p>
-                  <button onClick={copia} className="btn-tenue premibile h-[42px] w-full">
+                  <button onClick={copia} className="btn-tenue premibile h-11 w-full">
                     {copiato ? <IconaSpunta size={17} /> : <IconaCondividi size={17} />}
                     {copiato ? 'Copied' : 'Copy booking link'}
                   </button>
@@ -257,22 +257,22 @@ export function PaginaImpostazioni() {
           {/* Account */}
           <section className="card overflow-hidden">
             <TestataCard titolo="Account" />
-            <div className="px-[18px] pt-1 pb-[18px]">
+            <div className="px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
               <div className="flex items-center gap-3">
                 <span
-                  className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full text-[14px] font-bold"
-                  style={{ background: '#ddcafe', color: '#5a1dfa' }}
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[14px] font-medium"
+                  style={{ background: 'var(--avatar-bg)', color: 'var(--avatar-fg)' }}
                 >
                   {iniziali}
                 </span>
                 <span className="min-w-0 flex-1 leading-tight">
-                  <span className="block truncate text-[14.5px] font-semibold">{nome}</span>
+                  <span className="block truncate text-[14.5px] font-medium">{nome}</span>
                   <span className="block truncate text-[12.5px]" style={{ color: 'var(--testo-2)' }}>
                     {email || 'Signed in'}
                   </span>
                 </span>
               </div>
-              <label className="mb-1.5 mt-4 block text-[12.5px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+              <label className="mb-1.5 mt-4 block text-[12.5px] font-medium" style={{ color: 'var(--testo-2)' }}>
                 Display name
               </label>
               <input
@@ -293,7 +293,7 @@ export function PaginaImpostazioni() {
                   svuotaCache()
                   supabase.auth.signOut()
                 }}
-                className="btn-neutro premibile mt-3.5 h-[42px] w-full gap-2"
+                className="btn-neutro premibile mt-3.5 h-11 w-full gap-2"
                 style={{ color: 'var(--errore)' }}
               >
                 <IconaEsci size={17} />
@@ -329,7 +329,7 @@ function SelettoreOre({
     <select
       value={valore}
       onChange={(e) => onCambia(Number(e.target.value))}
-      className="campo h-[38px] w-[92px] tabular-nums"
+      className="campo h-11 w-[92px] tabular-nums"
     >
       {ore.map((h) => (
         <option key={h} value={h}>
@@ -375,7 +375,7 @@ function RigaCategoria({
               if (e.key === 'Enter') e.currentTarget.blur()
               if (e.key === 'Escape') setModifica(false)
             }}
-            className="campo h-[34px] !text-[13.5px]"
+            className="campo h-11 !text-[14px]"
           />
         ) : (
           <>
@@ -397,7 +397,7 @@ function RigaCategoria({
           )}
           <button
             onClick={() => setModifica(true)}
-            className="shrink-0 text-[12.5px] font-semibold transition-opacity hover:opacity-70"
+            className="premibile min-h-11 shrink-0 rounded-full px-3 text-[13.5px] font-medium transition-colors hover:bg-[var(--hover)]"
             style={{ color: 'var(--primario)' }}
           >
             Rename

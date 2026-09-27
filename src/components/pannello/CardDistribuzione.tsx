@@ -19,12 +19,12 @@ export function CardDistribuzione({ dist, periodo, onPeriodo, onNascondi }: Prop
   const haOre = dist.totaleOre > 0
   return (
     <section className="card overflow-hidden">
-      <TestataCard titolo="Time distribution">
+      <TestataCard stretta titolo="Time distribution">
         <SelettorePeriodo valore={periodo} onCambia={onPeriodo} />
         {onNascondi && (
           <button
             onClick={onNascondi}
-            className="btn-neutro premibile h-[30px] w-[30px] shrink-0"
+            className="btn-neutro premibile h-10 w-10 shrink-0"
             aria-label="Hide side panel"
             title="Hide side panel"
           >
@@ -33,7 +33,7 @@ export function CardDistribuzione({ dist, periodo, onPeriodo, onNascondi }: Prop
         )}
       </TestataCard>
       {haOre ? (
-        <div className="flex items-center gap-4 px-[18px] pb-[18px] pt-1">
+        <div className="flex items-center gap-4 px-5 lg:px-6 pb-5 lg:pb-6 pt-1">
           <Donut quote={dist.quote} totaleOre={dist.totaleOre} />
           <LegendaDonut quote={dist.quote} nomi={nomeBreve} />
         </div>

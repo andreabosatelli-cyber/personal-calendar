@@ -56,7 +56,7 @@ export function CardCondivisioni() {
   return (
     <section className="card overflow-hidden">
       <TestataCard titolo="Shared calendars" />
-      <div className="px-[18px] pb-[18px] pt-1">
+      <div className="px-5 lg:px-6 pb-5 lg:pb-6 pt-1">
         <form onSubmit={invita} className="mb-1">
           <input
             type="email"
@@ -84,7 +84,7 @@ export function CardCondivisioni() {
           <p className="mt-2 text-[12px]" style={{ color: 'var(--testo-3)' }}>
             {PERMESSI.find((p) => p.id === permesso)!.spiegazione}
           </p>
-          <button type="submit" disabled={inCorso} className="btn-tenue premibile mt-3 h-[42px] w-full disabled:opacity-60">
+          <button type="submit" disabled={inCorso} className="btn-tenue premibile mt-3 h-11 w-full disabled:opacity-60">
             <IconaPiu size={17} />
             {inCorso ? 'Sharing…' : 'Share my calendar'}
           </button>
@@ -114,7 +114,7 @@ export function CardCondivisioni() {
                     await cambiaPermesso(c.id, e.target.value as Permesso)
                     ricarica()
                   }}
-                  className="campo !h-[34px] !w-auto !py-0 !text-[12.5px]"
+                  className="campo !h-11 !w-auto !py-0 !text-[13.5px]"
                   aria-label={`Permission for ${c.destinatario_email}`}
                 >
                   {PERMESSI.map((p) => (
@@ -129,7 +129,7 @@ export function CardCondivisioni() {
                     await revocaAccesso(c.id)
                     ricarica()
                   }}
-                  className="btn-neutro premibile h-[34px] w-[34px] shrink-0"
+                  className="btn-neutro premibile h-11 w-11 shrink-0"
                   style={{ color: 'var(--errore)' }}
                   aria-label={`Revoke access for ${c.destinatario_email}`}
                   title="Revoke"
@@ -161,7 +161,7 @@ export function CardCondivisioni() {
                       await revocaAccesso(c.id)
                       await ricaricaCondivisi()
                     }}
-                    className="btn-neutro premibile h-[34px] w-[34px] shrink-0"
+                    className="btn-neutro premibile h-11 w-11 shrink-0"
                     aria-label={`Remove ${c.nome}'s calendar`}
                     title="Remove"
                   >

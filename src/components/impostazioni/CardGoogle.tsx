@@ -83,7 +83,7 @@ export function CardGoogle() {
       <TestataCard titolo="Google Calendar">
         {collegato && (
           <span
-            className="flex items-center gap-1.5 text-[12.5px] font-semibold"
+            className="flex items-center gap-1.5 text-[12.5px] font-medium"
             style={{ color: stato?.abilitato ? 'var(--ok, var(--primario))' : 'var(--testo-3)' }}
           >
             {stato?.abilitato ? <IconaSpunta size={14} /> : null}
@@ -92,7 +92,7 @@ export function CardGoogle() {
         )}
       </TestataCard>
 
-      <div className="px-[18px] pt-1 pb-[18px]">
+      <div className="px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
         {!collegato ? (
           <>
             <button
@@ -114,13 +114,13 @@ export function CardGoogle() {
           <>
             <div className="flex items-center gap-3">
               <span
-                className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full"
                 style={{ background: 'var(--controllo)' }}
               >
                 <LogoGoogle size={20} />
               </span>
               <span className="min-w-0 flex-1 leading-tight">
-                <span className="block truncate text-[14.5px] font-semibold">
+                <span className="block truncate text-[14.5px] font-medium">
                   {stato?.calendario_nome ?? 'SmartCal calendar'}
                 </span>
                 <span className="block truncate text-[12.5px]" style={{ color: 'var(--testo-2)' }}>
@@ -149,7 +149,7 @@ export function CardGoogle() {
               <button
                 onClick={() => azione(sincronizzaGoogle)}
                 disabled={inCorso}
-                className="btn-tenue premibile h-[42px] flex-1"
+                className="btn-tenue premibile h-11 flex-1"
               >
                 <IconaAggiorna size={16} />
                 Sync now
@@ -157,7 +157,7 @@ export function CardGoogle() {
               <button
                 onClick={() => azione(() => attivaGoogle(!stato?.abilitato))}
                 disabled={inCorso}
-                className="btn-neutro premibile h-[42px] flex-1 text-[13.5px]"
+                className="btn-neutro premibile h-11 flex-1 text-[13.5px]"
               >
                 {stato?.abilitato ? 'Pause' : 'Resume'}
               </button>
@@ -169,7 +169,7 @@ export function CardGoogle() {
                 azione(scollegaGoogle)
               }}
               disabled={inCorso}
-              className="premibile mt-2 h-[40px] w-full rounded-[14px] text-[13.5px] font-semibold transition-colors hover:bg-[var(--hover)]"
+              className="premibile mt-2 h-11 w-full rounded-full text-[13.5px] font-medium transition-colors hover:bg-[var(--hover)]"
               style={{ color: 'var(--errore)' }}
             >
               Disconnect

@@ -26,3 +26,4 @@ Decisioni stabili, una riga ciascuna, dalla più vecchia.
 - 2026-09-19 — Scope Google `calendar.app.created` (non sensibile): calendario "SmartCal" dedicato, app pubblicata senza verifica.
 - 2026-09-26 — Migrazioni via Management API con ok esplicito di Andrea; mai `supabase db push`.
 - 2026-09-26 — La service_role serve solo nelle Edge Functions (`SUPABASE_SERVICE_ROLE_KEY`, iniettata da Supabase): mai in `.env.local` né su Vercel.
+- 2026-09-27 — Redesign in stile trends (libreria ~/.claude/design), chiesto da Andrea: solo aspetto, token con i nomi storici; niente shadcn vero (le primitive CSS restano); barra in basso su mobile nel flusso, non fixed; delta di Analytics restano neutri.

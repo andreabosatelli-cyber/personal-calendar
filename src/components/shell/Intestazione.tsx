@@ -82,11 +82,11 @@ export function Intestazione({ onApriMenu, mostraMenu, onNuovoEvento }: Props) {
     : ''
 
   return (
-    <header className="flex h-[74px] shrink-0 items-center gap-3 px-4 lg:h-[92px] lg:gap-5 lg:px-[35px]">
+    <header className="flex h-[76px] shrink-0 items-center gap-2 px-4 lg:h-[92px] lg:gap-3 lg:px-[35px]">
       {/* Apertura sidebar su schermi stretti */}
       <button
         onClick={onApriMenu}
-        className={`btn-neutro premibile h-10 w-10 shrink-0 ${daParte} ${mostraMenu ? '' : 'lg:hidden'}`}
+        className={`btn-neutro premibile h-11 w-11 shrink-0 ${daParte} ${mostraMenu ? '' : 'lg:hidden'}`}
         aria-label={mostraMenu ? 'Show sidebar' : 'Open menu'}
         title={mostraMenu ? 'Show sidebar' : undefined}
       >
@@ -103,7 +103,7 @@ export function Intestazione({ onApriMenu, mostraMenu, onNuovoEvento }: Props) {
           cioe' subito dopo il marchio. */}
       <button
         onClick={onNuovoEvento}
-        className={`btn-primario premibile h-10 w-10 shrink-0 !rounded-[11px] lg:hidden ${daParte}`}
+        className={`btn-primario premibile h-11 w-11 shrink-0 lg:hidden ${daParte}`}
         aria-label="New event"
       >
         <IconaPiu size={20} />
@@ -114,7 +114,7 @@ export function Intestazione({ onApriMenu, mostraMenu, onNuovoEvento }: Props) {
       {mostraMenu && (
         <button
           onClick={onNuovoEvento}
-          className="btn-primario premibile hidden h-10 shrink-0 px-3.5 text-[14px] lg:flex"
+          className="btn-primario premibile hidden h-11 shrink-0 px-4 text-[14px] lg:flex"
         >
           <IconaPiu size={18} />
           New event
@@ -124,11 +124,11 @@ export function Intestazione({ onApriMenu, mostraMenu, onNuovoEvento }: Props) {
       {/* Ricerca: da desktop e un campo, qui sotto; su telefono e la lente
           che sta nel gruppo di icone a destra, insieme alle altre. */}
       <label
-        className={`relative h-10 min-w-0 flex-1 items-center lg:flex lg:h-[42px] lg:max-w-[500px] lg:flex-none lg:basis-[500px] ${
+        className={`relative h-11 min-w-0 flex-1 items-center lg:flex lg:h-[46px] lg:max-w-[500px] lg:flex-none lg:basis-[500px] ${
           cercaAperta ? 'flex' : 'hidden'
         }`}
       >
-        <span className="pointer-events-none absolute left-3.5" style={{ color: 'var(--testo-3)' }}>
+        <span className="pointer-events-none absolute left-4" style={{ color: 'var(--testo-2)' }}>
           <IconaCerca size={18} />
         </span>
         <input
@@ -136,14 +136,14 @@ export function Intestazione({ onApriMenu, mostraMenu, onNuovoEvento }: Props) {
           value={ricerca}
           onChange={(e) => setRicerca(e.target.value)}
           placeholder="Search events, people..."
-          className="h-full w-full rounded-[12px] pl-11 pr-11 text-[14.5px] outline-none transition-colors focus:border-[var(--primario)]"
-          style={{ background: 'var(--controllo)', border: '1px solid transparent', color: 'var(--testo)' }}
+          className="h-full w-full rounded-full pl-11 pr-11 text-[15px] outline-none transition-colors placeholder:text-[var(--testo-3)] focus:border-[var(--primario)]"
+          style={{ background: 'var(--controllo)', border: '1.5px solid transparent', color: 'var(--testo)' }}
         />
         {(ricerca || cercaAperta) && (
           <button
             type="button"
             onClick={chiudiCerca}
-            className={`premibile absolute right-2 flex h-8 w-8 items-center justify-center rounded-full ${
+            className={`premibile absolute right-1 flex h-10 w-10 items-center justify-center rounded-full ${
               ricerca ? '' : 'lg:hidden'
             }`}
             style={{ color: 'var(--testo-3)' }}
@@ -161,8 +161,7 @@ export function Intestazione({ onApriMenu, mostraMenu, onNuovoEvento }: Props) {
           stessa scelta resta nel menu dell'account e in Settings. */}
       <button
         onClick={toggleTema}
-        className="premibile hidden h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-[var(--hover)] lg:flex"
-        style={{ color: 'var(--testo-2)' }}
+        className="btn-neutro premibile hidden h-11 w-11 shrink-0 lg:flex"
         aria-label={tema === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
         title={tema === 'dark' ? 'Light theme' : 'Dark theme'}
       >
@@ -171,8 +170,7 @@ export function Intestazione({ onApriMenu, mostraMenu, onNuovoEvento }: Props) {
 
       <button
         onClick={() => setCercaAperta(true)}
-        className={`premibile h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-[var(--hover)] lg:hidden ${cercaAperta ? 'hidden' : 'flex'}`}
-        style={{ color: 'var(--testo-2)' }}
+        className={`btn-neutro premibile h-11 w-11 shrink-0 lg:hidden ${cercaAperta ? '!hidden' : ''}`}
         aria-label="Search"
         aria-expanded={cercaAperta}
       >
@@ -183,15 +181,14 @@ export function Intestazione({ onApriMenu, mostraMenu, onNuovoEvento }: Props) {
       <div className={`relative shrink-0 ${cercaAperta ? 'hidden lg:block' : ''}`}>
         <button
           onClick={() => setNotificheAperte((v) => !v)}
-          className="premibile relative flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-[var(--hover)]"
-          style={{ color: 'var(--testo-2)' }}
+          className="btn-neutro premibile relative h-11 w-11"
           aria-label={`Notifications${richieste.length ? ` (${richieste.length})` : ''}`}
         >
           <IconaCampana size={21} />
           {richieste.length > 0 && (
             <span
-              className="absolute right-1.5 top-1.5 flex h-[16px] min-w-[16px] items-center justify-center rounded-full px-1 text-[10px] font-bold text-white"
-              style={{ background: '#fb3b53', border: '2px solid var(--pagina)' }}
+              className="absolute right-0.5 top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full px-1 text-[10.5px] font-medium"
+              style={{ background: 'var(--notifica)', color: 'var(--su-notifica)', border: '2px solid var(--pagina)' }}
             >
               {richieste.length}
             </span>
@@ -200,22 +197,21 @@ export function Intestazione({ onApriMenu, mostraMenu, onNuovoEvento }: Props) {
         {notificheAperte && <PannelloRichieste onChiudi={() => setNotificheAperte(false)} />}
       </div>
 
-      <div className="hidden h-8 w-px shrink-0 lg:block" style={{ background: 'var(--linea-2)' }} />
 
       {/* Località e ora locale */}
       <div className={`relative shrink-0 ${cercaAperta ? 'hidden lg:block' : ''}`}>
         <button
           onClick={() => setLuogoAperto((v) => !v)}
-          className="premibile flex items-center gap-2.5 rounded-[13px] py-1.5 pl-1.5 pr-2 transition-colors hover:bg-[var(--hover)]"
+          className="premibile flex min-h-11 items-center gap-2.5 rounded-full py-1 pl-1 pr-2.5 transition-colors hover:bg-[var(--hover)]"
         >
           <span
-            className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full"
-            style={{ background: 'var(--tenue)', color: 'var(--primario)' }}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full"
+            style={{ background: 'var(--controllo)', color: 'var(--testo)' }}
           >
             <IconaGlobo size={20} />
           </span>
           <span className="hidden text-left leading-tight sm:block">
-            <span className="block text-[14.5px] font-semibold">
+            <span className="block text-[14.5px] font-medium">
               {opz.etichetta} ({siglaFuso(fuso)})
             </span>
             <span className="block text-[12.5px] tabular-nums" style={{ color: 'var(--testo-2)' }}>
@@ -229,10 +225,10 @@ export function Intestazione({ onApriMenu, mostraMenu, onNuovoEvento }: Props) {
           <>
             <div className="fixed inset-0 z-40" onClick={() => setLuogoAperto(false)} />
             <div
-              className="anim-fade absolute right-0 top-[calc(100%+8px)] z-50 w-[268px] overflow-hidden rounded-[16px] p-1.5"
-              style={{ background: 'var(--card)', border: '1px solid var(--linea)', boxShadow: 'var(--ombra-card)' }}
+              className="anim-fade absolute right-0 top-[calc(100%+8px)] z-50 w-[268px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[20px] p-1.5"
+              style={{ background: 'var(--pagina)', boxShadow: 'var(--ombra-galleggia)' }}
             >
-              <p className="px-2.5 pb-1 pt-1.5 text-[11.5px] font-semibold uppercase tracking-[0.05em]" style={{ color: 'var(--testo-3)' }}>
+              <p className="px-3 pb-1 pt-1.5 text-[13px]" style={{ color: 'var(--testo-2)' }}>
                 Where you are
               </p>
               {FUSI.map((f) => (
@@ -242,15 +238,15 @@ export function Intestazione({ onApriMenu, mostraMenu, onNuovoEvento }: Props) {
                     cambiaFuso(f.id)
                     setLuogoAperto(false)
                   }}
-                  className="flex w-full items-center gap-2.5 rounded-[10px] px-2.5 py-2 text-left transition-colors hover:bg-[var(--hover)]"
-                  style={f.id === fuso ? { background: 'var(--tenue)' } : undefined}
+                  className="flex min-h-11 w-full items-center gap-2.5 rounded-full px-3 py-2 text-left transition-colors hover:bg-[var(--hover)]"
+                  style={f.id === fuso ? { background: 'var(--card)' } : undefined}
                 >
                   <span className="text-[15px]">{f.bandiera}</span>
                   <span className="flex-1 text-[14px] font-medium">{f.etichetta}</span>
                   {f.id === fuso ? (
-                    <IconaSpunta size={14} className="text-[var(--primario)]" />
+                    <IconaSpunta size={15} className="text-[var(--testo)]" />
                   ) : (
-                    <span className="text-[11.5px] tabular-nums" style={{ color: 'var(--testo-3)' }}>
+                    <span className="text-[12.5px] tabular-nums" style={{ color: 'var(--testo-2)' }}>
                       {adesso.setZone(f.id).toFormat('HH:mm')}
                     </span>
                   )}
@@ -258,7 +254,7 @@ export function Intestazione({ onApriMenu, mostraMenu, onNuovoEvento }: Props) {
               ))}
               <div className="my-1.5 h-px" style={{ background: 'var(--linea)' }} />
               <p className="px-2.5 pb-1.5 text-[12.5px]" style={{ color: 'var(--testo-2)' }}>
-                Right now in {altrove}: <span className="font-semibold tabular-nums" style={{ color: 'var(--testo)' }}>{oraAltrove}</span>
+                Right now in {altrove}: <span className="font-medium tabular-nums" style={{ color: 'var(--testo)' }}>{oraAltrove}</span>
               </p>
             </div>
           </>

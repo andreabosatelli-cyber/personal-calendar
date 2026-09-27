@@ -86,35 +86,35 @@ export function PaginaAnalytics() {
       <div className="flex flex-col gap-[21px] xl:flex-row">
         {/* Colonna principale */}
         <div className="flex min-w-0 flex-1 flex-col gap-4">
-          <section className="card flex flex-wrap items-center gap-3 px-[18px] py-[15px]">
+          <section className="card flex flex-wrap items-center gap-3 px-4 py-4 lg:px-5 lg:py-5">
             <div className="flex shrink-0 items-center gap-2">
               <button
                 onClick={() => setAncora(spostaPeriodo(periodo, ancora, -1, fuso))}
-                className="btn-neutro premibile h-10 w-10"
+                className="btn-neutro premibile h-11 w-11"
                 aria-label="Previous period"
               >
                 <IconaChevron size={18} verso="sx" />
               </button>
               <button
                 onClick={() => setAncora(spostaPeriodo(periodo, ancora, 1, fuso))}
-                className="btn-neutro premibile h-10 w-10"
+                className="btn-neutro premibile h-11 w-11"
                 aria-label="Next period"
               >
                 <IconaChevron size={18} verso="dx" />
               </button>
             </div>
 
-            <h2 className="min-w-0 flex-1 truncate pl-1 text-[22px] font-bold">
+            <h2 className="min-w-0 flex-1 truncate pl-1 text-[22px] font-medium tracking-[-0.03em] lg:text-[28px]">
               {etichettaPeriodo(periodo, ancora, fuso)}
             </h2>
 
-            <div className="flex w-full shrink-0 items-center justify-end gap-2.5 sm:w-auto">
+            <div className="flex w-full shrink-0 items-center justify-between gap-2 sm:w-auto sm:justify-end sm:gap-2.5">
               <div className="seg">
                 {PERIODI.map((p) => (
                   <button
                     key={p}
                     onClick={() => setPeriodo(p)}
-                    className={`seg-item premibile ${p === periodo ? 'attivo' : ''}`}
+                    className={`seg-item premibile !px-[0.85rem] sm:!px-[1.1rem] ${p === periodo ? 'attivo' : ''}`}
                   >
                     {NOME_BREVE_PERIODO[p]}
                   </button>
@@ -123,7 +123,7 @@ export function PaginaAnalytics() {
               <button
                 onClick={() => setAncora(oggi)}
                 disabled={nelPeriodo}
-                className="btn-neutro premibile h-[42px] px-[18px] disabled:opacity-45"
+                className="btn-neutro premibile h-11 shrink-0 px-4 lg:px-5 disabled:opacity-45"
               >
                 Today
               </button>
@@ -132,7 +132,7 @@ export function PaginaAnalytics() {
 
           {errore && (
             <p
-              className="rounded-[12px] px-3 py-2.5 text-center text-[12.5px]"
+              className="rounded-[22px] px-3 py-2.5 text-center text-[12.5px]"
               style={{ background: 'var(--cat-viaggi-bg)', color: 'var(--cat-viaggi-fg)' }}
             >
               Offline — analytics needs the server to add up your events.
@@ -181,7 +181,7 @@ export function PaginaAnalytics() {
                 {fmtOre(d.dist.totaleOre)}h · {d.dist.totaleEventi} events
               </span>
             </TestataCard>
-            <div className="px-[18px] pt-1 pb-[18px]">
+            <div className="px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
               <Barre dati={d.serie} passoEtichette={periodo === 'month' ? 5 : 1} />
               <LegendaCategorie dati={d.serie} />
             </div>
@@ -193,7 +193,7 @@ export function PaginaAnalytics() {
                 {fmtOre(d.fuori.ore)}h outside
               </span>
             </TestataCard>
-            <div className="px-[18px] pt-1 pb-[18px]">
+            <div className="px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
               <StrisciaGiorno carico={d.carico} banda={banda} />
             </div>
           </section>
@@ -201,7 +201,7 @@ export function PaginaAnalytics() {
           {periodo !== 'week' && (
             <section className="card overflow-hidden">
               <TestataCard titolo="By weekday" />
-              <div className="px-[18px] pt-1 pb-[18px]">
+              <div className="px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
                 <Barre dati={d.settimana} altezza={132} />
                 <div className="mt-3.5">
                   <PiuCarica barra={piuCarica(d.settimana)} etichetta="Busiest weekday:" />
@@ -216,12 +216,12 @@ export function PaginaAnalytics() {
           <section className="card overflow-hidden">
             <TestataCard titolo="Time distribution" />
             {d.dist.totaleOre > 0 ? (
-              <div className="flex items-center gap-4 px-[18px] pt-1 pb-[18px]">
+              <div className="flex items-center gap-4 px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
                 <Donut quote={d.dist.quote} totaleOre={d.dist.totaleOre} />
                 <LegendaDonut quote={d.dist.quote} nomi={nomeBreve} mostraOre />
               </div>
             ) : (
-              <p className="px-[18px] pt-1 pb-5 text-[13px]" style={{ color: 'var(--testo-3)' }}>
+              <p className="px-5 lg:px-6 pt-1 pb-5 text-[13px]" style={{ color: 'var(--testo-3)' }}>
                 No scheduled hours in this period.
               </p>
             )}
@@ -229,7 +229,7 @@ export function PaginaAnalytics() {
 
           <section className="card overflow-hidden">
             <TestataCard titolo="Across two clocks" />
-            <div className="flex flex-col px-[18px] pt-1 pb-[18px]">
+            <div className="flex flex-col px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
               <RigaValore
                 etichetta="Outside your day"
                 valore={`${fmtOre(d.fuori.ore)}h`}
@@ -259,7 +259,7 @@ export function PaginaAnalytics() {
 
           <section className="card overflow-hidden">
             <TestataCard titolo="Activity" />
-            <div className="flex flex-col px-[18px] pt-1 pb-[18px]">
+            <div className="flex flex-col px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
               <RigaValore etichetta="Work meetings" valore={String(d.conta.riunioni)} colore={COLORI_ORIGINE.lavoro.punto} />
               <RigaValore etichetta="Classes" valore={String(d.conta.lezioni)} colore={COLORI_ORIGINE.universita.punto} />
               <RigaValore

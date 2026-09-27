@@ -16,11 +16,11 @@ interface Props {
 export function CardViaggi({ viaggi, fuso, periodo, onPeriodo, onApri }: Props) {
   return (
     <section className="card overflow-hidden">
-      <TestataCard titolo="Trips">
+      <TestataCard stretta titolo="Trips">
         <SelettorePeriodo valore={periodo} onCambia={onPeriodo} />
       </TestataCard>
 
-      <div className="px-[18px] pb-1">
+      <div className="px-5 lg:px-6 pb-1">
         <MappaViaggi viaggi={viaggi} fuso={fuso} />
       </div>
 
@@ -32,12 +32,12 @@ export function CardViaggi({ viaggi, fuso, periodo, onPeriodo, onApri }: Props) 
             <button
               key={v.id}
               onClick={() => onApri(v)}
-              className="flex w-full items-center gap-3 rounded-[12px] px-2.5 py-[9px] text-left transition-colors hover:bg-[var(--hover)]"
+              className="flex w-full items-center gap-3 rounded-[22px] px-2.5 py-[9px] text-left transition-colors hover:bg-[var(--hover)]"
             >
               <span className="shrink-0" style={{ color: 'var(--cat-viaggi)' }}>
                 <IconaAereo size={19} />
               </span>
-              <span className="min-w-0 flex-1 truncate text-[14px] font-semibold">{v.destinazione}</span>
+              <span className="min-w-0 flex-1 truncate text-[14px] font-medium">{v.destinazione}</span>
               <span className="shrink-0 text-[12.5px] tabular-nums" style={{ color: 'var(--testo-2)' }}>
                 {intervalloViaggio(v)}
               </span>

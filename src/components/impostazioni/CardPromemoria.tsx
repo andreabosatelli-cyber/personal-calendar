@@ -67,9 +67,9 @@ export function CardPromemoria() {
   return (
     <section className="card overflow-hidden">
       <TestataCard titolo="Reminders" />
-      <div className="px-[18px] pb-[18px] pt-1">
+      <div className="px-5 lg:px-6 pb-5 lg:pb-6 pt-1">
         {/* Anticipo */}
-        <p className="mb-1.5 text-[12.5px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+        <p className="mb-1.5 text-[12.5px] font-medium" style={{ color: 'var(--testo-2)' }}>
           Notify me
         </p>
         <div className="seg">
@@ -97,7 +97,7 @@ export function CardPromemoria() {
 
         {/* Questo dispositivo */}
         <div className="mt-4 h-px" style={{ background: 'var(--linea)' }} />
-        <p className="mb-1.5 mt-3 text-[12.5px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+        <p className="mb-1.5 mt-3 text-[12.5px] font-medium" style={{ color: 'var(--testo-2)' }}>
           This device
         </p>
 

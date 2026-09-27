@@ -72,28 +72,28 @@ export function PaginaViaggi({ onApriEvento }: Props) {
     <div className="h-full overflow-y-auto px-4 pb-[22px] pt-[5px] scroll-fine lg:pl-5 lg:pr-4">
       <div className="flex flex-col gap-[21px] xl:flex-row">
         <div className="flex min-w-0 flex-1 flex-col gap-4">
-          <section className="card flex flex-wrap items-center gap-3 px-[18px] py-[15px]">
+          <section className="card flex flex-wrap items-center gap-3 px-4 py-4 lg:px-5 lg:py-5">
             <div className="flex shrink-0 items-center gap-2">
               <button
                 onClick={() => setAncora(spostaPeriodo('year', ancora, -1, fuso))}
-                className="btn-neutro premibile h-10 w-10"
+                className="btn-neutro premibile h-11 w-11"
                 aria-label="Previous year"
               >
                 <IconaChevron size={18} verso="sx" />
               </button>
               <button
                 onClick={() => setAncora(spostaPeriodo('year', ancora, 1, fuso))}
-                className="btn-neutro premibile h-10 w-10"
+                className="btn-neutro premibile h-11 w-11"
                 aria-label="Next year"
               >
                 <IconaChevron size={18} verso="dx" />
               </button>
             </div>
-            <h2 className="min-w-0 flex-1 truncate pl-1 text-[22px] font-bold">{anno}</h2>
+            <h2 className="min-w-0 flex-1 truncate pl-1 text-[22px] font-medium tracking-[-0.03em] lg:text-[28px]">{anno}</h2>
             <button
               onClick={() => setAncora(oggi)}
               disabled={anno === DateTime.fromISO(oggi).year}
-              className="btn-neutro premibile h-[42px] shrink-0 px-[18px] disabled:opacity-45"
+              className="btn-neutro premibile h-11 shrink-0 px-5 lg:px-6 disabled:opacity-45"
             >
               This year
             </button>
@@ -101,7 +101,7 @@ export function PaginaViaggi({ onApriEvento }: Props) {
 
           {errore && (
             <p
-              className="rounded-[12px] px-3 py-2.5 text-center text-[12.5px]"
+              className="rounded-[22px] px-3 py-2.5 text-center text-[12.5px]"
               style={{ background: 'var(--cat-viaggi-bg)', color: 'var(--cat-viaggi-fg)' }}
             >
               Offline — trips are built from the events on the server.
@@ -126,7 +126,7 @@ export function PaginaViaggi({ onApriEvento }: Props) {
                 from {opzioneFuso(fuso).etichetta}
               </span>
             </TestataCard>
-            <div className="px-[18px] pt-1 pb-[18px]">
+            <div className="px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
               <MappaViaggi viaggi={d.viaggi} fuso={fuso} />
               {d.viaggi.length > 0 && (
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -195,11 +195,11 @@ function Elenco({
         </span>
       </TestataCard>
       {viaggi.length === 0 ? (
-        <p className="px-[18px] pt-1 pb-5 text-[13px]" style={{ color: 'var(--testo-3)' }}>
+        <p className="px-5 lg:px-6 pt-1 pb-5 text-[13px]" style={{ color: 'var(--testo-3)' }}>
           {vuoto}
         </p>
       ) : (
-        <div className="flex flex-col gap-3 px-[18px] pt-1 pb-[18px]">
+        <div className="flex flex-col gap-3 px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
           {viaggi.map((v) => (
             <SchedaViaggio key={v.id} v={v} fuso={fuso} oggi={oggi} altri={altri(v)} onApriEvento={onApriEvento} />
           ))}
@@ -235,24 +235,24 @@ function SchedaViaggio({
   const inCorso = oggi >= v.da && oggi <= v.a
   return (
     <article
-      className="rounded-[14px] p-3"
+      className="rounded-[22px] p-3"
       style={{ background: 'var(--controllo)', border: inCorso ? '1.5px solid var(--cat-viaggi)' : '1px solid transparent' }}
     >
       <div className="flex items-start gap-3">
         <span
-          className="mt-[1px] flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[11px]"
+          className="mt-[1px] flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[22px]"
           style={{ background: 'var(--cat-viaggi-bg)', color: 'var(--cat-viaggi)' }}
         >
           <IconaAereo size={18} />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[15px] font-bold leading-tight">{v.destinazione}</p>
+          <p className="truncate text-[15px] font-medium leading-tight">{v.destinazione}</p>
           <p className="mt-[3px] text-[12.5px] tabular-nums" style={{ color: 'var(--testo-2)' }}>
             {intervalloViaggio(v)} · {v.giorni} {v.giorni === 1 ? 'day' : 'days'}
           </p>
         </div>
         <span
-          className="shrink-0 rounded-[8px] px-2 py-1 text-[11.5px] font-semibold"
+          className="shrink-0 rounded-[8px] px-2 py-1 text-[11.5px] font-medium"
           style={{
             background: inCorso ? 'var(--cat-viaggi)' : 'var(--card)',
             color: inCorso ? '#fff' : 'var(--testo-2)',
@@ -270,7 +270,7 @@ function SchedaViaggio({
               <button
                 key={ev.id}
                 onClick={() => onApriEvento(ev)}
-                className="flex items-center gap-2.5 rounded-[10px] px-2 py-1.5 text-left transition-colors hover:bg-[var(--card)]"
+                className="flex items-center gap-2.5 rounded-[22px] px-2 py-1.5 text-left transition-colors hover:bg-[var(--card)]"
               >
                 <span className="shrink-0" style={{ color: 'var(--testo-3)' }}>
                   <IconaLuogo size={15} />

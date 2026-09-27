@@ -3,6 +3,7 @@ import { DateTime } from 'luxon'
 import { useStato } from '../lib/stato'
 import { SelettoreFuso } from './SelettoreFuso'
 import { fusoDelBrowser, opzioneFuso } from '../lib/tempo'
+import { Marchio } from './Marchio'
 
 // Primo accesso di un account nuovo. Tre domande, nessuna delle quali si può
 // indovinare dal codice: come si chiama chi scrive (lo legge chi riceve il link
@@ -53,9 +54,9 @@ export function Onboarding() {
     <div className="flex min-h-full items-center justify-center px-4 py-8" style={{ background: 'var(--sidebar)' }}>
       <div className="card w-full max-w-[460px] overflow-hidden">
         <div className="flex items-center gap-3 px-6 pt-7">
-          <img src="/icona-192.png" alt="" width={44} height={44} className="rounded-[13px]" />
+          <Marchio size={44} />
           <div className="leading-tight">
-            <h1 className="text-[21px] font-bold">Welcome to SmartCal</h1>
+            <h1 className="text-[21px] font-medium">Welcome to SmartCal</h1>
             <p className="text-[12.5px]" style={{ color: 'var(--testo-2)' }}>
               Two questions and your calendar is yours.
             </p>
@@ -65,7 +66,7 @@ export function Onboarding() {
         {passo === 1 ? (
           <>
             <div className="px-6 pt-6">
-              <label className="mb-1.5 block text-[12.5px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+              <label className="mb-1.5 block text-[12.5px] font-medium" style={{ color: 'var(--testo-2)' }}>
                 Your name
               </label>
               <input
@@ -85,7 +86,7 @@ export function Onboarding() {
             </div>
 
             <div className="px-6 pt-5">
-              <p className="text-[12.5px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+              <p className="text-[12.5px] font-medium" style={{ color: 'var(--testo-2)' }}>
                 Where you are
               </p>
               <p className="mb-1 mt-0.5 text-[12px]" style={{ color: 'var(--testo-3)' }}>
@@ -103,7 +104,7 @@ export function Onboarding() {
         ) : (
           <>
             <div className="px-6 pt-6">
-              <p className="text-[12.5px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+              <p className="text-[12.5px] font-medium" style={{ color: 'var(--testo-2)' }}>
                 A second timezone?
               </p>
               <p className="mb-1 mt-0.5 text-[12px]" style={{ color: 'var(--testo-3)' }}>
@@ -131,7 +132,7 @@ export function Onboarding() {
             <div className="flex items-center justify-between gap-2 px-6 pb-6 pt-1">
               <button
                 onClick={() => setPasso(1)}
-                className="h-[44px] px-1 text-[13.5px] font-semibold transition-opacity hover:opacity-70"
+                className="h-[44px] px-1 text-[13.5px] font-medium transition-opacity hover:opacity-70"
                 style={{ color: 'var(--testo-2)' }}
               >
                 Back

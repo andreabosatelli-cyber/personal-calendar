@@ -229,6 +229,16 @@ export function IconaLuna(p: P) {
   )
 }
 
+export function IconaAltro(p: P) {
+  return (
+    <Svg {...p}>
+      <circle cx="5.5" cy="12" r="1.4" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
+      <circle cx="18.5" cy="12" r="1.4" fill="currentColor" stroke="none" />
+    </Svg>
+  )
+}
+
 export function IconaEsci(p: P) {
   return (
     <Svg {...p}>

@@ -30,7 +30,7 @@ export function PaginaScheduling() {
         <div className="flex min-w-0 flex-1 flex-col gap-4">
           <section className="card overflow-hidden">
             <TestataCard titolo="Your booking link" />
-            <div className="px-[18px] pt-1 pb-[18px]">
+            <div className="px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
               {link ? (
                 <>
                   <div className="flex flex-col gap-2.5 sm:flex-row">
@@ -42,7 +42,7 @@ export function PaginaScheduling() {
                       aria-label="Public booking link"
                     />
                     <div className="flex shrink-0 gap-2.5">
-                      <button onClick={copia} className="btn-primario premibile h-[42px] flex-1 px-4 sm:flex-none">
+                      <button onClick={copia} className="btn-primario premibile h-11 flex-1 px-4 sm:flex-none">
                         {copiato ? <IconaSpunta size={17} /> : <IconaCondividi size={17} />}
                         {copiato ? 'Copied' : 'Copy link'}
                       </button>
@@ -50,7 +50,7 @@ export function PaginaScheduling() {
                         href={link}
                         target="_blank"
                         rel="noreferrer"
-                        className="btn-neutro premibile flex h-[42px] flex-1 items-center justify-center px-4 sm:flex-none"
+                        className="btn-neutro premibile flex h-11 flex-1 items-center justify-center px-4 sm:flex-none"
                       >
                         Preview
                       </a>
@@ -73,7 +73,7 @@ export function PaginaScheduling() {
 
           <section className="card overflow-hidden">
             <TestataCard titolo="How a booking works" />
-            <div className="flex flex-col gap-3.5 px-[18px] pt-2 pb-[18px]">
+            <div className="flex flex-col gap-3.5 px-5 lg:px-6 pt-2 pb-5 lg:pb-6">
               {[
                 'They open the link and see your week as free / busy only.',
                 'They pick a slot in their own timezone — the page shows it twice, their time and yours.',
@@ -82,8 +82,8 @@ export function PaginaScheduling() {
               ].map((t, i) => (
                 <p key={t} className="flex items-start gap-3 text-[13.5px]">
                   <span
-                    className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full text-[12px] font-bold"
-                    style={{ background: 'var(--tenue)', color: 'var(--primario)' }}
+                    className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full text-[12px] font-medium"
+                    style={{ background: 'var(--primario)', color: 'var(--su-primario)' }}
                   >
                     {i + 1}
                   </span>
@@ -99,15 +99,15 @@ export function PaginaScheduling() {
             <TestataCard titolo="Requests">
               {richieste.length > 0 && (
                 <span
-                  className="shrink-0 rounded-full px-2 py-0.5 text-[11.5px] font-bold"
-                  style={{ background: 'var(--tenue)', color: 'var(--primario)' }}
+                  className="shrink-0 rounded-full px-2 py-0.5 text-[11.5px] font-medium"
+                  style={{ background: 'var(--primario)', color: 'var(--su-primario)' }}
                 >
                   {richieste.length}
                 </span>
               )}
             </TestataCard>
             {richieste.length === 0 ? (
-              <div className="flex flex-col items-center gap-2 px-[18px] py-9 text-center">
+              <div className="flex flex-col items-center gap-2 px-5 lg:px-6 py-9 text-center">
                 <span style={{ color: 'var(--testo-3)' }}>
                   <IconaCampana size={26} />
                 </span>
@@ -116,7 +116,7 @@ export function PaginaScheduling() {
                 </p>
               </div>
             ) : (
-              <div className="flex flex-col gap-3 px-[18px] pt-1 pb-[18px]">
+              <div className="flex flex-col gap-3 px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
                 {richieste.map((r) => (
                   <Richiesta
                     key={r.id}
@@ -173,8 +173,8 @@ function Richiesta({
   }
 
   return (
-    <article className="rounded-[14px] p-3" style={{ background: 'var(--controllo)' }}>
-      <p className="truncate text-[14.5px] font-semibold leading-tight">{titolo}</p>
+    <article className="rounded-[22px] p-3" style={{ background: 'var(--controllo)' }}>
+      <p className="truncate text-[14.5px] font-medium leading-tight">{titolo}</p>
       {richiedente && (
         <p className="mt-0.5 text-[12.5px]" style={{ color: 'var(--testo-2)' }}>
           {richiedente}
@@ -205,7 +205,7 @@ function Richiesta({
         <button
           onClick={() => decidi(true)}
           disabled={inCorso}
-          className="btn-primario premibile h-9 flex-1 text-[13.5px] disabled:opacity-60"
+          className="btn-primario premibile h-11 flex-1 text-[13.5px] disabled:opacity-60"
           style={{ boxShadow: 'none' }}
         >
           Accept
@@ -213,7 +213,7 @@ function Richiesta({
         <button
           onClick={() => decidi(false)}
           disabled={inCorso}
-          className="btn-neutro premibile h-9 flex-1 text-[13.5px] disabled:opacity-60"
+          className="btn-neutro premibile h-11 flex-1 text-[13.5px] disabled:opacity-60"
           style={{ color: 'var(--errore)' }}
         >
           Decline

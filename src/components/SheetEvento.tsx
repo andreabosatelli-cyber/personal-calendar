@@ -84,13 +84,12 @@ function messaggioErrore(err: unknown): string {
 function Contenitore({ onChiudi, children }: { onChiudi: () => void; children: React.ReactNode }) {
   return (
     <div className="fixed inset-0 z-[80] flex items-end justify-center lg:items-center" onClick={onChiudi}>
-      <div className="anim-fade absolute inset-0" style={{ background: 'rgb(20 18 40 / 0.42)' }} />
+      <div className="anim-fade absolute inset-0" style={{ background: 'var(--velo)' }} />
       <div
-        className="anim-sheet-su relative max-h-[92vh] w-full max-w-[460px] overflow-y-auto scroll-fine rounded-t-[22px] px-[22px] pb-8 pt-4 lg:rounded-[20px] lg:pb-6"
+        className="anim-sheet-su relative max-h-[92vh] w-full max-w-[480px] overflow-y-auto scroll-fine rounded-t-[28px] px-5 pb-8 pt-4 lg:rounded-[28px] lg:px-7 lg:pb-7 lg:pt-6"
         style={{
-          background: 'var(--card)',
-          border: '1px solid var(--linea)',
-          boxShadow: '0 24px 60px -18px rgb(20 18 40 / 0.35)',
+          background: 'var(--pagina)',
+          boxShadow: 'var(--ombra-galleggia)',
           paddingBottom: 'calc(2rem + env(safe-area-inset-bottom))',
         }}
         onClick={(e) => e.stopPropagation()}
@@ -104,7 +103,7 @@ function Contenitore({ onChiudi, children }: { onChiudi: () => void; children: R
 
 function Etichetta({ children }: { children: React.ReactNode }) {
   return (
-    <span className="mb-1.5 block text-[12.5px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+    <span className="mb-1.5 block text-[13.5px]" style={{ color: 'var(--testo-2)' }}>
       {children}
     </span>
   )
@@ -414,14 +413,13 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
     <Contenitore onChiudi={onChiudi}>
       <form onSubmit={salva}>
         <div className="mb-5 flex items-start justify-between gap-3">
-          <h2 className="text-[22px] font-bold">
+          <h2 className="text-[28px] font-medium leading-tight">
             {evento ? 'Edit event' : suCondiviso ? `Book with ${destinatario?.nome ?? ''}` : 'New event'}
           </h2>
           <button
             type="button"
             onClick={onChiudi}
-            className="premibile -mr-1 -mt-0.5 flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-[var(--hover)]"
-            style={{ color: 'var(--testo-3)' }}
+            className="btn-neutro premibile -mr-1 -mt-0.5 h-11 w-11 shrink-0"
             aria-label="Close"
           >
             <IconaChiudi size={17} />
@@ -438,10 +436,10 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
               <button
                 type="button"
                 onClick={() => setDestinazione('io')}
-                className="premibile rounded-[11px] px-3 py-2 text-[13px] font-semibold transition-colors"
+                className="premibile min-h-11 rounded-full px-4 py-2 text-[14px] font-medium transition-colors"
                 style={
                   !suCondiviso
-                    ? { background: 'var(--tenue)', color: 'var(--primario)', boxShadow: 'inset 0 0 0 1.5px var(--primario)' }
+                    ? { background: 'var(--primario)', color: 'var(--su-primario)' }
                     : { background: 'var(--controllo)', color: 'var(--testo-2)' }
                 }
               >
@@ -454,10 +452,10 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
                     key={c.id}
                     type="button"
                     onClick={() => setDestinazione(c.proprietario_id)}
-                    className="premibile rounded-[11px] px-3 py-2 text-[13px] font-semibold transition-colors"
+                    className="premibile min-h-11 rounded-full px-4 py-2 text-[14px] font-medium transition-colors"
                     style={
                       sel
-                        ? { background: 'var(--tenue)', color: 'var(--primario)', boxShadow: 'inset 0 0 0 1.5px var(--primario)' }
+                        ? { background: 'var(--primario)', color: 'var(--su-primario)' }
                         : { background: 'var(--controllo)', color: 'var(--testo-2)' }
                     }
                   >
@@ -485,7 +483,7 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
                 key={tp.id}
                 type="button"
                 onClick={() => setOrigine(tp.id)}
-                className="premibile flex flex-col items-center gap-1.5 rounded-[12px] py-2.5 text-[12.5px] font-semibold transition-colors"
+                className="premibile flex min-h-[60px] flex-col items-center justify-center gap-1.5 rounded-[22px] py-2.5 text-[13.5px] font-medium transition-colors"
                 style={
                   sel
                     ? { background: c.sfondo, color: c.testo, boxShadow: `inset 0 0 0 1.5px ${c.punto}` }
@@ -504,7 +502,7 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
           placeholder={origine === 'viaggi' ? 'Where are you? e.g. Menorca' : 'Event title'}
           value={titolo}
           onChange={(e) => setTitolo(e.target.value)}
-          className="campo mb-3 !text-[17px] !font-semibold"
+          className="campo mb-3 !text-[17px] !font-medium"
         />
         {/* Due date sempre presenti. Uguali di default: l'evento in giornata
             resta il caso di un tocco solo, ma "in viaggio dal 5 al 10" adesso
@@ -546,7 +544,7 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
         )}
 
         <label
-          className="mb-3 flex min-h-[46px] cursor-pointer items-center justify-between rounded-[11px] px-3.5"
+          className="mb-3 flex min-h-[52px] cursor-pointer items-center justify-between rounded-[18px] px-4"
           style={{ background: 'var(--controllo)' }}
         >
           <span className="text-[14.5px] font-medium">All day</span>
@@ -615,20 +613,20 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
             {/* Riconciliazione live (inutile se l'asse è già Roma) */}
             {anteprima && !aCasa && (
               <div
-                className="mb-3 rounded-[12px] px-3.5 py-2.5 text-[13px]"
+                className="mb-3 rounded-[22px] px-3.5 py-2.5 text-[13px]"
                 style={{ background: 'var(--tenue)' }}
               >
                 <div className="flex justify-between tabular-nums">
                   <span style={{ color: 'var(--testo-2)' }}>
                     {opzLoc.bandiera} {opzLoc.etichetta}
                   </span>
-                  <span className="font-semibold">{anteprima.loc}</span>
+                  <span className="font-medium">{anteprima.loc}</span>
                 </div>
                 <div className="mt-1 flex justify-between tabular-nums">
                   <span style={{ color: 'var(--testo-2)' }}>
                     {opzRif.bandiera} {opzRif.etichetta}
                   </span>
-                  <span className="font-semibold">{anteprima.rom}</span>
+                  <span className="font-medium">{anteprima.rom}</span>
                 </div>
                 {anteprima.giornoDiverso && (
                   <div className="mt-1.5 text-[11.5px]" style={{ color: 'var(--testo-2)' }}>
@@ -702,12 +700,12 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
                       onChange={(e) =>
                         setRic({ ...ric, intervallo: Math.min(365, Math.max(1, Number(e.target.value) || 1)) })
                       }
-                      className="campo min-h-[42px] w-[78px] tabular-nums"
+                      className="campo min-h-11 w-[78px] tabular-nums"
                     />
                     <select
                       value={ric.unita}
                       onChange={(e) => setRic({ ...ric, unita: e.target.value as UnitaRicorrenza })}
-                      className="campo min-h-[42px] flex-1"
+                      className="campo min-h-11 flex-1"
                     >
                       {(['giorni', 'settimane', 'mesi'] as UnitaRicorrenza[]).map((u) => (
                         <option key={u} value={u}>
@@ -724,7 +722,7 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
                       <select
                         value={ric.fineTipo}
                         onChange={(e) => cambiaFineTipo(e.target.value as Ricorrenza['fineTipo'])}
-                        className="campo min-h-[42px] flex-1"
+                        className="campo min-h-11 flex-1"
                       >
                         <option value="mai">Never ends</option>
                         <option value="data">Ends on</option>
@@ -736,7 +734,7 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
                           min={giorno}
                           value={ric.fineData ?? ''}
                           onChange={(e) => setRic({ ...ric, fineData: e.target.value || null })}
-                          className="campo min-h-[42px] flex-1 tabular-nums"
+                          className="campo min-h-11 flex-1 tabular-nums"
                         />
                       )}
                       {ric.fineTipo === 'conteggio' && (
@@ -752,7 +750,7 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
                                 fineConteggio: Math.min(500, Math.max(2, Number(e.target.value) || 2)),
                               })
                             }
-                            className="campo min-h-[42px] w-[78px] tabular-nums"
+                            className="campo min-h-11 w-[78px] tabular-nums"
                           />
                           <span className="shrink-0 text-[13.5px]" style={{ color: 'var(--testo-2)' }}>
                             times
@@ -802,7 +800,7 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
         <button
           type="submit"
           disabled={inCorso || dateInvertite}
-          className="btn-primario premibile h-[48px] w-full !text-[16px]"
+          className="btn-primario premibile h-[52px] w-full !text-[16px]"
         >
           {inCorso ? 'Saving…' : 'Save event'}
         </button>
@@ -811,7 +809,7 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
             type="button"
             onClick={cancella}
             disabled={inCorso}
-            className="premibile mt-2 h-[44px] w-full rounded-[14px] text-[14.5px] font-semibold transition-colors hover:bg-[var(--hover)]"
+            className="premibile mt-2 h-[48px] w-full rounded-full text-[14.5px] font-medium transition-colors hover:bg-[var(--hover)]"
             style={{ color: 'var(--errore)' }}
           >
             {ricorrente && ambito === 'serie' ? 'Delete this and following' : 'Delete event'}
@@ -888,7 +886,7 @@ function Intestazione({
   return (
     <>
       <div className="flex items-start justify-between gap-3">
-        <p className="flex items-center gap-2 text-[12.5px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+        <p className="flex items-center gap-2 text-[12.5px] font-medium" style={{ color: 'var(--testo-2)' }}>
           <span
             className="inline-block h-[9px] w-[9px] rounded-full"
             style={{ background: colore ?? COLORI_ORIGINE[origine].punto }}
@@ -897,14 +895,13 @@ function Intestazione({
         </p>
         <button
           onClick={onChiudi}
-          className="premibile -mr-1 -mt-1 flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-[var(--hover)]"
-          style={{ color: 'var(--testo-3)' }}
+          className="btn-neutro premibile -mr-1 -mt-1 h-11 w-11 shrink-0"
           aria-label="Close"
         >
           <IconaChiudi size={17} />
         </button>
       </div>
-      <h2 className="mb-4 mt-1.5 text-[22px] font-bold">{titolo}</h2>
+      <h2 className="mb-4 mt-1.5 text-[22px] font-medium">{titolo}</h2>
     </>
   )
 }
@@ -972,7 +969,7 @@ function Richiesta({
       <button
         onClick={() => azione(rifiutaRichiesta)}
         disabled={inCorso}
-        className="premibile mt-2 h-[44px] w-full rounded-[14px] text-[14.5px] font-semibold transition-colors hover:bg-[var(--hover)]"
+        className="premibile mt-2 h-[48px] w-full rounded-full text-[14.5px] font-medium transition-colors hover:bg-[var(--hover)]"
         style={{ color: 'var(--errore)' }}
       >
         Decline
@@ -1018,7 +1015,7 @@ function ReadOnly({
         ) : (
           <span className="tabular-nums">
             {eMultiGiorno(evento) && (
-              <span className="mr-1.5 font-semibold">{intervalloDate(evento)} ·</span>
+              <span className="mr-1.5 font-medium">{intervalloDate(evento)} ·</span>
             )}
             {opz.bandiera} {orari.principale.replace('–', ' – ')}
             {!asseUnico(fuso) && (

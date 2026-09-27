@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { supabase } from '../lib/supabase'
+import { Marchio } from './Marchio'
 
 // Gate di autenticazione email/password. Chiunque riceva il link puo'
 // registrarsi: l'account nuovo parte vuoto e passa dall'onboarding.
@@ -39,23 +40,23 @@ export function Login() {
     <div className="flex min-h-full items-center justify-center px-6" style={{ background: 'var(--sidebar)' }}>
       <form onSubmit={invia} className="card w-full max-w-[400px] p-8">
         <div className="mb-6 flex items-center gap-3">
-          <img src="/icona-192.png" alt="" width={48} height={48} className="rounded-[14px]" />
+          <Marchio size={48} />
           <div className="leading-tight">
-            <h1 className="text-[23px] font-bold">SmartCal</h1>
+            <h1 className="text-[23px] font-medium">SmartCal</h1>
             <p className="text-[12.5px]" style={{ color: 'var(--testo-2)' }}>
               Your time, unified.
             </p>
           </div>
         </div>
 
-        <h2 className="text-[19px] font-bold">{modo === 'accedi' ? 'Welcome back' : 'Create your account'}</h2>
+        <h2 className="text-[19px] font-medium">{modo === 'accedi' ? 'Welcome back' : 'Create your account'}</h2>
         <p className="mb-6 mt-1 text-[14px]" style={{ color: 'var(--testo-2)' }}>
           {modo === 'accedi'
             ? 'Sign in to pick your calendar back up.'
             : 'Your calendar, your categories, your timezones.'}
         </p>
 
-        <label className="mb-1.5 block text-[12.5px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+        <label className="mb-1.5 block text-[12.5px] font-medium" style={{ color: 'var(--testo-2)' }}>
           Email
         </label>
         <input
@@ -67,7 +68,7 @@ export function Login() {
           className="campo mb-4"
         />
 
-        <label className="mb-1.5 block text-[12.5px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+        <label className="mb-1.5 block text-[12.5px] font-medium" style={{ color: 'var(--testo-2)' }}>
           Password
         </label>
         <input
@@ -102,7 +103,7 @@ export function Login() {
             setErrore(null)
             setMessaggio(null)
           }}
-          className="mt-3 h-[40px] w-full text-[13.5px] font-semibold transition-opacity hover:opacity-70"
+          className="mt-3 h-11 w-full text-[13.5px] font-medium transition-opacity hover:opacity-70"
           style={{ color: 'var(--primario)' }}
         >
           {modo === 'accedi' ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}

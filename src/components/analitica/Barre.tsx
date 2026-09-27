@@ -34,7 +34,7 @@ export function Barre({ dati, altezza = 168, passoEtichette = 1 }: Props) {
           <div
             key={t}
             className="pointer-events-none absolute right-0 left-[34px]"
-            style={{ bottom: `${t * 100}%`, borderTop: '1px solid var(--linea)' }}
+            style={{ bottom: `${t * 100}%`, borderTop: t === 0 ? '1px solid var(--linea)' : '1px dashed transparent' }}
           />
         ))}
         {[0, 0.5, 1].map((t) => (
@@ -68,7 +68,7 @@ export function Barre({ dati, altezza = 168, passoEtichette = 1 }: Props) {
                 style={{
                   left: `${((i + 0.5) / dati.length) * 100}%`,
                   transform: 'translateX(-50%)',
-                  color: b.corrente ? 'var(--primario)' : 'var(--testo-3)',
+                  color: b.corrente ? 'var(--testo)' : 'var(--testo-3)',
                   fontWeight: b.corrente ? 650 : 400,
                 }}
               >
@@ -101,7 +101,7 @@ function Colonna({ barra, max }: { barra: Barra; max: number }) {
   return (
     <span
       title={titolo}
-      className="flex min-w-0 flex-1 flex-col justify-end overflow-hidden rounded-t-[5px] transition-opacity hover:opacity-80"
+      className="flex min-w-0 flex-1 flex-col justify-end overflow-hidden rounded-t-[999px] transition-opacity hover:opacity-80"
       style={{ height: `${Math.min(100, (barra.totale / max) * 100)}%` }}
     >
       {ORIGINI.filter((o) => barra.ore[o] > 0).map((o) => (

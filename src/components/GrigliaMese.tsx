@@ -106,7 +106,7 @@ export function GrigliaMese({ perGiorno, giorni, ancora, fuso, onApri, onApriGio
         {GIORNI_SETT.map((g, i) => (
           <div
             key={g}
-            className="py-[13px] text-center text-[13px] font-semibold"
+            className="py-[13px] text-center text-[13px] font-medium"
             style={{ color: 'var(--testo-2)', borderLeft: i ? '1px solid var(--linea)' : 'none' }}
           >
             {stretto ? g[0] : g}
@@ -154,17 +154,15 @@ export function GrigliaMese({ perGiorno, giorni, ancora, fuso, onApri, onApriGio
                       className="flex min-h-0 cursor-pointer flex-col overflow-hidden px-[7px] pb-1.5 pt-[7px] transition-colors hover:bg-[var(--hover)]"
                       style={{ borderLeft: c ? '1px solid var(--linea)' : 'none' }}
                     >
-                      <span className="mb-1 flex h-[26px] shrink-0 items-center">
+                      <span className="mb-1 flex h-[28px] shrink-0 items-center">
                         <span
-                          className="flex h-[26px] min-w-[26px] items-center justify-center rounded-full px-1 text-[13.5px] font-semibold tabular-nums"
+                          className="flex h-[28px] min-w-[28px] items-center justify-center rounded-full px-1 text-[14px] font-medium tabular-nums"
                           style={
                             isOggi
-                              ? {
-                                  background: 'linear-gradient(180deg, var(--primario-3), var(--primario))',
-                                  color: 'var(--su-primario)',
-                                  boxShadow: 'var(--ombra-viola)',
-                                }
-                              : { color: fuoriMese ? 'var(--testo-3)' : 'var(--testo)' }
+                              ? { background: 'var(--primario)', color: 'var(--su-primario)' }
+                              : fuoriMese
+                                ? { color: 'var(--testo-3)' }
+                                : { background: 'var(--pagina)', color: 'var(--testo)' }
                           }
                         >
                           {d.day}
@@ -211,7 +209,7 @@ export function GrigliaMese({ perGiorno, giorni, ancora, fuso, onApri, onApriGio
                       e.stopPropagation()
                       onApri(b.ev)
                     }}
-                    className="premibile absolute flex items-center gap-1.5 truncate rounded-[7px] px-2 text-left text-[11.5px] font-semibold"
+                    className="premibile absolute flex items-center gap-1.5 truncate rounded-[7px] px-2 text-left text-[11.5px] font-medium"
                     style={{
                       left: `calc(${(b.da * 100) / 7}% + 5px)`,
                       width: `calc(${((b.a - b.da + 1) * 100) / 7}% - 10px)`,
@@ -253,7 +251,7 @@ function Pallini({ eventi, fuoriMese }: { eventi: Evento[]; fuoriMese: boolean }
         />
       ))}
       {eventi.length > mostrati.length && (
-        <span className="text-[10.5px] font-semibold leading-none tabular-nums" style={{ color: 'var(--testo-3)' }}>
+        <span className="text-[10.5px] font-medium leading-none tabular-nums" style={{ color: 'var(--testo-3)' }}>
           +{eventi.length - mostrati.length}
         </span>
       )}
@@ -308,7 +306,7 @@ function ChipEvento({
               position: 'relative' as const,
               zIndex: 40,
               opacity: 0.92,
-              boxShadow: '0 10px 24px -6px rgb(20 18 40 / 0.45)',
+              boxShadow: 'var(--ombra-galleggia)',
               touchAction: 'none',
             }
           : null),
@@ -317,10 +315,10 @@ function ChipEvento({
     >
       <span className="flex min-w-0 items-center gap-1.5">
         <span className="h-[7px] w-[7px] shrink-0 rounded-full" style={{ background: c.punto }} />
-        <span className="truncate text-[12px] font-semibold leading-[15px]">{ev.titolo}</span>
+        <span className="truncate text-[12px] font-medium leading-[15px]">{ev.titolo}</span>
       </span>
       {!compatto && (
-        <span className="mt-[1px] block truncate pl-[13px] text-[11px] leading-[14px] tabular-nums opacity-80">
+        <span className="mt-[1px] block truncate pl-[13px] text-[11px] leading-[14px] tabular-nums">
           {orarioEvento(ev, fuso).principale.replace('–', ' – ')}
         </span>
       )}

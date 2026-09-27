@@ -56,7 +56,7 @@ export function Donut({ quote, totaleOre, dimensione = 118, spessore = 18, etich
         </g>
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center leading-none">
-        <span className="text-[24px] font-bold tabular-nums" style={{ letterSpacing: '-0.03em' }}>
+        <span className="text-[24px] font-medium tabular-nums" style={{ letterSpacing: '-0.03em' }}>
           {fmtOre(totaleOre)}h
         </span>
         <span className="mt-1 text-[11.5px]" style={{ color: 'var(--testo-2)' }}>
@@ -96,7 +96,7 @@ export function LegendaDonut({
               {fmtOre(q.ore)}h
             </span>
           )}
-          <span className="shrink-0 font-semibold tabular-nums">{pct[i]}%</span>
+          <span className="shrink-0 font-medium tabular-nums">{pct[i]}%</span>
         </div>
       ))}
     </div>

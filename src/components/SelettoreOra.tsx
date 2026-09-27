@@ -25,7 +25,7 @@ interface Props {
 export function SelettoreOra({ etichetta, valore, onCambia, aperto, onApri, durataDa, dopo }: Props) {
   return (
     <div className="min-w-0 flex-1">
-      <span className="mb-1.5 block text-[12.5px] font-semibold" style={{ color: 'var(--testo-2)' }}>
+      <span className="mb-1.5 block text-[12.5px] font-medium" style={{ color: 'var(--testo-2)' }}>
         {etichetta}
       </span>
       <button
@@ -36,7 +36,7 @@ export function SelettoreOra({ etichetta, valore, onCambia, aperto, onApri, dura
         className="campo premibile flex min-h-[46px] items-center justify-between gap-2 text-left tabular-nums"
         style={aperto ? { background: 'var(--card)', borderColor: 'var(--primario)' } : undefined}
       >
-        <span className="truncate text-[15px] font-semibold">{valore}</span>
+        <span className="truncate text-[15px] font-medium">{valore}</span>
         <IconaChevron size={15} verso={aperto ? 'su' : 'giu'} className="shrink-0 text-[var(--testo-3)]" />
       </button>
       {aperto && <Lista valore={valore} onCambia={onCambia} durataDa={durataDa} dopo={dopo} />}
@@ -88,7 +88,7 @@ function Lista({
     <div
       ref={box}
       role="listbox"
-      className="scroll-fine mt-2 overflow-y-auto overscroll-contain rounded-[12px]"
+      className="scroll-fine mt-2 overflow-y-auto overscroll-contain rounded-[22px]"
       style={{ maxHeight: SLOT_H * 5, background: 'var(--controllo)' }}
     >
       {ammessi.map((s) => {

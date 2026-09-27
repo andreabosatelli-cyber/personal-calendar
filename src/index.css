@@ -1,139 +1,176 @@
 @import 'tailwindcss';
 
 /* ───────────────────────────────────────────────────────────────────────
-   SmartCal — design system.
-   Fonte di verità: lo screenshot di riferimento (Downloads/smartcal.png).
-   I valori qui sotto sono campionati dai pixel della reference, non scelti
-   a occhio: sfondo quasi bianco, sidebar lavanda, viola primario, card
-   bianche con hairline e ombra quasi impercettibile, testo navy scuro.
-   Il tema scuro resta (era già nell'app) come controparte degli stessi ruoli.
+   SmartCal — design system, stile "trends" (~/.claude/design/styles/trends.md).
+   Superfici grigio chiarissimo su bianco caldo, nessun bordo sulle card,
+   pillole nere per azioni e stato attivo, numeri grandi e leggeri (Geist 500).
+   I nomi delle variabili sono quelli storici dell'app (i componenti le usano
+   già tutte): cambiano i valori, non i ruoli. Fra parentesi il ruolo shadcn.
+   Contrasto dei testi verificato AA (>= 4.5:1) su --pagina e --card, in
+   entrambi i temi.
    ─────────────────────────────────────────────────────────────────────── */
 :root {
   /* Superfici */
-  --pagina: #fbfcfe; /* sfondo dell'area contenuto */
-  --sidebar: #f4f3fe; /* colonna di sinistra, lavanda chiarissima */
-  --card: #ffffff;
-  --controllo: #f1f2f9; /* search bar, track del segmented, campi */
-  --hover: #f6f5ff;
-  --attivo: #e9e2fd; /* voce di menu selezionata */
-  --tenue: #f3f1fe; /* bottoni secondari viola tenue */
+  --pagina: oklch(0.995 0.001 90); /* (background) */
+  --sidebar: oklch(0.995 0.001 90); /* (sidebar = background) */
+  --card: oklch(0.962 0.002 90); /* (card) grigio chiarissimo, senza bordo */
+  --controllo: oklch(0.93 0.003 90); /* (secondary) campi, track, bottoni tondi */
+  --hover: oklch(0.935 0.003 90);
+  --attivo: oklch(0.99 0 0); /* (accent) pillola attiva bianca */
+  --tenue: oklch(0.93 0.003 90); /* bottoni secondari grigi */
 
   /* Testo */
-  --testo: #16162e; /* dark navy */
-  --testo-2: #6a7191;
-  --testo-3: #9aa1b9;
+  --testo: oklch(0.19 0.003 90); /* (foreground) */
+  --testo-2: oklch(0.47 0.005 90); /* (muted-foreground) */
+  --testo-3: oklch(0.5 0.005 90); /* meta e segnaposto: sempre AA */
 
-  /* Linee */
-  --linea: #eef0f7; /* hairline delle card e della griglia */
-  --linea-2: #e4e8f2; /* separatore un po' più marcato */
+  /* Linee: le card non ne hanno; restano per la griglia del calendario */
+  --linea: oklch(0.925 0.003 90);
+  --linea-2: oklch(0.87 0.004 90);
 
-  /* Primario */
-  --primario: #6728fc;
-  --primario-2: #5a1dfa; /* premuto / gradiente basso */
-  --primario-3: #8f4cfd; /* gradiente alto (badge "oggi") */
-  --su-primario: #ffffff;
+  /* Primario: pillole nere */
+  --primario: oklch(0.19 0.003 90); /* (primary) */
+  --primario-2: oklch(0.3 0.004 90); /* hover / premuto */
+  --primario-3: oklch(0.19 0.003 90);
+  --su-primario: oklch(0.99 0 0); /* (primary-foreground) */
 
-  /* Ombre: quasi impercettibili, come nella reference */
-  --ombra-card: 0 1px 2px rgb(23 22 46 / 0.04), 0 8px 24px -16px rgb(23 22 46 / 0.16);
-  --ombra-pill: 0 1px 2px rgb(23 22 46 / 0.07);
-  --ombra-viola: 0 6px 18px -6px rgb(103 40 252 / 0.45);
+  /* Ombre: trends non ne usa; resta solo quella delle pillole bianche e
+     degli elementi che galleggiano (sheet, popover, trascinamento). */
+  --ombra-card: none;
+  --ombra-pill: 0 1px 2px oklch(0.19 0.003 90 / 0.08);
+  --ombra-viola: none;
+  --ombra-galleggia: 0 18px 48px -18px oklch(0.19 0.003 90 / 0.28);
+  --velo: oklch(0.19 0.003 90 / 0.38); /* sfondo dietro sheet e drawer */
 
-  /* Categorie: work blu · study viola · personal ambra · travel rosa.
-     dot = pallino/accento pieno, bg = blocco evento, fg = testo sul blocco. */
-  --cat-lavoro: #3488fd;
-  --cat-lavoro-bg: #e4f0fd;
-  --cat-lavoro-fg: #1a5cb0;
-  --cat-universita: #9551fc;
-  --cat-universita-bg: #eae5fd;
-  --cat-universita-fg: #5c2bbd;
-  --cat-personale: #feb315;
-  --cat-personale-bg: #fdf3e0;
-  --cat-personale-fg: #8f6206;
-  --cat-viaggi: #fe6d7a;
-  --cat-viaggi-bg: #fcedf3;
-  --cat-viaggi-fg: #bd3a54;
+  /* Semantici trends */
+  --up-bg: oklch(0.88 0.11 148);
+  --up: oklch(0.38 0.1 150);
+  --down-bg: oklch(0.82 0.12 25);
+  --down: oklch(0.42 0.15 27);
+  --trend: linear-gradient(90deg, oklch(0.72 0.15 22), oklch(0.82 0.15 75), oklch(0.8 0.17 145));
+  --positivo: oklch(0.55 0.15 148); /* percentuale verde (testo grande) */
+  --notifica: oklch(0.56 0.2 25);
+  --su-notifica: oklch(0.99 0 0);
+
+  /* Categorie: quattro tinte distinte (servono a riconoscere l'evento),
+     pastello e desaturate come la palette chart di trends.
+     dot = pallino, bg = blocco evento, fg = testo sul blocco (AA sul bg). */
+  --cat-lavoro: oklch(0.64 0.14 250);
+  --cat-lavoro-bg: oklch(0.925 0.035 250);
+  --cat-lavoro-fg: oklch(0.4 0.11 255);
+  --cat-universita: oklch(0.62 0.15 300);
+  --cat-universita-bg: oklch(0.925 0.035 300);
+  --cat-universita-fg: oklch(0.41 0.13 300);
+  --cat-personale: oklch(0.8 0.15 75);
+  --cat-personale-bg: oklch(0.94 0.05 82);
+  --cat-personale-fg: oklch(0.43 0.085 65);
+  --cat-viaggi: oklch(0.7 0.15 22);
+  --cat-viaggi-bg: oklch(0.925 0.035 18);
+  --cat-viaggi-fg: oklch(0.44 0.14 22);
   /* Calendari condivisi: un colore per persona, fuori dalla scala delle
      categorie, perche' di un evento altrui conta prima di chi e'. */
-  --cond-1: #14b8a6;
-  --cond-1-bg: #ddf5f1;
-  --cond-1-fg: #0b7266;
-  --cond-2: #f97316;
-  --cond-2-bg: #fdecdf;
-  --cond-2-fg: #a1490c;
-  --cond-3: #ec4899;
-  --cond-3-bg: #fce4ef;
-  --cond-3-fg: #9d1f5c;
-  --cond-4: #64748b;
-  --cond-4-bg: #e8ebef;
-  --cond-4-fg: #3f4a59;
+  --cond-1: oklch(0.7 0.12 180);
+  --cond-1-bg: oklch(0.93 0.035 180);
+  --cond-1-fg: oklch(0.42 0.08 185);
+  --cond-2: oklch(0.72 0.15 50);
+  --cond-2-bg: oklch(0.93 0.04 55);
+  --cond-2-fg: oklch(0.45 0.12 45);
+  --cond-3: oklch(0.68 0.17 355);
+  --cond-3-bg: oklch(0.93 0.035 355);
+  --cond-3-fg: oklch(0.44 0.15 355);
+  --cond-4: oklch(0.6 0.03 250);
+  --cond-4-bg: oklch(0.93 0.01 250);
+  --cond-4-fg: oklch(0.4 0.03 250);
 
   /* Stati */
-  --adesso: #fe6d7a; /* linea dell'ora corrente */
-  --banda-ufficio: rgb(254 179 21 / 0.05);
-  --colonna-attiva: rgb(103 40 252 / 0.045); /* giorno selezionato in settimana */
-  --errore: #d13b52; /* testo e bordi di errore nei form */
-  --scheletro: #f0f1f8;
+  --adesso: oklch(0.62 0.19 25); /* linea dell'ora corrente */
+  --banda-ufficio: oklch(0.82 0.15 75 / 0.07);
+  --colonna-attiva: oklch(0.19 0.003 90 / 0.03); /* giorno selezionato in settimana */
+  --errore: oklch(0.53 0.19 27); /* (destructive) testo e bordi di errore */
+  --scheletro: oklch(0.935 0.003 90);
+  --avatar-bg: oklch(0.19 0.003 90);
+  --avatar-fg: oklch(0.99 0 0);
+  --nav-bg: oklch(0.19 0.003 90);
+  --nav-fg: oklch(0.99 0 0);
+  --nav-attivo-bg: oklch(0.995 0.001 90);
+  --nav-attivo-fg: oklch(0.19 0.003 90);
 
   color-scheme: light;
 }
 
+/* Tema scuro: stessi ruoli, luminosita' invertite. Le pillole restano ad
+   alto contrasto (chiare su fondo scuro). */
 :root[data-theme='dark'] {
-  --pagina: #131322;
-  --sidebar: #191830;
-  --card: #1c1c31;
-  --controllo: #24243d;
-  --hover: #262542;
-  --attivo: #302a55;
-  --tenue: #272146;
+  --pagina: oklch(0.165 0.003 90);
+  --sidebar: oklch(0.165 0.003 90);
+  --card: oklch(0.215 0.003 90);
+  --controllo: oklch(0.27 0.004 90);
+  --hover: oklch(0.26 0.004 90);
+  --attivo: oklch(0.35 0.004 90);
+  --tenue: oklch(0.27 0.004 90);
 
-  --testo: #f2f2f8;
-  --testo-2: #a2a6c0;
-  --testo-3: #7c819c;
+  --testo: oklch(0.96 0.002 90);
+  --testo-2: oklch(0.76 0.004 90);
+  --testo-3: oklch(0.72 0.004 90);
 
-  --linea: #282841;
-  --linea-2: #33334f;
+  --linea: oklch(0.27 0.004 90);
+  --linea-2: oklch(0.34 0.004 90);
 
-  --primario: #8f5cfd;
-  --primario-2: #7e44fc;
-  --primario-3: #a97dfe;
-  --su-primario: #ffffff;
+  --primario: oklch(0.96 0.002 90);
+  --primario-2: oklch(0.86 0.003 90);
+  --primario-3: oklch(0.96 0.002 90);
+  --su-primario: oklch(0.17 0.003 90);
 
-  --ombra-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 10px 30px -18px rgb(0 0 0 / 0.7);
-  --ombra-pill: 0 1px 2px rgb(0 0 0 / 0.35);
-  --ombra-viola: 0 6px 18px -6px rgb(143 92 253 / 0.5);
+  --ombra-card: none;
+  --ombra-pill: 0 1px 2px oklch(0 0 0 / 0.35);
+  --ombra-viola: none;
+  --ombra-galleggia: 0 18px 48px -18px oklch(0 0 0 / 0.7);
+  --velo: oklch(0 0 0 / 0.55);
 
-  --cat-lavoro: #5b9dfd;
-  --cat-lavoro-bg: #1e2c46;
-  --cat-lavoro-fg: #a8ccfe;
-  --cat-universita: #ab74fd;
-  --cat-universita-bg: #2b2350;
-  --cat-universita-fg: #d0b4fe;
-  --cat-personale: #fec54b;
-  --cat-personale-bg: #3a2f18;
-  --cat-personale-fg: #fbdc9e;
-  --cat-viaggi: #fe8a94;
-  --cat-viaggi-bg: #3d2333;
-  --cat-viaggi-fg: #fec0c6;
-  --cond-1: #2dd4bf;
-  --cond-1-bg: #16332f;
-  --cond-1-fg: #99efe3;
-  --cond-2: #fb923c;
-  --cond-2-bg: #3a2718;
-  --cond-2-fg: #fdc89b;
-  --cond-3: #f472b6;
-  --cond-3-bg: #3a1e2d;
-  --cond-3-fg: #fab8d6;
-  --cond-4: #94a3b8;
-  --cond-4-bg: #262c35;
-  --cond-4-fg: #ccd4de;
+  --up-bg: oklch(0.36 0.07 148);
+  --up: oklch(0.88 0.1 148);
+  --down-bg: oklch(0.36 0.08 25);
+  --down: oklch(0.87 0.08 25);
+  --positivo: oklch(0.78 0.15 148);
+  --notifica: oklch(0.68 0.18 25);
+  --su-notifica: oklch(0.17 0.003 90);
 
-  --adesso: #fe8a94;
-  --banda-ufficio: rgb(254 197 75 / 0.045);
-  --colonna-attiva: rgb(143 92 253 / 0.07);
-  /* Sul fondo scuro il rosso del tema chiaro scende a ~3:1: qui serve la
-     versione schiarita, come per --adesso. */
-  --errore: #fc8fa1;
-  --scheletro: #23233a;
+  --cat-lavoro: oklch(0.7 0.13 250);
+  --cat-lavoro-bg: oklch(0.3 0.05 255);
+  --cat-lavoro-fg: oklch(0.87 0.06 250);
+  --cat-universita: oklch(0.7 0.14 300);
+  --cat-universita-bg: oklch(0.3 0.05 300);
+  --cat-universita-fg: oklch(0.87 0.06 300);
+  --cat-personale: oklch(0.82 0.14 78);
+  --cat-personale-bg: oklch(0.31 0.045 75);
+  --cat-personale-fg: oklch(0.9 0.08 82);
+  --cat-viaggi: oklch(0.74 0.14 20);
+  --cat-viaggi-bg: oklch(0.3 0.05 18);
+  --cat-viaggi-fg: oklch(0.87 0.06 20);
+  --cond-1: oklch(0.76 0.11 180);
+  --cond-1-bg: oklch(0.3 0.04 180);
+  --cond-1-fg: oklch(0.88 0.06 180);
+  --cond-2: oklch(0.76 0.13 55);
+  --cond-2-bg: oklch(0.31 0.045 55);
+  --cond-2-fg: oklch(0.88 0.07 55);
+  --cond-3: oklch(0.74 0.14 355);
+  --cond-3-bg: oklch(0.3 0.05 355);
+  --cond-3-fg: oklch(0.88 0.06 355);
+  --cond-4: oklch(0.7 0.03 250);
+  --cond-4-bg: oklch(0.3 0.01 250);
+  --cond-4-fg: oklch(0.87 0.02 250);
+
+  --adesso: oklch(0.7 0.17 25);
+  --banda-ufficio: oklch(0.82 0.14 78 / 0.05);
+  --colonna-attiva: oklch(1 0 0 / 0.035);
+  --errore: oklch(0.74 0.14 25);
+  --scheletro: oklch(0.25 0.003 90);
+  --avatar-bg: oklch(0.96 0.002 90);
+  --avatar-fg: oklch(0.17 0.003 90);
+  --nav-bg: oklch(0.27 0.004 90);
+  --nav-fg: oklch(0.96 0.002 90);
+  --nav-attivo-bg: oklch(0.96 0.002 90);
+  --nav-attivo-fg: oklch(0.17 0.003 90);
 
   color-scheme: dark;
 }
@@ -149,19 +186,21 @@ body {
   background: var(--pagina);
   color: var(--testo);
   font-family:
-    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    'Geist', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
 
-h1,
-h2 {
-  letter-spacing: -0.026em;
-}
-h3 {
-  letter-spacing: -0.018em;
+@layer base {
+  h1,
+  h2 {
+    letter-spacing: -0.03em;
+  }
+  h3 {
+    letter-spacing: -0.02em;
+  }
 }
 
 button {
@@ -171,32 +210,32 @@ button {
 }
 
 @layer components {
-  /* ── Primitive riusabili ────────────────────────────────────────────── */
+  /* ── Primitive riusabili (stile trends) ─────────────────────────────── */
 
-  /* Card bianca: hairline + ombra appena percettibile. */
+  /* Card grigio chiarissimo, angoli molto morbidi, nessun bordo ne' ombra. */
   .card {
     background: var(--card);
-    border: 1px solid var(--linea);
-    border-radius: 18px;
+    border: 0;
+    border-radius: 24px;
     box-shadow: var(--ombra-card);
   }
 
-  /* Segmented control della reference: track chiaro, pill attiva viola piena. */
+  /* Segmented control: track grigio, voce attiva in pillola bianca. */
   .seg {
     display: flex;
     align-items: center;
     gap: 2px;
-    padding: 3px;
-    border-radius: 12px;
-    background: var(--card);
-    border: 1px solid var(--linea);
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--controllo);
   }
   .seg-item {
-    border-radius: 9px;
+    min-height: 40px;
+    border-radius: 999px;
     white-space: nowrap; /* un segmented control non va mai a capo */
-    padding: 0.45rem 1.05rem;
-    font-size: 13.5px;
-    font-weight: 550;
+    padding: 0.5rem 1.1rem;
+    font-size: 14px;
+    font-weight: 500;
     color: var(--testo-2);
     transition:
       color 0.18s cubic-bezier(0.22, 1, 0.36, 1),
@@ -204,24 +243,24 @@ button {
   }
   .seg-item:hover:not(.attivo) {
     color: var(--testo);
-    background: var(--hover);
   }
   .seg-item.attivo {
-    background: var(--primario);
-    color: var(--su-primario);
+    background: var(--attivo);
+    color: var(--testo);
     box-shadow: var(--ombra-pill);
   }
 
-  /* Voce di navigazione della sidebar. */
+  /* Voce di navigazione della sidebar: attiva = pillola nera. */
   .nav-voce {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     width: 100%;
-    padding: 0.7rem 0.85rem;
-    border-radius: 12px;
-    font-size: 14.5px;
-    font-weight: 550;
+    min-height: 48px;
+    padding: 0.7rem 1.1rem;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 450;
     color: var(--testo-2);
     text-align: left;
     transition:
@@ -233,24 +272,21 @@ button {
     color: var(--testo);
   }
   .nav-voce.attiva {
-    background: var(--attivo);
-    color: var(--primario);
-    font-weight: 620;
-  }
-  :root[data-theme='dark'] .nav-voce.attiva {
-    color: #c7a6fe;
+    background: var(--primario);
+    color: var(--su-primario);
+    font-weight: 500;
   }
 
-  /* Bottone pieno viola (New event, azioni primarie). */
+  /* Pillola nera piena (New event, azioni primarie). */
   .btn-primario {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.55rem;
-    border-radius: 14px;
+    border-radius: 999px;
     background: var(--primario);
     color: var(--su-primario);
-    font-weight: 600;
+    font-weight: 500;
     font-size: 15px;
     box-shadow: var(--ombra-viola);
     transition:
@@ -261,55 +297,57 @@ button {
     background: var(--primario-2);
   }
   .btn-primario:disabled {
-    opacity: 0.55;
+    opacity: 0.45;
     box-shadow: none;
   }
 
-  /* Bottone secondario viola tenue (Export month as PDF). */
+  /* Pillola grigia (azioni secondarie: Export, Copy link). */
   .btn-tenue {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.55rem;
-    border-radius: 14px;
+    border-radius: 999px;
     background: var(--tenue);
-    color: var(--primario);
-    font-weight: 600;
+    color: var(--testo);
+    font-weight: 500;
     font-size: 14.5px;
     transition: background 0.16s ease;
   }
   .btn-tenue:hover {
-    background: var(--attivo);
+    background: var(--linea-2);
   }
 
-  /* Bottone neutro (chip, nav ‹ ›, Today). */
+  /* Bottone neutro tondo/pillola grigia (nav ‹ ›, Today, chip). */
   .btn-neutro {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 11px;
-    background: var(--card);
-    border: 1px solid var(--linea);
-    color: var(--testo-2);
-    font-size: 13.5px;
-    font-weight: 550;
+    border-radius: 999px;
+    background: var(--controllo);
+    border: 0;
+    color: var(--testo);
+    font-size: 14px;
+    font-weight: 500;
     transition:
       background 0.16s ease,
       color 0.16s ease;
   }
   .btn-neutro:hover {
-    background: var(--hover);
-    color: var(--testo);
+    background: var(--linea-2);
+  }
+  .btn-neutro:disabled {
+    color: var(--testo-3);
   }
 
-  /* Campo di input / select nello stile della reference. */
+  /* Campo di input / select. */
   .campo {
     width: 100%;
-    border-radius: 11px;
+    border-radius: 14px;
     background: var(--controllo);
-    border: 1px solid transparent;
-    padding: 0.6rem 0.8rem;
-    font-size: 14.5px;
+    border: 1.5px solid transparent;
+    padding: 0.65rem 0.9rem;
+    font-size: 15px;
     color: var(--testo);
     outline: none;
     transition:
@@ -320,21 +358,21 @@ button {
     color: var(--testo-3);
   }
   .campo:focus {
-    background: var(--card);
+    background: var(--pagina);
     border-color: var(--primario);
   }
 
-  /* Checkbox quadrata piena della sezione "My calendars". */
+  /* Checkbox tonda piena della sezione "My calendars". */
   .spunta {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 22px;
     height: 22px;
-    border-radius: 7px;
+    border-radius: 999px;
     border: 1.6px solid var(--linea-2);
-    background: var(--card);
-    color: #fff;
+    background: transparent;
+    color: oklch(0.99 0 0);
     flex-shrink: 0;
     transition:
       background 0.16s ease,
@@ -344,12 +382,11 @@ button {
     border-color: transparent;
   }
 
-  /* Etichetta di sezione ("My calendars"). */
+  /* Etichetta di sezione ("My calendars"): grigia, frase normale. */
   .etichetta-sezione {
-    font-size: 12.5px;
-    font-weight: 620;
+    font-size: 13px;
+    font-weight: 500;
     color: var(--testo-2);
-    letter-spacing: 0.01em;
   }
 
   /* Pressione tattile. */
@@ -360,7 +397,26 @@ button {
     transform: scale(0.97);
   }
 
-  /* Scrollbar sottile, non invadente come nella reference. */
+  /* Focus visibile da tastiera, uguale ovunque. */
+  .premibile:focus-visible,
+  .seg-item:focus-visible,
+  .nav-voce:focus-visible,
+  .btn-primario:focus-visible,
+  .btn-tenue:focus-visible,
+  .btn-neutro:focus-visible {
+    outline: 2px solid var(--primario);
+    outline-offset: 2px;
+  }
+
+  /* Numero protagonista: grande, peso medio, tracking stretto. */
+  .numero-kpi {
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Scrollbar sottile. */
   .scroll-fine {
     scrollbar-width: thin;
     scrollbar-color: var(--linea-2) transparent;
