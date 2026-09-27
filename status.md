@@ -14,6 +14,7 @@
   token OKLCH, Geist, pillole nere, card senza bordi, barra di navigazione in basso su mobile.
   Verificato: build ok, lint invariato, contrasto AA dei token, 34 azioni Playwright ok prima e dopo.
   Poi: icone PWA rifatte (Marchio in cerchio nero), CLAUDE.md aggiornato allo stile trends.
+  Anteprima Vercel: https://personal-calendar-jnghp7raa-an-s-projects1.vercel.app (usa il DB di produzione).
 - 2026-09-26: CLAUDE.md, status.md e memory.md del progetto; verifica migrazioni e chiavi.
 - 2026-09-19: scope Google ridotto a `calendar.app.created`, migration 0014, pagine `privacy.html` e `terms.html`.
 
