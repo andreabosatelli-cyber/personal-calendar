@@ -10,7 +10,7 @@
 - Git: un solo commit di import dal PC (2026-09-21) + `.gitignore` graphify. Nessuna storia precedente.
 
 ## Ultima cosa fatta
-- 2026-10-02: target tattili a 44px su mobile: segmented Day/Week/Month (`.seg-item` min-height 44), barre "tutto il giorno" alte 44px su touch in Week/Day, in Month su telefono la barra è decorativa e il tocco apre il giorno. Verificato con verifica-ui (3 viste × 380px/desktop × chiaro/scuro: 0 target < 44, 0 contrasto, niente overflow) e tap reale su telefono emulato. Build ok, lint invariato (13 warning preesistenti). NON ancora in produzione.
+- 2026-10-02: target tattili a 44px su mobile: segmented Day/Week/Month (`.seg-item` min-height 44), barre "tutto il giorno" alte 44px su touch in Week/Day, in Month su telefono la barra è decorativa e il tocco apre il giorno. Verificato con verifica-ui (3 viste × 380px/desktop × chiaro/scuro: 0 target < 44, 0 contrasto, niente overflow) e tap reale su telefono emulato. Build ok, lint invariato (13 warning preesistenti). LIVE in produzione dal 2026-10-02 (commit `66d4621`, deploy `personal-calendar-9xteypmn5`): bundle servito controllato.
 - 2026-09-27: redesign grafico in stile **trends**, mergiato in `main` e LIVE in produzione:
   token OKLCH, Geist, pillole nere, card senza bordi, barra di navigazione in basso su mobile.
   Verificato: build ok, lint invariato, contrasto AA dei token, 34 azioni Playwright ok prima e dopo.
