@@ -202,6 +202,27 @@ export function GrigliaMese({ perGiorno, giorni, ancora, fuso, onApri, onApriGio
               {/* Barre continue dei soggiorni, sopra le celle della settimana */}
               {barre.map((b) => {
                 const c = coloreEvento(b.ev)
+                // Su telefono la barra e' solo un segno, come i pallini: alta 21px non sarebbe un bersaglio
+                // da 44. Il tocco passa alla cella del giorno, che apre la vista Day dove la barra e' toccabile.
+                if (stretto)
+                  return (
+                    <span
+                      key={b.ev.id}
+                      aria-hidden
+                      className="pointer-events-none absolute flex items-center gap-1.5 truncate rounded-[7px] px-2 text-[11.5px] font-medium"
+                      style={{
+                        left: `calc(${(b.da * 100) / 7}% + 5px)`,
+                        width: `calc(${((b.a - b.da + 1) * 100) / 7}% - 10px)`,
+                        top: H_TESTATA_CELLA + 3 + b.corsia * (H_BARRA + 3),
+                        height: H_BARRA,
+                        background: c.sfondo,
+                        color: c.testo,
+                      }}
+                    >
+                      {eSoggiorno(b.ev) && <IconaAereo size={11} strokeWidth={2.2} className="shrink-0" />}
+                      <span className="truncate">{b.ev.titolo}</span>
+                    </span>
+                  )
                 return (
                   <button
                     key={b.ev.id}

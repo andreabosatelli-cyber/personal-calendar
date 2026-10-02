@@ -230,7 +230,7 @@ button {
     background: var(--controllo);
   }
   .seg-item {
-    min-height: 40px;
+    min-height: 44px; /* target tattile minimo (DESIGN.md) */
     border-radius: 999px;
     white-space: nowrap; /* un segmented control non va mai a capo */
     padding: 0.5rem 1.1rem;

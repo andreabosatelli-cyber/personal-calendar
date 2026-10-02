@@ -31,6 +31,9 @@ const RAIL = 66 // larghezza rail orari (locale + riferimento)
 const RAIL_STRETTO = 52 // su telefono il rail ruba larghezza alle colonne
 const ALTEZZA_FASCIA = 22 // altezza di una barra "tutto il giorno"
 const ALTEZZA_FASCIA_DAY = 34 // in vista Day la barra diventa un banner leggibile
+// Su touch ogni barra e' un bersaglio da toccare: almeno 44px (regola del DESIGN.md).
+const ALTEZZA_FASCIA_TOCCO = 44
+const TOCCO = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
 // Larghezza sotto la quale una colonna-giorno smette di essere leggibile: i
 // titoli si riducono a "P..". Invece di comprimere si mostrano meno giorni e
 // si scorre in orizzontale.
@@ -172,7 +175,7 @@ export function GrigliaSettimana({
 
   const fasce = useMemo(() => disponiFasce(perGiorno, giorni), [perGiorno, giorni])
   const corsie = fasce.length ? Math.max(...fasce.map((f) => f.corsia)) + 1 : 0
-  const hFascia = unaColonna ? ALTEZZA_FASCIA_DAY : ALTEZZA_FASCIA
+  const hFascia = TOCCO ? ALTEZZA_FASCIA_TOCCO : unaColonna ? ALTEZZA_FASCIA_DAY : ALTEZZA_FASCIA
   const nowY = yDaIstante(now.toUTC().toISO()!, oggi, fuso, oraInizio)
   const oggiInSettimana = giorni.includes(oggi)
   const mostraNow = oggiInSettimana && nowY >= 0 && nowY <= altezza

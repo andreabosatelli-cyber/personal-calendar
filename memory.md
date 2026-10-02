@@ -28,3 +28,4 @@ Decisioni stabili, una riga ciascuna, dalla più vecchia.
 - 2026-09-26 — La service_role serve solo nelle Edge Functions (`SUPABASE_SERVICE_ROLE_KEY`, iniettata da Supabase): mai in `.env.local` né su Vercel.
 - 2026-09-27 — Redesign in stile trends (libreria ~/.claude/design), chiesto da Andrea: solo aspetto, token con i nomi storici; niente shadcn vero (le primitive CSS restano); barra in basso su mobile nel flusso, non fixed; delta di Analytics restano neutri.
 - 2026-09-27 — Vercel Preview ha VITE_SUPABASE_URL/ANON_KEY (tipo Config: le VITE_ non possono essere Secret; stessi valori di Production). Le anteprime puntano al DB di produzione.
+- 2026-10-02 — Target tattili ≥ 44px su touch (`pointer: coarse`): barre tutto-il-giorno a 44px in Week/Day; in Month su telefono la barra è solo un segno (come i pallini) e il tocco va alla cella del giorno. Desktop invariato.
