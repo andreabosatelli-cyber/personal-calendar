@@ -11,6 +11,13 @@ declare uid uuid;
 begin
   select id into uid from auth.users where email = 'andrea.bosatelli@gmail.com';
   if uid is null then raise exception 'utente andrea.bosatelli@gmail.com non trovato in auth.users'; end if;
+  -- Protezione (2026-10-12): il seed vale solo su un calendario uni vuoto. Le lezioni
+  -- sono state allineate al planning GEM del 6/10 (righe 'gem0610:*') e ci sono eventi
+  -- 'universita' creati a mano: rilanciarlo li cancellerebbe e rimetterebbe il TT v3.
+  if exists (select 1 from eventi where utente_id = uid and origine = 'universita') then
+    raise notice 'seed universita saltato: ci sono gia'' eventi universita per questo utente';
+    return;
+  end if;
   delete from eventi where utente_id = uid and origine = 'universita';   -- re-seed = sostituzione completa del calendario uni
   insert into eventi (utente_id, origine, titolo, descrizione, luogo, inizio_utc, fine_utc, fuso_origine, tutto_il_giorno, id_esterno) values
     (uid, 'universita', 'SIM Induction', 'SIM Induction 8h30-12h45', 'SIM · Singapore', '2026-10-12 08:30:00+08', '2026-10-12 11:30:00+08', 'Asia/Singapore', false, 'ttv3:0'),

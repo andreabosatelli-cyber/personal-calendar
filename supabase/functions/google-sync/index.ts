@@ -249,12 +249,14 @@ async function riconcilia(
       if (creato.ok) {
         idFinale = gid
       } else if (creato.stato === 409) {
-        // Id gia' usato da un evento che Google non lascia riscrivere: si
-        // ricomincia da capo con un id suo.
-        const alt = await chiamaGoogle(token, calendario, 'POST', null, corpo)
+        // Id gia' usato: l'ha appena creato un giro sovrapposto, oppure e' un
+        // evento cancellato che Google tiene in memoria. Si riprende quello
+        // (status 'confirmed' lo ripristina se era cancellato): crearne uno con
+        // un id nuovo lascerebbe di la' un doppione che nessuno segue piu'.
+        const ripreso = await chiamaGoogle(token, calendario, 'PATCH', gid, { ...corpo, status: 'confirmed' })
         chiamate++
-        if (!alt.ok) return { fatto: false, errore: `import insert ${alt.stato}` }
-        idFinale = (alt.dati.id as string) ?? null
+        if (!ripreso.ok) return { fatto: false, errore: `import riprendi ${ripreso.stato}` }
+        idFinale = gid
       } else {
         return { fatto: false, errore: `import insert ${creato.stato}` }
       }
