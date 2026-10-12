@@ -28,7 +28,7 @@ interface VoceCoda {
   utente_id: string
   evento_id: string | null
   google_id: string | null
-  azione: 'upsert' | 'delete'
+  azione: 'upsert' | 'delete' | 'reconcile'
   tentativi: number
 }
 
