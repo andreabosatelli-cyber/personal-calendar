@@ -11,6 +11,7 @@
 
 ## Ultima cosa fatta
 - 2026-10-12: lezioni SIM allineate al planning GEM del 6/10. Nel DB: 9 cancellate, 5 orari corretti, 10 nuove (`gem0610:*`), con backup in `eventi_backup_20261012` (RLS on). Su Google: tolte 8 copie doppie non tracciate. Verifica: 82 lezioni su Google = xlsx, 0 doppioni. `google-sync` su 409 riprende l'evento esistente (`6b76bbb`) e il tipo VoceCoda include reconcile (`fe4fccd`): deno check ok, function deployata, prova su "Claude meetup" ok (stesso id, nessun doppione). Seed 0003 ora non fa nulla se esistono gia' eventi `universita`.
+- 2026-10-12: `google-sync` manda '' (non undefined) per description/location: svuotare un campo in SmartCal ora lo svuota anche su Google (`c4a3e19`, deployata, provato su "Claude meetup": descrizione messa e tolta, arrivata e sparita da sola).
 - 2026-10-02: target tattili a 44px su mobile: segmented Day/Week/Month (`.seg-item` min-height 44), barre "tutto il giorno" alte 44px su touch in Week/Day, in Month su telefono la barra è decorativa e il tocco apre il giorno. Verificato con verifica-ui (3 viste × 380px/desktop × chiaro/scuro: 0 target < 44, 0 contrasto, niente overflow) e tap reale su telefono emulato. Build ok, lint invariato (13 warning preesistenti). LIVE in produzione dal 2026-10-02 (commit `66d4621`, deploy `personal-calendar-9xteypmn5`): bundle servito controllato.
 - 2026-09-27: redesign grafico in stile **trends**, mergiato in `main` e LIVE in produzione:
   token OKLCH, Geist, pillole nere, card senza bordi, barra di navigazione in basso su mobile.
@@ -26,7 +27,6 @@
    La sincronizzazione non è mai girata per davvero.
 
 ## Decisioni aperte
-- ⚠️ Bug `google-sync`: `corpoGoogle` manda `description: undefined` se la descrizione è vuota, quindi svuotare un campo non arriva mai su Google (stesso rischio per `location`). Fix proposto: mandare stringa vuota. Non applicato.
 - Recap email settimanale (sospeso): provider (Resend con dominio / Brevo), contenuto, orario di invio.
 - Google Meet via `spaces.create`: verificare prima che l'account Google sia abilitato.
 - Privacy e termini scritti da Claude, mai rivisti da un legale; DB a Singapore = trasferimento extra-UE da dichiarare.
