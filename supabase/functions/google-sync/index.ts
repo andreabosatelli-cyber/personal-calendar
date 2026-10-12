@@ -69,10 +69,12 @@ interface RigaEvento {
 // suonerebbe due volte.
 function corpoGoogle(ev: RigaEvento) {
   const descrizione = [ev.descrizione, ev.link_video].filter(Boolean).join('\n\n')
+  // Stringa vuota, non undefined: un campo assente nella PATCH lascia su Google
+  // il valore vecchio, e svuotarlo qui non arriverebbe mai di la'.
   const base = {
     summary: ev.titolo,
-    description: descrizione || undefined,
-    location: ev.luogo ?? undefined,
+    description: descrizione,
+    location: ev.luogo ?? '',
     reminders: { useDefault: false, overrides: [] },
     // Il filo che lega la copia all'originale: serve a riconoscere, guardando
     // Google, che quell'evento arriva da qui.
