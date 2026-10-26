@@ -31,3 +31,8 @@ Decisioni stabili, una riga ciascuna, dalla più vecchia.
 - 2026-10-02 — Target tattili ≥ 44px su touch (`pointer: coarse`): barre tutto-il-giorno a 44px in Week/Day; in Month su telefono la barra è solo un segno (come i pallini) e il tocco va alla cella del giorno. Desktop invariato.
 - 2026-10-12 — Lezioni SIM = planning GEM del 6/10 (xlsx nella cartella Singapore). Correzioni come righe `gem0610:*` + modifiche a `ttv3:*`; il seed 0003 non va più rilanciato (ora è protetto). Su 409 `google-sync` riprende l'id esistente, non ne crea uno nuovo.
 - 2026-10-26 — Lezioni SIM = planning GEM del 22/10 (sostituisce quello del 6/10). Correzioni come righe `gem2210:*` + modifiche a `ttv3:*`; gli importati arrivano su Google via riconciliazione (`google_importati`, id deterministici), quindi basta scrivere nel DB.
+- 2026-10-26 — Finestre di viaggio = tabelle proprie (`travel_windows`/`travel_proposals`/`travel_events`), NON eventi: in calendario sono fasce di sfondo, cosi' non finiscono su Google ne' nell'export. Sostituiscono i 12 eventi a mano sul Google principale.
+- 2026-10-26 — "Lezione" per le finestre = evento `universita` con orario: le scadenze di un giorno intero (CAV…) non contano. Giorni in ora di Singapore.
+- 2026-10-26 — Il confronto col planning propone e basta (Apply/Ignore): non tocca mai stato e note. Le finestre manuali (BKK, LK, C3) si controllano solo per lezioni nuove dentro; `salta_lezioni` tiene i giorni saltati di proposito.
+- 2026-10-26 — Policy finestre senza delete: una finestra non si cancella, si segna 'saltato'.
+- 2026-10-26 — Token Management API di SmartCal nel Portachiavi come `supabase-management-smartcal` (`supabase-management` e' dell'account di mygoal).

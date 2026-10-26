@@ -19,7 +19,7 @@ link pubblico di prenotazione, calendari condivisi, Analytics, Trips, Export PDF
 - `src/lib/` logica pura: `tempo.ts` (fusi, con specchio a runtime delle preferenze), `settimana.ts`, `packing.ts`,
   `analitica.ts`, `statistiche.ts`, `viaggi.ts`, `ricorrenza.ts`, `stato.tsx` (contesto), `types.ts` (tipi DB a mano)
 - `src/components/` per sezione: `shell/`, `pannello/`, `analitica/`, `viaggi/`, `scheduling/`, `impostazioni/`
-- `supabase/migrations/` numerate `0001`→`0014`; `supabase/functions/`: `sync-calendari`, `promemoria`, `google-oauth`, `google-sync`
+- `supabase/migrations/` numerate `0001`→`0016`; `supabase/functions/`: `sync-calendari`, `promemoria`, `google-oauth`, `google-sync`
 - `DESIGN.md` = design del progetto (stile trends applicato a SmartCal), `PRODUCT.md` = contesto per impeccable
 - Routing a hash (`#/calendar`, …) in `src/lib/rotte.ts`
 
@@ -38,6 +38,8 @@ link pubblico di prenotazione, calendari condivisi, Analytics, Trips, Export PDF
 - Il feed ICS è solo dell'account owner (`preferenze.sync_abilitato`); gli URL ICS vivono nei secret delle function.
 - Scritture: lo stato locale si aggiorna DOPO l'await, mai in modo ottimistico prima.
 - `src/lib/analitica.ts` NON va importata nelle Edge Functions (dipende da React): lì i conti si fanno in SQL.
+- Finestre di viaggio (`travel_*`, 0015): mai come eventi; "lezione" = `universita` con orario; il confronto col
+  planning propone e non scrive; stato e note non si sovrascrivono mai in automatico.
 - Ricorrenza: occorrenze come righe vere legate da `serie_id`; il passato di una serie non si riscrive mai.
 - Chiavi localStorage con prefisso `pc_` (`pc_tema`, `pc_barra`, `pc_pannello`, `pc_eventi_cache`, …).
 
@@ -51,3 +53,5 @@ link pubblico di prenotazione, calendari condivisi, Analytics, Trips, Export PDF
 - Frontend: `vercel --prod` dalla cartella → https://personal-calendar-puce.vercel.app (progetto Vercel `personal-calendar`).
 - `vercel.json` tiene `Cache-Control: max-age=0` su `/sw.js` e `/manifest.webmanifest`: non toglierlo.
 - Migrazioni: Management API con il mio ok esplicito (mai `supabase db push`: lo storico remoto è vuoto).
+  Token nel Portachiavi come `supabase-management-smartcal` (NON `supabase-management`, che è di un altro account):
+  `$(security find-generic-password -s supabase-management-smartcal -w)` dentro il comando, mai stamparlo.

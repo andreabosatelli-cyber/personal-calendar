@@ -1,25 +1,33 @@
 # Status — SmartCal (aggiornato 2026-10-26)
 
 ## Stato attuale
-- Live su https://personal-calendar-puce.vercel.app. Redesign SmartCal completo: Calendar, Scheduling,
-  Analytics, Trips, Export, Settings.
-- Multi-utente con onboarding, calendari condivisi fra account, promemoria push (funzionano su telefono vero),
-  ricorrenza, specchio su Google Calendar (scope `calendar.app.created`, app Google pubblicata senza verifica).
-- Migrazioni 0001–0014 tutte presenti in produzione, compresa la 0009 (verificato sullo schema il 2026-09-26).
-- 2026-09-26: service_role rigenerata da Andrea; sito, lettura dati, login e Edge Function `promemoria` verificati dopo.
-- Google Calendar collegato (consenso dato da Andrea): `google-sync` gira davvero, 82 lezioni SIM su Google al 2026-10-12.
-- Git: storia dal 2026-09-21 (import dal PC); niente di precedente.
+- Live su https://personal-calendar-puce.vercel.app, in produzione il commit `8aa9894` (deploy `personal-calendar-6z5kmv2ik`).
+  Sezioni: Calendar, Scheduling, Analytics, Trips (con finestre di viaggio), Export, Settings.
+- Multi-utente con onboarding, calendari condivisi fra account, promemoria push, ricorrenza, specchio su Google
+  Calendar (scope `calendar.app.created`): `google-sync` gira davvero.
+- Migrazioni 0001–0016 tutte presenti in produzione (0015-0016 applicate e verificate il 2026-10-26).
+- Trips → finestre di viaggio: 11 finestre, 31 proposte, 6 eventi/periodi (seed dal file `11 Viaggi/Finestre_e_proposte.md`
+  del 26/10). È la fonte live: il file resta come versione di partenza.
+- Token Management API di SmartCal nel Portachiavi come `supabase-management-smartcal` (quello `supabase-management` è di mygoal).
 
 ## Ultima cosa fatta
-- 2026-10-26: lezioni SIM allineate al planning GEM del 22/10 (CFA e IB). Nel DB, in una transazione: 3 CFA nuove (`gem2210:1-3`), 3 orari corretti (15/02, 16/02, 22/02 con titolo "CFA Preparation – In-class Test"), 1 cancellata (23/02), backup in `eventi_backup_20261026` (RLS on). `google-sync` le ha portate su Google in ~1 minuto: 73 lezioni dal 26/10 = xlsx, 0 doppioni.
-- 2026-10-12: lezioni SIM allineate al planning GEM del 6/10. Nel DB: 9 cancellate, 5 orari corretti, 10 nuove (`gem0610:*`), con backup in `eventi_backup_20261012` (RLS on). Su Google: tolte 8 copie doppie non tracciate. Verifica: 82 lezioni su Google = xlsx, 0 doppioni. `google-sync` su 409 riprende l'evento esistente (`6b76bbb`) e il tipo VoceCoda include reconcile (`fe4fccd`): deno check ok, function deployata, prova su "Claude meetup" ok (stesso id, nessun doppione). Seed 0003 ora non fa nulla se esistono gia' eventi `universita`.
-- 2026-10-12: `google-sync` manda '' (non undefined) per description/location: svuotare un campo in SmartCal ora lo svuota anche su Google (`c4a3e19`, deployata, provato su "Claude meetup": descrizione messa e tolta, arrivata e sparita da sola).
-- 2026-10-02: target tattili a 44px su mobile: segmented Day/Week/Month (`.seg-item` min-height 44), barre "tutto il giorno" alte 44px su touch in Week/Day, in Month su telefono la barra è decorativa e il tocco apre il giorno. Verificato con verifica-ui (3 viste × 380px/desktop × chiaro/scuro: 0 target < 44, 0 contrasto, niente overflow) e tap reale su telefono emulato. Build ok, lint invariato (13 warning preesistenti). LIVE in produzione dal 2026-10-02 (commit `66d4621`, deploy `personal-calendar-9xteypmn5`): bundle servito controllato.
+- 2026-10-26: finestre di viaggio in Trips (`8aa9894`). Tabelle `travel_windows`/`travel_proposals`/`travel_events`
+  con RLS select/insert/update (niente delete), RPC `finestre_libere` (invoker, solo authenticated). Banner "Book now",
+  confronto col planning che propone e non applica, timeline fino al 3/03, card con stato e proposte, fasce di sfondo
+  in Month/Week, badge scadenze (<7 giorni) su Trips. Verificato: build, lint, verifica-ui 380px/desktop chiaro/scuro
+  (0 overflow, 0 target <44, 0 contrasto), RLS provata come anon e altro utente, vista vera in produzione dal Chrome
+  di Andrea. Cancellati i 12 eventi 🧳/✈️/💛 dal Google principale (ID in `_MEMORIA/Calendario_inserito.md`).
+- 2026-10-26: lezioni SIM allineate al planning GEM del 22/10 (backup `eventi_backup_20261026`).
+- 2026-10-12: lezioni SIM allineate al planning GEM del 6/10 (backup `eventi_backup_20261012`).
 
 ## Prossima azione
+- Prenotare BKK (deadline oggi) e decidere A, LK, C2 entro il 30/10: lo stato si cambia in Trips.
 - Confermare a lezione l'ora di fine di SAM 16/10 e 20/10 (vedi ❓ sotto), poi correggere gli eventi.
 
 ## Decisioni aperte
+- ⚠️ Advisor Supabase: molte funzioni `SECURITY DEFINER` eseguibili da anon (es. `sostituisci_eventi_sorgente` con
+  `p_utente`), 4 funzioni con search_path mutabile, protezione password compromesse spenta. Da rivedere in un task a parte.
+- Titolo con caratteri rotti nel DB: "Esame â€" M&A / CV" (mojibake preesistente).
 - Recap email settimanale (sospeso): provider (Resend con dominio / Brevo), contenuto, orario di invio.
 - Google Meet via `spaces.create`: verificare prima che l'account Google sia abilitato.
 - Privacy e termini scritti da Claude, mai rivisti da un legale; DB a Singapore = trasferimento extra-UE da dichiarare.
