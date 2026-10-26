@@ -1,7 +1,7 @@
 # Status — SmartCal (aggiornato 2026-10-26)
 
 ## Stato attuale
-- Live su https://personal-calendar-puce.vercel.app, in produzione il commit `8aa9894` (deploy `personal-calendar-6z5kmv2ik`).
+- Live su https://personal-calendar-puce.vercel.app, in produzione il commit `0de688d` (deploy `personal-calendar-7hkz11ec3`).
   Sezioni: Calendar, Scheduling, Analytics, Trips (con finestre di viaggio), Export, Settings.
 - Multi-utente con onboarding, calendari condivisi fra account, promemoria push, ricorrenza, specchio su Google
   Calendar (scope `calendar.app.created`): `google-sync` gira davvero.
