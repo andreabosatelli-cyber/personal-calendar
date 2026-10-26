@@ -1,5 +1,7 @@
 import { SEZIONI, TITOLO_SEZIONE, type Sezione } from '../../lib/rotte'
 import { IconaAltro } from '../../lib/icone'
+import { useFinestre } from '../../lib/finestreStato'
+import { BadgeScadenze } from './BadgeScadenze'
 
 interface Props {
   sezione: Sezione
@@ -18,6 +20,7 @@ const IN_BARRA: Sezione[] = ['calendar', 'scheduling', 'analytics', 'trips']
 export function BarraNav({ sezione, vai, onAltro }: Props) {
   const voci = SEZIONI.filter((s) => IN_BARRA.includes(s.id))
   const altroAttivo = !IN_BARRA.includes(sezione)
+  const { inScadenza } = useFinestre()
 
   return (
     <nav
@@ -36,11 +39,16 @@ export function BarraNav({ sezione, vai, onAltro }: Props) {
               key={id}
               onClick={() => vai(id)}
               aria-current={attiva ? 'page' : undefined}
-              aria-label={etichetta}
+              aria-label={id === 'trips' && inScadenza.length ? `${etichetta}, ${inScadenza.length} booking deadlines` : etichetta}
               className="premibile flex h-12 min-w-12 items-center justify-center gap-2 rounded-full px-3 text-[14px] font-medium transition-colors"
               style={attiva ? { background: 'var(--nav-attivo-bg)', color: 'var(--nav-attivo-fg)' } : { opacity: 0.8 }}
             >
-              <Icona size={20} />
+              {/* Il badge si aggancia all'icona: sulla voce attiva c'e' anche
+                  l'etichetta, e in fondo al pulsante finirebbe sopra il testo. */}
+              <span className="relative flex">
+                <Icona size={20} />
+                {id === 'trips' && inScadenza.length > 0 && <BadgeScadenze n={inScadenza.length} sopra />}
+              </span>
               {attiva && <span>{etichetta}</span>}
             </button>
           )

@@ -9,6 +9,8 @@ import type { Origine } from '../../lib/types'
 import type { Sezione } from '../../lib/rotte'
 import { Marchio } from '../Marchio'
 import { SEZIONI } from '../../lib/rotte'
+import { useFinestre } from '../../lib/finestreStato'
+import { BadgeScadenze } from './BadgeScadenze'
 import {
   IconaAggiorna,
   IconaChevron,
@@ -57,6 +59,7 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
     inSync,
     ultimoSync,
   } = useStato()
+  const { inScadenza } = useFinestre()
   const [menuAperto, setMenuAperto] = useState(false)
   const opz = opzioneFuso(fuso)
 
@@ -109,6 +112,9 @@ export function BarraLaterale({ sezione, vai, onNuovoEvento, onChiudi, onNascond
           >
             <Icona size={20} />
             {etichetta}
+            {id === 'trips' && inScadenza.length > 0 && (
+              <BadgeScadenze n={inScadenza.length} />
+            )}
           </button>
         ))}
       </nav>

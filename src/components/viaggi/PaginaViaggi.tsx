@@ -10,6 +10,7 @@ import { IconaAereo, IconaChevron, IconaLuogo } from '../../lib/icone'
 import { MappaViaggi } from '../pannello/MappaViaggi'
 import { TestataCard } from '../pannello/parti'
 import { Tessera } from '../analitica/Tessere'
+import { FinestreViaggio } from './FinestreViaggio'
 
 interface Props {
   onApriEvento: (ev: Evento) => void
@@ -70,6 +71,10 @@ export function PaginaViaggi({ onApriEvento }: Props) {
 
   return (
     <div className="h-full overflow-y-auto px-4 pb-[22px] pt-[5px] scroll-fine lg:pl-5 lg:pr-4">
+      <div className="mb-[21px]">
+        <FinestreViaggio />
+      </div>
+      <h3 className="mb-3 px-1 text-[20px] font-medium leading-tight tracking-[-0.02em]">Trips on your calendar</h3>
       <div className="flex flex-col gap-[21px] xl:flex-row">
         <div className="flex min-w-0 flex-1 flex-col gap-4">
           <section className="card flex flex-wrap items-center gap-3 px-4 py-4 lg:px-5 lg:py-5">

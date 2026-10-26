@@ -95,6 +95,13 @@
   --nav-attivo-bg: oklch(0.995 0.001 90);
   --nav-attivo-fg: oklch(0.19 0.003 90);
 
+  /* Finestre di viaggio: fasce di sfondo (calendario, timeline di Trips). */
+  --fascia-viaggi: oklch(0.7 0.15 22 / 0.09);
+  --fascia-presenza: oklch(0.8 0.15 75 / 0.2);
+  --lezione: oklch(0.55 0.005 90 / 0.3);
+  --badge-bg: oklch(0.44 0.14 22);
+  --badge-fg: oklch(0.99 0 0);
+
   color-scheme: light;
 }
 
@@ -172,6 +179,12 @@
   --nav-attivo-bg: oklch(0.96 0.002 90);
   --nav-attivo-fg: oklch(0.17 0.003 90);
 
+  --fascia-viaggi: oklch(0.74 0.14 20 / 0.13);
+  --fascia-presenza: oklch(0.82 0.14 78 / 0.16);
+  --lezione: oklch(0.8 0.005 90 / 0.28);
+  --badge-bg: oklch(0.74 0.14 20);
+  --badge-fg: oklch(0.18 0.01 20);
+
   color-scheme: dark;
 }
 
@@ -210,6 +223,41 @@ button {
 }
 
 @layer components {
+  /* ── Finestre di viaggio ─────────────────────────────────────────────── */
+  .badge-scadenze {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--badge-bg);
+    color: var(--badge-fg);
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .badge-scadenze-sopra {
+    position: absolute;
+    top: -9px;
+    left: -12px;
+    box-shadow: 0 0 0 2px var(--nav-bg);
+  }
+  /* Badge piccoli delle proposte (budget, stagione, volo). */
+  .etichetta-viaggio {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 8px;
+    padding: 3px 8px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.25;
+    background: var(--card);
+    color: var(--testo-2);
+  }
+
   /* ── Primitive riusabili (stile trends) ─────────────────────────────── */
 
   /* Card grigio chiarissimo, angoli molto morbidi, nessun bordo ne' ombra. */

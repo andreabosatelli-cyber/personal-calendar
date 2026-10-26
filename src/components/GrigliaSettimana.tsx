@@ -106,6 +106,8 @@ interface Props {
   // Trascinamento: assente nella vista pubblica, dove non si tocca niente.
   onSposta?: (ev: Evento, minuti: number, giorno: string | null) => void
   onRidimensiona?: (ev: Evento, minuti: number, bordo: 'inizio' | 'fine') => void
+  // Finestre di viaggio: fasce di sfondo per giorno, non eventi.
+  finestre?: Record<string, { codice: string; titolo: string | null }>
 }
 
 // Orologio che scatta ogni minuto: alimenta la linea "adesso".
@@ -147,6 +149,7 @@ export function GrigliaSettimana({
   onSelezionaGiorno,
   onSposta,
   onRidimensiona,
+  finestre,
 }: Props) {
   const { trascina, handlers } = useTrascinaEvento({
     modo: 'ore',
@@ -285,7 +288,9 @@ export function GrigliaSettimana({
                         borderLeft: '1px solid var(--linea)',
                         scrollSnapAlign: scorre ? 'start' : undefined,
                         background: isAttivo && !isOggi ? 'var(--colonna-attiva)' : undefined,
+                        backgroundImage: finestre?.[g] ? 'linear-gradient(var(--fascia-viaggi), var(--fascia-viaggi))' : undefined,
                       }}
+                      title={finestre?.[g] ? `Travel window ${finestre[g].codice}` : undefined}
                       aria-current={isAttivo ? 'date' : undefined}
                     >
                       <span className="text-[13px] font-medium" style={{ color: 'var(--testo-2)' }}>
@@ -408,6 +413,7 @@ export function GrigliaSettimana({
                 neutro={neutro}
                 bandaUfficio={bandaUfficio}
                 attivo={g === giornoAttivo && !unaColonna}
+                fascia={!!finestre?.[g]}
                 nowY={g === oggi && mostraNow ? nowY : null}
                 onApri={onApri}
                 trascina={trascina}
@@ -504,6 +510,7 @@ interface ColonnaProps {
   neutro?: boolean
   bandaUfficio?: boolean
   attivo: boolean
+  fascia: boolean
   nowY: number | null
   onApri: (ev: Evento) => void
   trascina: Trascinamento | null
@@ -521,6 +528,7 @@ function ColonnaGiorno({
   neutro,
   bandaUfficio,
   attivo,
+  fascia,
   nowY,
   onApri,
   trascina,
@@ -546,6 +554,7 @@ function ColonnaGiorno({
         // Il giorno selezionato resta riconoscibile anche quando la finestra
         // ne mostra solo tre su sette.
         background: attivo ? 'var(--colonna-attiva)' : undefined,
+        backgroundImage: fascia ? 'linear-gradient(var(--fascia-viaggi), var(--fascia-viaggi))' : undefined,
       }}
     >
       {/* Fascia orario d'ufficio italiano */}

@@ -15,6 +15,8 @@ interface Props {
   onApriGiorno: (giornoISO: string) => void
   // Nel mese si trascina di giornate intere: l'ora resta quella.
   onSposta?: (ev: Evento, minuti: number, giorno: string | null) => void
+  // Finestre di viaggio: fasce di sfondo per giorno, non eventi.
+  fasce?: Record<string, { codice: string; titolo: string | null }>
 }
 
 const GIORNI_SETT = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -58,7 +60,7 @@ function disponiBarre(sett: string[], perGiorno: Record<string, Evento[]>): Barr
   })
 }
 
-export function GrigliaMese({ perGiorno, giorni, ancora, fuso, onApri, onApriGiorno, onSposta }: Props) {
+export function GrigliaMese({ perGiorno, giorni, ancora, fuso, onApri, onApriGiorno, onSposta, fasce }: Props) {
   const { trascina, handlers } = useTrascinaEvento({
     modo: 'giorni',
     onClick: onApri,
@@ -141,6 +143,10 @@ export function GrigliaMese({ perGiorno, giorni, ancora, fuso, onApri, onApriGio
                   const eventi = [...(perGiorno[g] ?? [])]
                     .filter((e) => !vaInFascia(e))
                     .sort((a, b) => a.inizio_utc.localeCompare(b.inizio_utc))
+                  const fascia = fasce?.[g]
+                  // L'etichetta della finestra compare dove la fascia inizia
+                  // o riprende a capo riga, non in ogni cella.
+                  const etichettaFascia = fascia && (c === 0 || fasce?.[sett[c - 1]]?.codice !== fascia.codice)
                   const visibili = eventi.slice(0, maxChip)
                   const resto = eventi.length - visibili.length
                   return (
@@ -152,9 +158,14 @@ export function GrigliaMese({ perGiorno, giorni, ancora, fuso, onApri, onApriGio
                       tabIndex={0}
                       onKeyDown={(e) => e.key === 'Enter' && onApriGiorno(g)}
                       className="flex min-h-0 cursor-pointer flex-col overflow-hidden px-[7px] pb-1.5 pt-[7px] transition-colors hover:bg-[var(--hover)]"
-                      style={{ borderLeft: c ? '1px solid var(--linea)' : 'none' }}
+                      style={{
+                        borderLeft: c ? '1px solid var(--linea)' : 'none',
+                        // Gradiente e non background: l'hover resta visibile sopra.
+                        backgroundImage: fascia ? 'linear-gradient(var(--fascia-viaggi), var(--fascia-viaggi))' : undefined,
+                      }}
+                      title={fascia ? `Travel window ${fascia.codice}${fascia.titolo ? ` · ${fascia.titolo}` : ''}` : undefined}
                     >
-                      <span className="mb-1 flex h-[28px] shrink-0 items-center">
+                      <span className="mb-1 flex h-[28px] shrink-0 items-center gap-1.5">
                         <span
                           className="flex h-[28px] min-w-[28px] items-center justify-center rounded-full px-1 text-[14px] font-medium tabular-nums"
                           style={
@@ -167,6 +178,14 @@ export function GrigliaMese({ perGiorno, giorni, ancora, fuso, onApri, onApriGio
                         >
                           {d.day}
                         </span>
+                        {etichettaFascia && !stretto && (
+                          <span
+                            className="truncate text-[11px] font-semibold uppercase tracking-[0.04em]"
+                            style={{ color: 'var(--cat-viaggi-fg)' }}
+                          >
+                            {fascia.codice}
+                          </span>
+                        )}
                       </span>
 
                       {/* spazio riservato alle barre dei soggiorni */}

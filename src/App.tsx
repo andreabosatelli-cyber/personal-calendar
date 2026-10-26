@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSessione } from './lib/useSessione'
 import { ProviderStato, useStato } from './lib/stato'
+import { ProviderFinestre } from './lib/finestreStato'
 import { Login } from './components/Login'
 import { Onboarding } from './components/Onboarding'
 import { PaginaCondivisa } from './components/PaginaCondivisa'
@@ -48,7 +49,13 @@ function AppPrivata() {
 // sarebbe disegnato su un fuso a caso. Prima le due domande, poi l'app.
 function PrimoAccessoOApp() {
   const { pref } = useStato()
-  return pref.onboarding_fatto ? <AppLoggata /> : <Onboarding />
+  return pref.onboarding_fatto ? (
+    <ProviderFinestre>
+      <AppLoggata />
+    </ProviderFinestre>
+  ) : (
+    <Onboarding />
+  )
 }
 
 function AppLoggata() {

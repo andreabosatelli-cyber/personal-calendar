@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { DateTime } from 'luxon'
 import type { Evento } from '../lib/types'
 import { useStato } from '../lib/stato'
+import { useFinestre } from '../lib/finestreStato'
 import { useEventiRange } from '../hooks/useEventiRange'
 import { useAggregati, useDatiPannello } from '../hooks/useDatiPannello'
 import { GrigliaMese } from './GrigliaMese'
@@ -48,7 +49,10 @@ function useMediaQuery(query: string): boolean {
 }
 
 export function PaginaCalendario({ onApriEvento, vai }: Props) {
-  const { fuso, vista, cambiaVista, giorno, setGiorno, visibile, ricariche, segnalaRicarica } = useStato()
+  const { fuso, vista, cambiaVista, giorno, setGiorno, visibile, ricariche, segnalaRicarica, calendari } = useStato()
+  const { fasce: tutteLeFasce } = useFinestre()
+  // Le fasce seguono la spunta del calendario Travel: spento quello, spente anche loro.
+  const fasce = calendari.includes('viaggi') ? tutteLeFasce : undefined
   const [periodo, setPeriodo] = useState<Periodo>('month')
   const largo = useMediaQuery(SOGLIA_PANNELLO)
   const [erroreSpostamento, setErroreSpostamento] = useState<string | null>(null)
@@ -235,6 +239,7 @@ export function PaginaCalendario({ onApriEvento, vai }: Props) {
                 cambiaVista('giorno')
               }}
               onSposta={sposta}
+              fasce={fasce}
             />
           ) : (
             <GrigliaSettimana
@@ -246,6 +251,7 @@ export function PaginaCalendario({ onApriEvento, vai }: Props) {
               onSelezionaGiorno={setGiorno}
               onSposta={sposta}
               onRidimensiona={ridimensiona}
+              finestre={fasce}
             />
           )}
         </div>
