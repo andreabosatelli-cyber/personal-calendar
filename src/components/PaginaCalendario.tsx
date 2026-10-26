@@ -20,6 +20,9 @@ import {
   salvaSpostamento,
 } from '../lib/spostamento'
 import type { Sezione } from '../lib/rotte'
+import { intervalloEvento, type Impatto } from '../lib/frequenza'
+import type { Spostamento } from '../lib/spostamento'
+import { AvvisoLezioni } from './viaggi/AvvisoLezioni'
 
 interface Props {
   onApriEvento: (ev: Evento | null) => void
@@ -50,7 +53,15 @@ function useMediaQuery(query: string): boolean {
 
 export function PaginaCalendario({ onApriEvento, vai }: Props) {
   const { fuso, vista, cambiaVista, giorno, setGiorno, visibile, ricariche, segnalaRicarica, calendari } = useStato()
-  const { fasce: tutteLeFasce } = useFinestre()
+  const { fasce: tutteLeFasce, impattoDi } = useFinestre()
+  // Un viaggio trascinato sopra delle lezioni non si salva subito: prima si
+  // mostra cosa si perde e si chiede conferma.
+  const [daConfermare, setDaConfermare] = useState<{
+    ev: Evento
+    s: Spostamento
+    costo: Impatto
+    verbo: 'moved' | 'resized'
+  } | null>(null)
   // Le fasce seguono la spunta del calendario Travel: spento quello, spente anche loro.
   const fasce = calendari.includes('viaggi') ? tutteLeFasce : undefined
   const [periodo, setPeriodo] = useState<Periodo>('month')
@@ -108,6 +119,20 @@ export function PaginaCalendario({ onApriEvento, vai }: Props) {
       ? calcolaSpostamentoTuttoGiorno(ev, giornoArrivo, giornoPartenza)
       : calcolaSpostamento(ev, minuti, giornoArrivo, giornoPartenza, fuso)
     if (!s) return
+    if (chiediConferma(ev, s, 'moved')) return
+    await scriviSpostamento(ev, s, 'moved')
+  }
+
+  // Solo i viaggi: se il nuovo periodo copre lezioni, si ferma e chiede.
+  function chiediConferma(ev: Evento, s: Spostamento, verbo: 'moved' | 'resized'): boolean {
+    if (ev.origine !== 'viaggi') return false
+    const costo = impattoDi([intervalloEvento({ ...ev, ...s })], { evento: ev.id })
+    if (!costo.lezioni.length) return false
+    setDaConfermare({ ev, s, costo, verbo })
+    return true
+  }
+
+  async function scriviSpostamento(ev: Evento, s: Spostamento, verbo: 'moved' | 'resized') {
     setErroreSpostamento(null)
     try {
       await salvaSpostamento(ev.id, s)
@@ -117,7 +142,9 @@ export function PaginaCalendario({ onApriEvento, vai }: Props) {
       // La griglia non si e' mai mossa dai dati veri, quindi non c'e' niente da
       // rimettere a posto: basta dire che non e' andata.
       setErroreSpostamento(
-        e instanceof Error && !navigator.onLine ? 'You are offline: the event was not moved.' : 'Could not move the event.',
+        e instanceof Error && !navigator.onLine
+          ? `You are offline: the event was not ${verbo}.`
+          : `Could not ${verbo === 'moved' ? 'move' : 'resize'} the event.`,
       )
     }
   }
@@ -127,18 +154,8 @@ export function PaginaCalendario({ onApriEvento, vai }: Props) {
     const s = calcolaRidimensionamento(ev, minuti, bordo, fuso)
     // null = si e' provato a scendere sotto il quarto d'ora: si lascia com'era.
     if (!s) return
-    setErroreSpostamento(null)
-    try {
-      await salvaSpostamento(ev.id, s)
-      ricarica()
-      segnalaRicarica()
-    } catch (e) {
-      setErroreSpostamento(
-        e instanceof Error && !navigator.onLine
-          ? 'You are offline: the event was not resized.'
-          : 'Could not resize the event.',
-      )
-    }
+    if (chiediConferma(ev, s, 'resized')) return
+    await scriviSpostamento(ev, s, 'resized')
   }
 
   return (
@@ -279,6 +296,66 @@ export function PaginaCalendario({ onApriEvento, vai }: Props) {
           </button>
         </aside>
       )}
+
+      {daConfermare && (
+        <ConfermaViaggio
+          titolo={daConfermare.ev.titolo}
+          verbo={daConfermare.verbo}
+          costo={daConfermare.costo}
+          onAnnulla={() => setDaConfermare(null)}
+          onConferma={() => {
+            const { ev, s, verbo } = daConfermare
+            setDaConfermare(null)
+            void scriviSpostamento(ev, s, verbo)
+          }}
+        />
+      )}
+    </div>
+  )
+}
+
+// Conferma prima di salvare un viaggio trascinato sopra delle lezioni.
+function ConfermaViaggio({
+  titolo,
+  verbo,
+  costo,
+  onAnnulla,
+  onConferma,
+}: {
+  titolo: string
+  verbo: 'moved' | 'resized'
+  costo: Impatto
+  onAnnulla: () => void
+  onConferma: () => void
+}) {
+  return (
+    <div className="fixed inset-0 z-[80] flex items-end justify-center lg:items-center" onClick={onAnnulla}>
+      <div className="anim-fade absolute inset-0" style={{ background: 'var(--velo)' }} />
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Trip overlaps classes"
+        className="anim-sheet-su relative flex w-full max-w-[480px] flex-col gap-3 rounded-t-[28px] px-5 pt-5 lg:rounded-[28px] lg:px-7 lg:py-6"
+        style={{
+          background: 'var(--pagina)',
+          boxShadow: 'var(--ombra-galleggia)',
+          paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom))',
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h3 className="text-[19px] font-medium leading-tight tracking-[-0.02em]">
+          {titolo} {verbo === 'moved' ? 'now overlaps' : 'would overlap'} classes
+        </h3>
+        <AvvisoLezioni impatto={costo} />
+        <div className="flex gap-2">
+          <button onClick={onAnnulla} className="btn-neutro premibile h-12 flex-1 text-[14.5px]">
+            Cancel
+          </button>
+          <button onClick={onConferma} className="btn-primario premibile h-12 flex-1 !text-[14.5px]">
+            Save anyway
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

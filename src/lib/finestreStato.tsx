@@ -15,6 +15,7 @@ import {
   type Finestra,
   type StatoFinestra,
 } from './finestre'
+import { impatto, intervalloEvento, intervalloFinestra, lezioniIn, type Impatto, type Intervallo } from './frequenza'
 
 // Le finestre servono a tre posti insieme: la sezione Trips, le fasce di
 // sfondo del calendario e il badge sulla voce Trips. Una lettura sola, qui.
@@ -22,7 +23,7 @@ import {
 const CHIAVE_CACHE = 'pc_finestre_cache'
 const CHIAVE_IGNORATE = 'pc_finestre_ignorate'
 
-const VUOTI: DatiFinestre = { finestre: [], proposte: [], eventi: [], libere: [], lezioni: [] }
+const VUOTI: DatiFinestre = { finestre: [], proposte: [], eventi: [], libere: [], lezioni: [], viaggi: [] }
 
 function leggiCache(): DatiFinestre {
   try {
@@ -63,6 +64,10 @@ interface StatoFinestre extends DatiFinestre {
   applica: (d: Differenza) => Promise<void>
   ignora: (d: Differenza) => void
   ricarica: () => Promise<void>
+  // Lezioni perse in questi intervalli e frequenza risultante, sommando i
+  // viaggi gia' decisi. `escludi` toglie dal conto la finestra o l'evento che
+  // si sta guardando o spostando (altrimenti conterebbe la sua vecchia data).
+  impattoDi: (intervalli: Intervallo[], escludi?: { finestra?: string; evento?: string }) => Impatto
 }
 
 const Ctx = createContext<StatoFinestre | null>(null)
@@ -138,6 +143,19 @@ export function ProviderFinestre({ children }: { children: React.ReactNode }) {
     })
   }, [])
 
+  const impattoDi = useCallback(
+    (intervalli: Intervallo[], escludi: { finestra?: string; evento?: string } = {}) => {
+      const decisi = [
+        ...dati.finestre
+          .filter((f) => (f.stato === 'prenotato' || f.stato === 'da_prenotare') && f.id !== escludi.finestra)
+          .map(intervalloFinestra),
+        ...dati.viaggi.filter((v) => v.id !== escludi.evento).map(intervalloEvento),
+      ]
+      return impatto(lezioniIn(intervalli, dati.lezioni), lezioniIn(decisi, dati.lezioni), dati.lezioni)
+    },
+    [dati.finestre, dati.viaggi, dati.lezioni],
+  )
+
   const valore = useMemo<StatoFinestre>(() => {
     // Il confronto ha senso solo con dati freschi: sulla copia offline
     // proporrebbe modifiche a partire da un planning vecchio.
@@ -156,8 +174,9 @@ export function ProviderFinestre({ children }: { children: React.ReactNode }) {
       applica,
       ignora,
       ricarica,
+      impattoDi,
     }
-  }, [dati, caricamento, errore, oggi, ignorate, cambiaStato, applica, ignora, ricarica])
+  }, [dati, caricamento, errore, oggi, ignorate, cambiaStato, applica, ignora, ricarica, impattoDi])
 
   return <Ctx.Provider value={valore}>{children}</Ctx.Provider>
 }

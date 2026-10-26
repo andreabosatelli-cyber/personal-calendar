@@ -22,6 +22,9 @@ import { approvaRichiesta, rifiutaRichiesta } from '../lib/condivisione'
 import { prenotaSuCondiviso } from '../lib/condivisi'
 import { coloreEvento } from '../lib/tempo'
 import { useStato } from '../lib/stato'
+import { useFinestre } from '../lib/finestreStato'
+import { intervalloEvento } from '../lib/frequenza'
+import { AvvisoLezioni } from './viaggi/AvvisoLezioni'
 import { IconaAereo, IconaChiudi, IconaLuogo, IconaOrologio, IconaRipeti, IconaVideo } from '../lib/icone'
 import {
   aggiornaSerieDa,
@@ -111,6 +114,7 @@ function Etichetta({ children }: { children: React.ReactNode }) {
 
 export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Props) {
   const { condivisi, nome: mioNome } = useStato()
+  const { impattoDi } = useFinestre()
   const readonly = soloLettura(evento)
   // Su quali calendari altrui posso prenotare. Vale solo per un evento nuovo:
   // un evento esistente sta gia' dove sta.
@@ -238,8 +242,48 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
     }
   }
 
+  // Viaggio sopra lezioni: l'avviso compare nel form mentre si scelgono le
+  // date, e il primo Save si ferma per chiedere conferma ("Save anyway").
+  // Vale per un viaggio nuovo o spostato, non per chi rinomina un viaggio
+  // gia' salvato. Il calcolo esclude l'evento stesso alla sua vecchia data.
+  const periodo = origine === 'viaggi' && !readonly && !suCondiviso ? istantiDalForm() : null
+  const costo = periodo
+    ? impattoDi([intervalloEvento({ id: evento?.id ?? 'nuovo', ...periodo, tutto_il_giorno: tuttoGiorno })], {
+        evento: evento?.id,
+      })
+    : null
+  const chiavePeriodo = periodo ? `${periodo.inizio_utc}|${periodo.fine_utc}` : null
+  const spostato =
+    !evento ||
+    evento.origine !== 'viaggi' ||
+    (periodo !== null &&
+      (Date.parse(periodo.inizio_utc) !== Date.parse(evento.inizio_utc) ||
+        Date.parse(periodo.fine_utc) !== Date.parse(evento.fine_utc)))
+  const serveConferma = !!costo?.lezioni.length && spostato
+  const [confermaPer, setConfermaPer] = useState<string | null>(null)
+  const inConferma = serveConferma && confermaPer === chiavePeriodo
+
+  // Gli stessi istanti che salva() scrive, senza errori: null se il form non
+  // e' ancora valido.
+  function istantiDalForm(): { inizio_utc: string; fine_utc: string } | null {
+    if (giornoFine < giorno) return null
+    if (tuttoGiorno)
+      return {
+        inizio_utc: `${giorno}T00:00:00.000Z`,
+        fine_utc: DateTime.fromISO(giornoFine, { zone: 'utc' }).plus({ days: 1 }).toISO()!,
+      }
+    const i = DateTime.fromISO(`${giorno}T${oraInizio}`, { zone: zoneParse })
+    const f = DateTime.fromISO(`${giornoFine}T${oraFine}`, { zone: zoneParse })
+    if (!i.isValid || !f.isValid || f <= i) return null
+    return { inizio_utc: i.toUTC().toISO()!, fine_utc: f.toUTC().toISO()! }
+  }
+
   async function salva(e: FormEvent) {
     e.preventDefault()
+    if (serveConferma && !inConferma) {
+      setConfermaPer(chiavePeriodo)
+      return
+    }
     setErrore(null)
     setInCorso(true)
     try {
@@ -791,6 +835,18 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
           className="campo mb-4 resize-none"
         />
 
+        {costo && costo.lezioni.length > 0 && (
+          <div className="mb-3 flex flex-col">
+            <AvvisoLezioni impatto={costo} />
+          </div>
+        )}
+        {inConferma && (
+          <p className="mb-3 text-[13px] font-medium" style={{ color: 'var(--errore)' }}>
+            This trip overlaps {costo!.lezioni.length} {costo!.lezioni.length === 1 ? 'class' : 'classes'}
+            {costo!.sotto90 ? ' and drops you below 90% attendance' : ''}. Save anyway?
+          </p>
+        )}
+
         {errore && (
           <p className="mb-3 text-[13px]" style={{ color: 'var(--errore)' }}>
             {errore}
@@ -802,7 +858,7 @@ export function SheetEvento({ giornoISO, evento, fuso, onChiudi, onSalvato }: Pr
           disabled={inCorso || dateInvertite}
           className="btn-primario premibile h-[52px] w-full !text-[16px]"
         >
-          {inCorso ? 'Saving…' : 'Save event'}
+          {inCorso ? 'Saving…' : inConferma ? 'Save anyway' : 'Save event'}
         </button>
         {evento && (
           <button

@@ -36,3 +36,5 @@ Decisioni stabili, una riga ciascuna, dalla più vecchia.
 - 2026-10-26 — Il confronto col planning propone e basta (Apply/Ignore): non tocca mai stato e note. Le finestre manuali (BKK, LK, C3) si controllano solo per lezioni nuove dentro; `salta_lezioni` tiene i giorni saltati di proposito.
 - 2026-10-26 — Policy finestre senza delete: una finestra non si cancella, si segna 'saltato'.
 - 2026-10-26 — Token Management API di SmartCal nel Portachiavi come `supabase-management-smartcal` (`supabase-management` e' dell'account di mygoal).
+- 2026-10-26 — Frequenza ICA nei viaggi: ≥90% delle ore di lezione per mese (ora di Singapore) e ≤10% di ore perse per corso (corso = titolo). Le percentuali sommano finestre Booked/To book e viaggi in calendario; le Idea no. Sotto il 90% l'editor chiede "Save anyway", non blocca del tutto.
+- 2026-10-26 — Un buco senza lezione prima o dopo è inizio/fine del planning, non una finestra di viaggio (bug account Ila: 132 giorni dopo l'ultima lezione inserita).

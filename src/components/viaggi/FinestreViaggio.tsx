@@ -22,6 +22,8 @@ import {
 import { LOCALE } from '../../lib/tempo'
 import { IconaAereo, IconaChevron, IconaOrologio } from '../../lib/icone'
 import { TestataCard } from '../pannello/parti'
+import { intervalloFinestra } from '../../lib/frequenza'
+import { AvvisoLezioni } from './AvvisoLezioni'
 
 // Finestre di viaggio: periodi di 3+ giorni senza lezioni, con le proposte di
 // destinazione. Le date sono in ora di Singapore, dove stanno le lezioni.
@@ -488,7 +490,7 @@ function ChipCodice({ codice }: { codice: string }) {
 }
 
 function CardFinestra({ f, proposte, oggi }: { f: Finestra; proposte: Proposta[]; oggi: string }) {
-  const { cambiaStato } = useFinestre()
+  const { cambiaStato, impattoDi } = useFinestre()
   const [salvando, setSalvando] = useState(false)
   const [errore, setErrore] = useState<string | null>(null)
 
@@ -497,6 +499,8 @@ function CardFinestra({ f, proposte, oggi }: { f: Finestra; proposte: Proposta[]
   const inCorso = f.inizio <= oggi
   const consigliate = proposte.filter((p) => !p.sconsigliata).sort((a, b) => Number(b.consigliata) - Number(a.consigliata) || a.ordine - b.ordine)
   const evitare = proposte.filter((p) => p.sconsigliata)
+  // Lezioni che la finestra fa perdere, con la frequenza dei mesi toccati.
+  const costo = useMemo(() => impattoDi([intervalloFinestra(f)], { finestra: f.id }), [impattoDi, f])
 
   async function cambia(s: StatoFinestra) {
     setSalvando(true)
@@ -556,6 +560,8 @@ function CardFinestra({ f, proposte, oggi }: { f: Finestra; proposte: Proposta[]
           {inCorso && aperta && ' · in progress'}
         </p>
       )}
+
+      {f.stato !== 'saltato' && <AvvisoLezioni impatto={costo} />}
 
       {errore && (
         <p className="text-[12.5px]" style={{ color: 'var(--errore)' }}>

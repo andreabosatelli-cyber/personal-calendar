@@ -297,8 +297,11 @@ export function confronta(
 
   // Buchi da 3+ giorni che nessuna finestra salvata copre (nemmeno una saltata:
   // una finestra scartata non deve tornare a ogni apertura).
+  // Un buco senza lezione prima o dopo e' l'inizio o la fine del planning
+  // (es. lezioni inserite solo fino al 21/10): non e' una finestra di viaggio.
   for (const l of libere) {
     if (l.giorni < MIN_GIORNI || l.fine < oggi) continue
+    if (!l.ultima_lezione_prima || !l.prima_lezione_dopo) continue
     const coperto = finestre.some((f) => f.inizio <= l.fine && f.fine >= l.inizio)
     if (!coperto) out.push({ tipo: 'nuova', chiave: `nuova:${l.inizio}:${l.fine}`, libera: l })
   }
@@ -328,16 +331,28 @@ export interface DatiFinestre {
   eventi: EventoViaggio[]
   libere: FinestraLibera[]
   lezioni: Lezione[]
+  // Eventi della categoria viaggi (soggiorni e voli): servono a sapere quali
+  // lezioni sono gia' perse per i viaggi in calendario (frequenza.ts).
+  viaggi: ViaggioCalendario[]
+}
+
+export interface ViaggioCalendario {
+  id: string
+  titolo: string
+  inizio_utc: string
+  fine_utc: string
+  tutto_il_giorno: boolean
 }
 
 export async function caricaFinestre(utenteId: string, oggi: string): Promise<DatiFinestre> {
-  // Le lezioni si leggono da qualche giorno prima: una lezione di ieri decide
-  // dove inizia il buco di oggi.
+  // Le lezioni si leggono tutte, dall'inizio del corso: servono le ore totali
+  // di ogni corso per la regola del 10% (frequenza.ts), e una lezione di ieri
+  // decide dove inizia il buco di oggi. I viaggi bastano da due settimane fa.
   const da = sommaGiorni(oggi, -14)
   const daMs = DateTime.fromISO(da, { zone: FUSO_LEZIONI }).toUTC().toISO()!
   const aMs = DateTime.fromISO(FINE_TIMELINE, { zone: FUSO_LEZIONI }).plus({ days: 1 }).toUTC().toISO()!
 
-  const [w, p, e, l, r] = await Promise.all([
+  const [w, p, e, l, r, v] = await Promise.all([
     supabase.from('travel_windows').select('*').eq('utente_id', utenteId).order('inizio'),
     supabase.from('travel_proposals').select('*').eq('utente_id', utenteId).order('ordine'),
     supabase.from('travel_events').select('*').eq('utente_id', utenteId).order('inizio'),
@@ -349,11 +364,19 @@ export async function caricaFinestre(utenteId: string, oggi: string): Promise<Da
       .eq('tutto_il_giorno', false)
       .eq('stato', 'confermato')
       .lte('inizio_utc', aMs)
-      .gte('fine_utc', daMs)
       .order('inizio_utc'),
     supabase.rpc('finestre_libere', { p_da: da, p_a: FINE_CALCOLO, p_minimo: 1 }),
+    supabase
+      .from('eventi')
+      .select('id, titolo, inizio_utc, fine_utc, tutto_il_giorno')
+      .eq('utente_id', utenteId)
+      .eq('origine', 'viaggi')
+      .eq('stato', 'confermato')
+      .lte('inizio_utc', aMs)
+      .gte('fine_utc', daMs)
+      .order('inizio_utc'),
   ])
-  const errore = w.error ?? p.error ?? e.error ?? l.error ?? r.error
+  const errore = w.error ?? p.error ?? e.error ?? l.error ?? r.error ?? v.error
   if (errore) throw errore
 
   return {
@@ -362,6 +385,7 @@ export async function caricaFinestre(utenteId: string, oggi: string): Promise<Da
     eventi: (e.data as EventoViaggio[]) ?? [],
     lezioni: (l.data as Lezione[]) ?? [],
     libere: (r.data as FinestraLibera[]) ?? [],
+    viaggi: (v.data as ViaggioCalendario[]) ?? [],
   }
 }
 

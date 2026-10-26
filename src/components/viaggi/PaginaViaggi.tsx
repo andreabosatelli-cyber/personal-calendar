@@ -11,6 +11,9 @@ import { MappaViaggi } from '../pannello/MappaViaggi'
 import { TestataCard } from '../pannello/parti'
 import { Tessera } from '../analitica/Tessere'
 import { FinestreViaggio } from './FinestreViaggio'
+import { AvvisoLezioni } from './AvvisoLezioni'
+import { useFinestre } from '../../lib/finestreStato'
+import { intervalloEvento } from '../../lib/frequenza'
 
 interface Props {
   onApriEvento: (ev: Evento) => void
@@ -158,6 +161,7 @@ export function PaginaViaggi({ onApriEvento }: Props) {
             fuso={fuso}
             oggi={oggi}
             altri={d.altriEventi}
+            tutti={eventi}
             onApriEvento={onApriEvento}
           />
           <Elenco
@@ -167,6 +171,7 @@ export function PaginaViaggi({ onApriEvento }: Props) {
             fuso={fuso}
             oggi={oggi}
             altri={d.altriEventi}
+            tutti={eventi}
             onApriEvento={onApriEvento}
           />
         </aside>
@@ -182,6 +187,7 @@ function Elenco({
   fuso,
   oggi,
   altri,
+  tutti,
   onApriEvento,
 }: {
   titolo: string
@@ -190,6 +196,7 @@ function Elenco({
   fuso: string
   oggi: string
   altri: (v: Viaggio) => number
+  tutti: Evento[]
   onApriEvento: (ev: Evento) => void
 }) {
   return (
@@ -206,7 +213,15 @@ function Elenco({
       ) : (
         <div className="flex flex-col gap-3 px-5 lg:px-6 pt-1 pb-5 lg:pb-6">
           {viaggi.map((v) => (
-            <SchedaViaggio key={v.id} v={v} fuso={fuso} oggi={oggi} altri={altri(v)} onApriEvento={onApriEvento} />
+            <SchedaViaggio
+              key={v.id}
+              v={v}
+              soggiorno={tutti.find((e) => e.id === v.id) ?? null}
+              fuso={fuso}
+              oggi={oggi}
+              altri={altri(v)}
+              onApriEvento={onApriEvento}
+            />
           ))}
         </div>
       )}
@@ -226,18 +241,28 @@ function quando(v: Viaggio, oggi: string): string {
 
 function SchedaViaggio({
   v,
+  soggiorno,
   fuso,
   oggi,
   altri,
   onApriEvento,
 }: {
   v: Viaggio
+  soggiorno: Evento | null
   fuso: string
   oggi: string
   altri: number
   onApriEvento: (ev: Evento) => void
 }) {
   const inCorso = oggi >= v.da && oggi <= v.a
+  const { impattoDi } = useFinestre()
+  // Lezioni perse: il soggiorno piu' i voli agganciati. Solo per i viaggi non
+  // ancora finiti: per quelli passati "you'll miss" non ha senso.
+  const costo = useMemo(() => {
+    if (v.a < oggi) return null
+    const periodi = [...(soggiorno ? [soggiorno] : []), ...v.eventi.filter((e) => e.id !== soggiorno?.id)]
+    return impattoDi(periodi.map(intervalloEvento), { evento: v.id })
+  }, [v, soggiorno, oggi, impattoDi])
   return (
     <article
       className="rounded-[22px] p-3"
@@ -287,6 +312,12 @@ function SchedaViaggio({
               </button>
             )
           })}
+        </div>
+      )}
+
+      {costo && (
+        <div className="mt-2.5 flex flex-col">
+          <AvvisoLezioni impatto={costo} />
         </div>
       )}
 
