@@ -1,4 +1,4 @@
-# Status — SmartCal (aggiornato 2026-10-26)
+# Status — SmartCal (aggiornato 2026-10-29)
 
 ## Stato attuale
 - Live su https://personal-calendar-puce.vercel.app, in produzione il commit `0de688d` (deploy `personal-calendar-7hkz11ec3`).
@@ -26,8 +26,7 @@
   di Andrea. Cancellati i 12 eventi 🧳/✈️/💛 dal Google principale (ID in `_MEMORIA/Calendario_inserito.md`).
 
 ## Prossima azione
-- Prenotare BKK (deadline oggi) e decidere A, LK, C2 entro il 30/10: lo stato si cambia in Trips.
-- Confermare a lezione l'ora di fine di SAM 16/10 e 20/10 (vedi ❓ sotto), poi correggere gli eventi.
+- Nessuna fissata. Stato dei viaggi (BKK, A, LK, C2…) sempre in Trips.
 
 ## Decisioni aperte
 - Account Ila: finestra sbagliata "A" 22/10→2/03 (132 giorni, Booked) creata con "Add" prima del fix. Niente delete
@@ -42,4 +41,3 @@
 - Privacy e termini scritti da Claude, mai rivisti da un legale; DB a Singapore = trasferimento extra-UE da dichiarare.
 - Conferma email disattivata (niente SMTP): se serve, SMTP custom e `mailer_autoconfirm: false`.
 - Rimandati: avvisi di conflitto, selettore di posizione per giorno (`posizioni_giorno` inutilizzata).
-- ❓ SAM 16/10 (fine 14:00) e 20/10 (fine 17:00): durate 4,5 h dal planning, ora di fine da confermare a lezione.
