@@ -1,4 +1,4 @@
-# Status — SmartCal (aggiornato 2026-10-29)
+# Status — SmartCal (aggiornato 2026-11-11)
 
 ## Stato attuale
 - Live su https://personal-calendar-puce.vercel.app, in produzione il commit `0de688d` (deploy `personal-calendar-7hkz11ec3`).
@@ -11,6 +11,10 @@
 - Token Management API di SmartCal nel Portachiavi come `supabase-management-smartcal` (quello `supabase-management` è di mygoal).
 
 ## Ultima cosa fatta
+- 2026-11-11: lezioni SIM allineate al planning GEM del 29/10 (solo dati, nessun deploy). ARM: 30/11 cancellata, 2/12 a
+  12:30-15:30, 8/12 nuova (`gem2910:1`), docente Lawrence Lee nelle descrizioni; Ethics & ESG 3/12 = "In-class Test".
+  Backup `eventi_backup_20261111` (6 righe). Finestra C1 portata a 9-20/12 (12 giorni), backup
+  `travel_windows_backup_20261111`. Verificato: 63 lezioni dal 3/11 = xlsx nel DB e sulla copia Google, 0 doppioni.
 - 2026-10-26: Trips → "lezioni che salti". Ogni finestra e ogni viaggio del calendario mostra le lezioni con orario
   che cadono nelle sue date ("You'll miss: Mon 16/11 SAM 12:30‑15:30, DAFM 15:30‑18:30 (6 h)"), la frequenza del mese
   contro il 90% e le ore per corso contro il 10%, sommando i viaggi Booked/To book e quelli in calendario; sotto il 90%

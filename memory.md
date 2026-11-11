@@ -39,3 +39,4 @@ Decisioni stabili, una riga ciascuna, dalla più vecchia.
 - 2026-10-26 — Frequenza ICA nei viaggi: ≥90% delle ore di lezione per mese (ora di Singapore) e ≤10% di ore perse per corso (corso = titolo). Le percentuali sommano finestre Booked/To book e viaggi in calendario; le Idea no. Sotto il 90% l'editor chiede "Save anyway", non blocca del tutto.
 - 2026-10-26 — Un buco senza lezione prima o dopo è inizio/fine del planning, non una finestra di viaggio (bug account Ila: 132 giorni dopo l'ultima lezione inserita).
 - 2026-10-29 — SAM 16/10 e 20/10: restano le ore di fine del planning (14:00 e 17:00), voce chiusa senza conferma a lezione.
+- 2026-11-11 — Lezioni SIM = planning GEM del 29/10 (sostituisce quello del 22/10). Correzioni come righe `gem2910:*` + modifiche a `ttv3:*`; quando una lezione nuova cade in una finestra di viaggio, la finestra si corregge con la stessa patch di "Apply" (date, giorni, confini), mai stato e note.
