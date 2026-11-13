@@ -40,3 +40,4 @@ Decisioni stabili, una riga ciascuna, dalla più vecchia.
 - 2026-10-26 — Un buco senza lezione prima o dopo è inizio/fine del planning, non una finestra di viaggio (bug account Ila: 132 giorni dopo l'ultima lezione inserita).
 - 2026-10-29 — SAM 16/10 e 20/10: restano le ore di fine del planning (14:00 e 17:00), voce chiusa senza conferma a lezione.
 - 2026-11-11 — Lezioni SIM = planning GEM del 29/10 (sostituisce quello del 22/10). Correzioni come righe `gem2910:*` + modifiche a `ttv3:*`; quando una lezione nuova cade in una finestra di viaggio, la finestra si corregge con la stessa patch di "Apply" (date, giorni, confini), mai stato e note.
+- 2026-11-13 — google-sync: un giro alla volta con una riga di lock a scadenza (google_sync_lock, 0017), non pg_advisory_lock (le chiamate PostgREST passano da un pool: il lock di sessione non è affidabile). Chi non lo prende entro 25 s risponde occupato e lascia la coda al giro successivo.
