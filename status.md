@@ -11,6 +11,13 @@
 - Token Management API di SmartCal nel Portachiavi come `supabase-management-smartcal` (quello `supabase-management` è di mygoal).
 
 ## Ultima cosa fatta
+- 2026-11-13 (da life-os, solo dati, nessun deploy): caratteri rotti "SIM Â· Singapore" (70 luoghi) e "Esame â€" M&A / CV"
+  riparati sulle righe `ttv3:*` di Andrea (backup in life-os/backup/20261113-mojibake-*.json). Causa: il seed 0003 era stato
+  applicato con la codifica sbagliata il 2026-09-04 (il file è UTF-8 corretto); l'import ICS legge UTF-8 e non c'entra.
+  Copie Google future riallineate; quelle passate restano col testo vecchio.
+- 2026-11-13: life-os ora crea/modifica/trascina/cancella eventi con le stesse scritture di SmartCal (confronto 9/9).
+  Difetto trovato: `google-sync` senza lock, due esecuzioni insieme (cron + chiamata dopo il salvataggio) possono creare
+  una copia doppia su Google che resta orfana alla cancellazione. Da sistemare in un task a parte.
 - 2026-11-11: lezioni SIM allineate al planning GEM del 29/10 (solo dati, nessun deploy). ARM: 30/11 cancellata, 2/12 a
   12:30-15:30, 8/12 nuova (`gem2910:1`), docente Lawrence Lee nelle descrizioni; Ethics & ESG 3/12 = "In-class Test".
   Backup `eventi_backup_20261111` (6 righe). Finestra C1 portata a 9-20/12 (12 giorni), backup
@@ -39,7 +46,6 @@
 - Vista Month: i viaggi di più giorni non si trascinano (solo da Week o dall'editor). Riga volo nella card viaggio a 40px.
 - ⚠️ Advisor Supabase: molte funzioni `SECURITY DEFINER` eseguibili da anon (es. `sostituisci_eventi_sorgente` con
   `p_utente`), 4 funzioni con search_path mutabile, protezione password compromesse spenta. Da rivedere in un task a parte.
-- Titolo con caratteri rotti nel DB: "Esame â€" M&A / CV" (mojibake preesistente).
 - Recap email settimanale (sospeso): provider (Resend con dominio / Brevo), contenuto, orario di invio.
 - Google Meet via `spaces.create`: verificare prima che l'account Google sia abilitato.
 - Privacy e termini scritti da Claude, mai rivisti da un legale; DB a Singapore = trasferimento extra-UE da dichiarare.
