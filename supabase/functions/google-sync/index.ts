@@ -346,6 +346,31 @@ Deno.serve(async () => {
 
   const db = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!)
 
+  // Un giro alla volta (0017): due giri insieme mandavano due copie dello stesso evento su Google. Chi trova il lock
+  // occupato aspetta un po' (il giro in corso di solito dura pochi secondi) e poi svuota la coda lui; se non si libera,
+  // ci pensa il cron al minuto dopo.
+  const chiave = await prendiLock(db)
+  if (!chiave) return Response.json({ fatti: 0, falliti: 0, occupato: true })
+  try {
+    return await giro(db, clientId, clientSecret)
+  } finally {
+    await db.rpc('google_sync_lascia', { p_chiave: chiave })
+  }
+})
+
+const ATTESA_LOCK_MS = 25_000
+
+async function prendiLock(db: SupabaseClient): Promise<string | null> {
+  const fine = Date.now() + ATTESA_LOCK_MS
+  while (true) {
+    const { data, error } = await db.rpc('google_sync_prendi', { p_secondi: 150 })
+    if (!error && data) return data as string
+    if (Date.now() > fine) return null
+    await new Promise((r) => setTimeout(r, 700 + Math.random() * 600))
+  }
+}
+
+async function giro(db: SupabaseClient, clientId: string, clientSecret: string): Promise<Response> {
   const { data: coda } = await db
     .from('coda_google')
     .select('id, utente_id, evento_id, google_id, azione, tentativi')
@@ -456,4 +481,4 @@ Deno.serve(async () => {
   }
 
   return Response.json({ fatti, falliti })
-})
+}
