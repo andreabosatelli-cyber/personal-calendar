@@ -1,4 +1,4 @@
-# Status — SmartCal (aggiornato 2026-11-13)
+# Status — SmartCal (aggiornato 2026-11-14)
 
 ## Stato attuale
 - Live su https://personal-calendar-puce.vercel.app, in produzione il commit `0de688d` (deploy `personal-calendar-7hkz11ec3`).
@@ -11,12 +11,17 @@
 - Token Management API di SmartCal nel Portachiavi come `supabase-management-smartcal` (quello `supabase-management` è di mygoal).
 
 ## Ultima cosa fatta
+- 2026-11-14: **google-sync, copia orfana** (commit e7c6281, deployata con `--use-api --yes`): se l'evento viene cancellato
+  mentre la copia nasce su Google, l'update di google_id non trova righe → DELETE subito della copia (voce di delete in coda
+  se Google non risponde). Risposta con `orfani: n`. Prova da life-os: 30 eventi, 19 casi colpiti, 0 copie rimaste;
+  carico 20 eventi 0 doppioni. Cancellati i 2 dubbi su Google (backup in life-os/backup). Trigger e migrazioni non toccati.
+- 2026-11-14: nota — `sync-calendari` NON ha un cron: parte all'avvio dell'app (stato.tsx). Ora lo avvia anche il
+  calendario di life-os all'apertura.
 - 2026-11-13: **google-sync con lock** (0017 + Edge Function deployata con `supabase functions deploy --use-api`, commit
   2df8af2): riga unica `google_sync_lock` presa con update condizionato (scadenza 150 s), attesa fino a 25 s, altrimenti
   `{occupato:true}`; `finally` la rilascia. Prova di carico da life-os (20 salvataggi ravvicinati): 29 doppioni prima, 0 dopo.
   34 orfani certi cancellati dal calendario Google "SmartCal" (backup in life-os/backup). Restano 2 dubbi: "Meeting ricorrente
-  Reteero" 16/12 e "(untitled)" 15/11, elencati nello status di life-os. Limite residuo: cancellare un evento mentre il giro lo
-  sta creando su Google lascia la copia (google_id ancora nullo nel trigger di delete).
+  Reteero" 16/12 e "(untitled)" 15/11, elencati nello status di life-os. Limite residuo risolto il 14/11 (vedi sopra).
 - 2026-11-13: life-os ha ora anche richieste, prenota su condiviso, Trips, push e impostazioni (stesse scritture, 16/16).
   In SmartCal restano solo: Google connect/pausa, link pubblico, ICS, Analytics, Export PDF. Codice frontend non toccato.
 - 2026-11-13 (da life-os, solo dati, nessun deploy): caratteri rotti "SIM Â· Singapore" (70 luoghi) e "Esame â€" M&A / CV"
