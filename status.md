@@ -11,6 +11,9 @@
 - Token Management API di SmartCal nel Portachiavi come `supabase-management-smartcal` (quello `supabase-management` è di mygoal).
 
 ## Ultima cosa fatta
+- 2026-11-14: life-os ha ora anche Google (collega/pausa), link pubblico, Analytics ed Export PDF (stesse funzioni, confronto
+  20/20 in produzione): per Andrea SmartCal non serve più aprirlo, ma resta online (database, Edge Functions, cron e i link
+  di prenotazione già dati). Codice e database di SmartCal non toccati (solo righe di prova, cancellate).
 - 2026-11-14: **google-sync, copia orfana** (commit e7c6281, deployata con `--use-api --yes`): se l'evento viene cancellato
   mentre la copia nasce su Google, l'update di google_id non trova righe → DELETE subito della copia (voce di delete in coda
   se Google non risponde). Risposta con `orfani: n`. Prova da life-os: 30 eventi, 19 casi colpiti, 0 copie rimaste;
