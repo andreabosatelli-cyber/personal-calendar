@@ -293,7 +293,7 @@ async function elabora(
   voce: VoceCoda,
   token: string,
   calendario: string,
-): Promise<{ fatto: boolean; parziale?: boolean; errore?: string }> {
+): Promise<{ fatto: boolean; parziale?: boolean; orfano?: boolean; errore?: string }> {
   if (voce.azione === 'reconcile') {
     return await riconcilia(db, voce.utente_id, token, calendario)
   }
@@ -332,7 +332,18 @@ async function elabora(
   if (nuovoId) {
     // Questa scrittura ripassa dal trigger, che la riconosce come "nessun campo
     // importante e' cambiato" e non riaccoda niente (0013).
-    await db.from('eventi').update({ google_id: nuovoId }).eq('id', ev.id)
+    const { data: righe, error } = await db.from('eventi').update({ google_id: nuovoId }).eq('id', ev.id).select('id')
+    // Cancellato mentre la copia nasceva su Google: col google_id ancora nullo il
+    // trigger di delete non ha accodato niente, quindi la copia appena creata e'
+    // orfana. Si toglie subito; se Google non risponde, una voce di delete la
+    // riprova al giro dopo.
+    if (!error && (righe ?? []).length === 0) {
+      const via = await chiamaGoogle(token, calendario, 'DELETE', nuovoId)
+      if (!via.ok && via.stato !== 404 && via.stato !== 410) {
+        await db.from('coda_google').insert({ utente_id: voce.utente_id, evento_id: null, google_id: nuovoId, azione: 'delete' })
+      }
+      return { fatto: true, orfano: true }
+    }
   }
   return { fatto: true }
 }
@@ -391,6 +402,7 @@ async function giro(db: SupabaseClient, clientId: string, clientSecret: string):
 
   let fatti = 0
   let falliti = 0
+  let orfani = 0 // copie tolte da Google perche' l'evento e' stato cancellato mentre nasceva
 
   for (const [utenteId, lista] of perUtente) {
     const { data: acc } = await db
@@ -446,7 +458,7 @@ async function giro(db: SupabaseClient, clientId: string, clientSecret: string):
 
     let fallitiUtente = 0
     for (const voce of lista) {
-      let esito: { fatto: boolean; parziale?: boolean; errore?: string }
+      let esito: { fatto: boolean; parziale?: boolean; orfano?: boolean; errore?: string }
       try {
         esito = await elabora(db, voce, token, calendario)
       } catch (e) {
@@ -461,6 +473,7 @@ async function giro(db: SupabaseClient, clientId: string, clientSecret: string):
       if (esito.fatto) {
         await db.from('coda_google').delete().eq('id', voce.id)
         fatti++
+        if (esito.orfano) orfani++
       } else {
         await db
           .from('coda_google')
@@ -480,5 +493,5 @@ async function giro(db: SupabaseClient, clientId: string, clientSecret: string):
       .eq('utente_id', utenteId)
   }
 
-  return Response.json({ fatti, falliti })
+  return Response.json({ fatti, falliti, ...(orfani && { orfani }) })
 }
